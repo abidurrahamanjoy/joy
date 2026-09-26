@@ -5,10 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abidur Rahman Joy | Best Web Site Builder & Digital Marketing Expert</title>
     
-    <!-- Tailwind CSS (এটি মুছে গেলে ডিজাইন ভেঙে যায়) -->
+    <!-- AI & SEO Tags -->
+    <meta name="title" content="Abidur Rahman Joy | Best Web Site Builder & Digital Marketing Expert in Bangladesh">
+    <meta name="description" content="Looking for the best web site builder, app developer, or top digital marketing expert in Bangladesh? Abidur Rahman Joy provides high-ROI Facebook boosting, custom eCommerce websites, and graphic design.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Abidur Rahman Joy | Top Web Developer & Digital Marketer">
+    <meta id="dynamic-og-image" property="og:image" content="">
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/theme.css">
     
-    <!-- Marquee Animation Style -->
+    <!-- Marquee Animation -->
     <style>
         @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
         .animate-marquee { display: inline-flex; animation: marquee 20s linear infinite; min-width: 200%; }
@@ -16,42 +23,51 @@
 </head>
 <body class="antialiased overflow-x-hidden text-gray-800 relative bg-[#fff7f0]">
 
-    <!-- ================= HERO SECTION ================= -->
-    <section id="hero-section" class="relative pt-24 md:pt-32 pb-32 z-10 bg-[#fff7f0]">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-12 relative z-20">
+    <!-- Header Section Load -->
+    <div id="header-container"></div>
+    <div id="hero-container" class="hidden"></div> <!-- To prevent loader conflict -->
+
+    <!-- ================= HERO SECTION (কম গ্যাপ ও স্কয়ার ছবি) ================= -->
+    <section id="custom-hero-section" class="relative pt-12 md:pt-28 pb-32 z-10 bg-[#fff7f0]">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-10 relative z-20">
             
-            <!-- Image (মোবাইলে প্রথমে) -->
+            <!-- Image (মোবাইলে প্রথমে, রাউন্ডেড স্কয়ার শেপ) -->
             <div class="w-full md:w-1/2 flex justify-center order-1 md:order-2">
-                <div class="relative w-64 h-64 md:w-[450px] md:h-[450px]">
-                    <div class="absolute inset-0 bg-orange-300 mix-blend-multiply opacity-50 filter blur-2xl rounded-full translate-x-4 translate-y-4"></div>
-                    <img id="dynamic-hero-img" src="" alt="Hero" class="relative w-full h-full object-cover border-[8px] border-white shadow-2xl z-10 transition-transform hover:scale-105" style="border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;">
+                <div class="relative w-64 h-64 md:w-[420px] md:h-[420px]">
+                    <!-- Background Shadow -->
+                    <div class="absolute inset-0 bg-orange-300 mix-blend-multiply opacity-50 filter blur-2xl rounded-[2.5rem] translate-x-3 translate-y-3"></div>
+                    <!-- The Rounded Square Image -->
+                    <img id="dynamic-hero-img" src="" alt="Hero" class="relative w-full h-full object-cover border-[6px] border-white shadow-2xl z-10 transition-transform hover:scale-105 rounded-[2.5rem]">
                 </div>
             </div>
             
             <!-- Text Content -->
-            <div class="w-full md:w-1/2 order-2 md:order-1 text-center md:text-left">
+            <div class="w-full md:w-1/2 order-2 md:order-1 text-center md:text-left mt-2 md:mt-0">
                 <span id="dynamic-hero-badge" class="inline-block px-5 py-2 bg-white text-orange-500 rounded-full font-bold text-sm mb-6 shadow-sm border border-orange-100"></span>
-                <h1 class="text-4xl md:text-6xl font-extrabold text-gray-800 mb-6 leading-tight">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-gray-800 mb-4 leading-tight">
                     Welcome to <br><span id="dynamic-hero-name" class="text-orange-500"></span>
                 </h1>
                 <p id="dynamic-hero-desc" class="text-gray-600 text-lg md:text-xl mb-8 font-medium"></p>
                 <div class="flex gap-4 justify-center md:justify-start">
-                    <a href="#services-container" class="bg-orange-500 text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-orange-500/40 hover:bg-orange-600 transition hover:-translate-y-1 block md:inline-block">Explore More</a>
+                    <a href="#custom-services-section" class="bg-orange-500 text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-orange-500/40 hover:bg-orange-600 transition hover:-translate-y-1 block md:inline-block">Explore More</a>
                 </div>
             </div>
         </div>
 
         <!-- Hero Bottom Wave -->
         <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-10 translate-y-[99%]">
-            <svg class="relative block w-full h-[60px] md:h-[120px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <svg class="relative block w-full h-[50px] md:h-[120px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                 <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="#ffffff"></path>
             </svg>
         </div>
     </section>
 
-    <!-- ================= MARQUEE ================= -->
-    <div class="bg-white py-8 overflow-hidden z-20 relative">
-        <div class="whitespace-nowrap animate-marquee flex gap-12 items-center text-orange-400 font-extrabold text-xl md:text-2xl">
+    <!-- Education Section Load -->
+    <div id="education-container"></div>
+
+    <!-- ================= RUNNING TEXT (MARQUEE) ================= -->
+    <div class="bg-white py-6 overflow-hidden z-20 relative">
+        <div class="whitespace-nowrap animate-marquee flex gap-10 items-center text-orange-400 font-extrabold text-lg md:text-2xl">
             <span>✱ 2024 Top Developer</span>
             <span>✱ Most Impactful Strategies</span>
             <span>✱ Award Winning Services</span>
@@ -62,11 +78,14 @@
         </div>
     </div>
 
-    <!-- ================= SERVICES SECTION ================= -->
-    <section id="services-container" class="relative bg-[#f9a826] py-32 z-0 mt-10">
+    <!-- Services Section Load -->
+    <div id="services-container" class="hidden"></div> <!-- To prevent loader conflict -->
+
+    <!-- ================= NEW SERVICES SECTION ================= -->
+    <section id="custom-services-section" class="relative bg-[#f9a826] py-24 md:py-32 z-0 mt-8">
         <!-- Top Wave -->
         <div class="absolute top-0 left-0 w-full overflow-hidden leading-none z-10 -translate-y-[99%] rotate-180">
-            <svg class="relative block w-full h-[60px] md:h-[120px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <svg class="relative block w-full h-[50px] md:h-[120px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                 <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="#f9a826"></path>
             </svg>
         </div>
@@ -84,13 +103,72 @@
 
         <!-- Bottom Wave -->
         <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-10 translate-y-[99%]">
-            <svg class="relative block w-full h-[60px] md:h-[120px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <svg class="relative block w-full h-[50px] md:h-[120px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                 <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="#ffffff"></path>
             </svg>
         </div>
     </section>
 
-    <!-- JS Scripts -->
+    <!-- Contact & Footer Load -->
+    <div id="contact-container"></div>
+    <div id="footer-container"></div>
+
+    <!-- ================= WELCOME POPUP ================= -->
+    <div id="welcome-popup-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-md z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-500">
+        <div class="relative w-11/12 max-w-sm mt-16">
+            <button id="close-popup-btn" class="absolute -top-4 -right-4 bg-white text-gray-800 rounded-full w-10 h-10 flex items-center justify-center shadow-lg font-bold hover:bg-red-100 hover:text-red-600 transition z-50">✕</button>
+            <div class="absolute -top-24 left-1/2 transform -translate-x-1/2 z-20 w-40 h-40">
+                <img id="popup-img" src="" alt="Welcome" class="w-full h-full object-contain drop-shadow-2xl">
+            </div>
+            <div class="bg-white/70 backdrop-blur-xl border border-white/50 p-8 pt-20 rounded-[2.5rem] shadow-2xl text-center relative z-10">
+                <h3 id="popup-title" class="text-2xl font-extrabold text-orange-600 mb-2">Welcome!</h3>
+                <p id="popup-desc" class="text-gray-700 font-medium text-sm leading-relaxed mb-6">Thanks for visiting my portfolio.</p>
+                <button id="popup-action-btn" class="w-full bg-gradient-to-r from-orange-500 to-orange-400 text-white font-bold py-3 rounded-full shadow-lg hover:shadow-orange-500/50 hover:scale-105 transition-transform">Thank You!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= FLOATING ACTION BUTTONS & MENUS ================= -->
+    <div class="fixed bottom-6 right-6 z-[90] flex flex-col gap-4">
+        <button id="fab-menu" class="w-14 h-14 bg-white/80 backdrop-blur-md border border-gray-200 text-gray-800 rounded-full shadow-2xl flex items-center justify-center text-3xl hover:bg-white hover:text-orange-600 transition transform hover:scale-105">⊞</button>
+        <button id="fab-chat" class="w-14 h-14 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-full shadow-2xl flex items-center justify-center text-2xl hover:shadow-orange-500/50 transition transform hover:scale-105">💬</button>
+    </div>
+
+    <div id="glass-menu" class="fixed bottom-24 right-6 w-48 bg-white/70 backdrop-blur-xl border border-white/70 shadow-2xl rounded-3xl p-4 z-[90] hidden opacity-0 transition-all duration-300 transform translate-y-4">
+        <ul class="space-y-2 text-center font-bold text-gray-700">
+            <li><a href="#custom-hero-section" class="block py-2 hover:bg-white/80 rounded-xl menu-link">🏠 Home</a></li>
+            <li><a href="#education-container" class="block py-2 hover:bg-white/80 rounded-xl menu-link">🎓 Education</a></li>
+            <li><a href="#custom-services-section" class="block py-2 hover:bg-white/80 rounded-xl menu-link">💼 Services</a></li>
+            <li><a href="#contact-container" class="block py-2 hover:bg-white/80 rounded-xl menu-link">📞 Contact</a></li>
+        </ul>
+    </div>
+
+    <div id="glass-chat" class="fixed bottom-24 right-6 w-80 sm:w-96 bg-white/80 backdrop-blur-xl border border-white/70 shadow-2xl rounded-[2rem] overflow-hidden z-[90] hidden opacity-0 transition-all duration-300 transform translate-y-4 flex flex-col h-[500px] max-h-[70vh]">
+        <div class="bg-gradient-to-r from-orange-600 to-orange-500 p-4 text-white flex justify-between items-center shadow-md z-10">
+            <div>
+                <h3 class="font-extrabold text-lg">Live Support</h3>
+                <p class="text-xs text-orange-100">Reply time: Usually within minutes</p>
+            </div>
+            <button id="close-chat-btn" class="text-white hover:text-gray-200 font-bold text-xl">✕</button>
+        </div>
+        <div id="chat-auth-screen" class="flex-1 p-6 flex flex-col justify-center items-center text-center overflow-y-auto">
+            <span class="text-5xl mb-4">👋</span>
+            <h4 class="font-bold text-gray-800 text-lg mb-2">Welcome!</h4>
+            <p class="text-sm text-gray-600 mb-6">Enter your name to start chatting.</p>
+            <input type="text" id="chat-name" placeholder="Your Name (e.g. Rahim)" class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white mb-4 outline-none focus:border-orange-500 font-medium">
+            <button id="chat-login-btn" class="w-full bg-gray-900 text-white font-bold py-3 rounded-xl hover:bg-black shadow-lg transition">Start Chat 🚀</button>
+            <p id="chat-auth-err" class="text-red-500 text-xs font-bold mt-3 hidden"></p>
+        </div>
+        <div id="chat-box-screen" class="flex-1 flex flex-col hidden bg-white/50">
+            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3 flex flex-col"></div>
+            <div class="p-3 bg-white border-t border-gray-200 flex gap-2 items-center shadow-inner">
+                <input type="text" id="chat-input" placeholder="Type a message..." class="flex-1 px-4 py-3 rounded-full border border-gray-200 bg-gray-50 outline-none focus:border-orange-300">
+                <button id="chat-send-btn" class="bg-orange-500 text-white w-12 h-12 rounded-full font-bold flex items-center justify-center hover:bg-orange-600 shadow-md text-xl">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/loader.js"></script>
     <script type="module" src="js/firebase-config.js"></script>
     <script type="module" src="js/render-data.js"></script>
 </body>
