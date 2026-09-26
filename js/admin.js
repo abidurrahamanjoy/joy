@@ -1,6 +1,6 @@
 import { auth, db } from "./firebase-config.js";
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-import { doc, setDoc, getDoc, collection, addDoc, getDocs, deleteDoc, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { doc, setDoc, getDoc, collection, addDoc, getDocs, deleteDoc, updateDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 const ADMIN_UID = "Ncb6CS4XZ3TDoc0IF9x6CkwMFJn2";
 
@@ -156,27 +156,29 @@ async function loadAdminData() {
         });
         if(document.getElementById("admin-srv-list")) document.getElementById("admin-srv-list").innerHTML = html;
 
-        // INBOX MESSAGES
-        const msgSnap = await getDocs(query(collection(db, "messages"), orderBy("timestamp", "desc")));
-        let msgHtml = '';
-        if(msgSnap.empty) {
-            msgHtml = `<p class="text-white bg-black/40 p-4 rounded-xl text-center">No messages yet.</p>`;
-        } else {
-            msgSnap.forEach(docSnap => {
-                const data = docSnap.data();
-                const date = new Date(data.timestamp).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
-                msgHtml += `
-                <div class="bg-white/90 p-5 rounded-2xl shadow-md border-l-4 border-orange-500 mb-4 transition hover:scale-[1.02]">
-                    <div class="flex justify-between items-center mb-2"><h4 class="font-extrabold text-gray-900">${data.name}</h4><span class="text-xs font-bold text-gray-500 bg-gray-200 px-2 py-1 rounded">${date}</span></div>
-                    <p class="text-sm text-gray-800 mb-3 font-medium">${data.message}</p>
-                    <div class="flex justify-between items-center border-t pt-3">
-                        <a href="mailto:${data.email}" class="text-sm font-bold text-blue-600 hover:underline">✉️ Reply: ${data.email}</a>
-                        <button onclick="deleteItem('messages', '${docSnap.id}')" class="text-xs bg-red-100 text-red-600 px-3 py-1 rounded font-bold">Delete</button>
-                    </div>
-                </div>`;
-            });
-        }
-        if(document.getElementById("inbox-messages")) document.getElementById("inbox-messages").innerHTML = msgHtml;
+        // REAL-TIME INBOX MESSAGES 🚀
+        const q = query(collection(db, "messages"), orderBy("timestamp", "desc"));
+        onSnapshot(q, (snapshot) => {
+            let msgHtml = '';
+            if(snapshot.empty) {
+                msgHtml = `<p class="text-white bg-black/40 p-4 rounded-xl text-center">No messages yet. Share your website link to get clients!</p>`;
+            } else {
+                snapshot.forEach(docSnap => {
+                    const data = docSnap.data();
+                    const date = new Date(data.timestamp).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+                    msgHtml += `
+                    <div class="bg-white/90 p-5 rounded-2xl shadow-md border-l-4 border-orange-500 mb-4 transition hover:scale-[1.02]">
+                        <div class="flex justify-between items-center mb-2"><h4 class="font-extrabold text-gray-900">${data.name}</h4><span class="text-xs font-bold text-gray-500 bg-gray-200 px-2 py-1 rounded">${date}</span></div>
+                        <p class="text-sm text-gray-800 mb-3 font-medium">${data.message}</p>
+                        <div class="flex justify-between items-center border-t pt-3">
+                            <a href="mailto:${data.email}" class="text-sm font-bold text-blue-600 hover:underline">✉️ Reply: ${data.email}</a>
+                            <button onclick="deleteItem('messages', '${docSnap.id}')" class="text-xs bg-red-100 text-red-600 px-3 py-1 rounded font-bold">Delete</button>
+                        </div>
+                    </div>`;
+                });
+            }
+            if(document.getElementById("inbox-messages")) document.getElementById("inbox-messages").innerHTML = msgHtml;
+        });
 
     } catch(err) { console.error(err); }
 }
