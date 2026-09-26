@@ -44,23 +44,46 @@ async function renderWebsiteData() {
         }
     } catch(e) { console.log("Hero Error:", e); }
 
-    // 4. Render Services
+   // 4. Render Services (UI exactly matching the reference card style)
     try {
         const srvSnap = await getDocs(query(collection(db, "services"), orderBy("timestamp", "asc")));
         if(!srvSnap.empty && document.getElementById("dynamic-srv-container")) {
             let srvHtml = '';
             srvSnap.forEach(doc => { 
                 if(doc.data().isVisible) {
-                    srvHtml += `<div class="glass-effect p-8 rounded-3xl shadow-md border-t-4 border-orange-500 bg-white/60">
-                                    <h4 class="font-bold text-lg text-orange-700 mb-3">${doc.data().title}</h4>
-                                    <p class="text-sm text-gray-800 font-medium">${doc.data().desc}</p>
-                                </div>`; 
+                    srvHtml += `
+                        <div class="bg-white rounded-[2rem] overflow-hidden shadow-2xl flex flex-col transform hover:-translate-y-3 transition duration-300 group">
+                            
+                            <!-- Top Half: Card Image/Decoration Area -->
+                            <div class="h-40 md:h-48 bg-[#fff7f0] relative flex items-center justify-center">
+                                <!-- Placeholder Icon / Image effect -->
+                                <div class="text-6xl group-hover:scale-110 transition-transform duration-500">💻</div>
+                                
+                                <!-- Inner Wave Divider matching the image -->
+                                <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
+                                    <svg class="relative block w-full h-[30px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                                        <path d="M0,0V120H1200V0C1014.28,97.77,816.57,110.15,595.6,83.47,381.18,57.59,190.49,67.62,0,0Z" fill="#ffffff"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <!-- Bottom Half: Text Area -->
+                            <div class="p-8 flex-1 flex flex-col text-center bg-white">
+                                <h4 class="font-extrabold text-xl text-gray-800 mb-3">${doc.data().title}</h4>
+                                <p class="text-sm text-gray-500 font-medium line-clamp-3 mb-6">${doc.data().desc}</p>
+                                
+                                <!-- Read More Button matching reference -->
+                                <div class="mt-auto">
+                                    <button class="px-6 py-2 bg-orange-50 text-orange-500 rounded-full font-bold text-sm hover:bg-orange-500 hover:text-white transition">Read More</button>
+                                </div>
+                            </div>
+                            
+                        </div>`; 
                 }
             });
             document.getElementById("dynamic-srv-container").innerHTML = srvHtml;
         }
     } catch(e) { console.log("Services Error:", e); }
-
     // 5. Render Contacts (অটো-ট্র্যাকিং সিস্টেম)
     try {
         const contactSnap = await getDoc(doc(db, "siteData", "contact"));
