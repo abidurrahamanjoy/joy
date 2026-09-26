@@ -5,181 +5,269 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abidur Rahman Joy | Digital Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ছবির মতো আঁকাবাঁকা শেপ */
+        :root {
+            --teal: #149c95;
+            --orange: #f48220;
+            --dark-blue: #1c325b;
+            --peach: #fff7f0;
+        }
         .organic-shape { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
-        /* কাস্টম অ্যানিমেশন */
-        @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
-        .animate-marquee { display: inline-flex; animation: marquee 20s linear infinite; min-width: 200%; }
+        /* Hero Scalloped Wave Bottom for Desktop */
+        .scalloped-wave {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 60px;
+            background-image: radial-gradient(circle at 30px 0, transparent 31px, white 32px);
+            background-size: 60px 60px;
+            background-repeat: repeat-x;
+        }
     </style>
 </head>
 <body class="antialiased overflow-x-hidden text-gray-800 bg-white relative">
 
-    <!-- 1. Top Bar & Navbar (Exact Match) -->
-    <div class="bg-[#528c94] text-white py-2 text-sm z-50 relative">
+    <!-- 1. Top Bar (Teal) - Desktop Only -->
+    <div class="bg-[#149c95] text-white py-2 text-xs md:text-sm z-50 relative hidden md:block">
         <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
-            <div class="flex gap-4">
-                <span class="dynamic-phone-text">📞 +880...</span>
-                <span class="hidden md:inline">✉️ contact@example.com</span>
+            <div class="flex gap-6">
+                <span><i class="fas fa-map-marker-alt text-orange-300 mr-1"></i> Sylhet & Habiganj, BD</span>
+                <span><i class="fas fa-envelope text-orange-300 mr-1"></i> admin@abidurjoy.com</span>
             </div>
             <div class="flex gap-4">
-                <a id="dyn-fb" href="#" class="hover:text-orange-200">Facebook</a>
-                <a id="dyn-linkedin" href="#" class="hover:text-orange-200">LinkedIn</a>
+                <a id="dyn-fb" href="#" class="hover:text-orange-200 transition"><i class="fab fa-facebook-f"></i></a>
+                <a id="dyn-linkedin" href="#" class="hover:text-orange-200 transition"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="hover:text-orange-200 transition"><i class="fab fa-instagram"></i></a>
             </div>
         </div>
     </div>
     
-    <nav class="bg-white shadow-sm sticky top-0 z-40 py-4">
-        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+    <!-- 2. Sticky Navbar -->
+    <nav class="bg-white shadow-sm sticky top-0 z-40 py-3 md:py-4">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 flex justify-between items-center">
             <!-- Logo -->
-            <div class="font-extrabold text-2xl text-gray-800 flex items-center gap-2">
-                <span class="text-orange-500 text-3xl">❖</span> <span id="dynamic-hero-name">Abidur Rahman Joy</span>
+            <div class="font-extrabold text-2xl text-[#1c325b] flex items-center gap-2">
+                <span class="text-[#f48220] text-3xl">❖</span> <span id="dynamic-hero-name">Abidur Rahman</span>
             </div>
-            <!-- Desktop Links -->
-            <div class="hidden lg:flex gap-8 font-semibold text-gray-600 text-sm">
-                <a href="#hero-section" class="hover:text-orange-500 transition">Home</a>
-                <a href="#about-section" class="hover:text-orange-500 transition">About Us</a>
-                <a href="#services-container" class="hover:text-orange-500 transition">Programs</a>
-                <a href="#" class="hover:text-orange-500 transition">Blog</a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden lg:flex gap-8 font-bold text-[#1c325b] text-sm items-center">
+                <a href="#hero-section" class="text-[#f48220] border-b-2 border-[#f48220] pb-1">Home</a>
+                <a href="#about-education" class="hover:text-[#f48220] transition pb-1">Education</a>
+                <a href="#services-container" class="hover:text-[#f48220] transition pb-1">Services</a>
+                <a href="#experience" class="hover:text-[#f48220] transition pb-1">Experience</a>
+                <a href="#faq" class="hover:text-[#f48220] transition pb-1">Q&A</a>
             </div>
-            <!-- Contact Button -->
-            <div class="flex items-center gap-4">
-                <div class="hidden md:flex flex-col text-right">
-                    <span class="text-xs text-gray-400">Call Us Now</span>
-                    <span class="font-bold text-sm dynamic-phone-text text-orange-500">+880...</span>
+            
+            <!-- Contact & Mobile Menu -->
+            <div class="flex items-center gap-4 md:gap-6">
+                <div class="hidden md:flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-orange-100 text-[#f48220] flex items-center justify-center text-lg"><i class="fas fa-phone-alt"></i></div>
+                    <div class="flex flex-col">
+                        <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Call Me Free</span>
+                        <span class="font-extrabold text-sm text-[#1c325b] dynamic-phone-text">+880...</span>
+                    </div>
                 </div>
-                <a href="tel:" class="dynamic-phone-link bg-orange-400 text-white px-6 py-2 rounded-full font-bold shadow-md hover:bg-orange-500 transition">Get In Touch</a>
+                <a href="tel:" class="dynamic-phone-link bg-[#f48220] text-white px-5 md:px-7 py-2 md:py-2.5 rounded-full font-bold shadow-lg hover:bg-orange-600 transition text-xs md:text-sm flex items-center gap-2 hidden sm:flex">Hire Me <i class="fas fa-arrow-right"></i></a>
+                
+                <!-- Mobile Hamburger -->
+                <button id="mobile-menu-btn" class="lg:hidden text-2xl text-[#149c95] focus:outline-none"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu-dropdown" class="hidden lg:hidden bg-white border-t border-gray-100 absolute w-full left-0 top-full shadow-lg">
+            <div class="flex flex-col font-bold text-[#1c325b] text-sm text-center">
+                <a href="#hero-section" class="py-3 border-b border-gray-50 hover:text-[#f48220]">Home</a>
+                <a href="#about-education" class="py-3 border-b border-gray-50 hover:text-[#f48220]">Education</a>
+                <a href="#services-container" class="py-3 border-b border-gray-50 hover:text-[#f48220]">Services</a>
+                <a href="#experience" class="py-3 border-b border-gray-50 hover:text-[#f48220]">Experience</a>
+                <a href="#faq" class="py-3 border-b border-gray-50 hover:text-[#f48220]">Q&A</a>
             </div>
         </div>
     </nav>
 
-    <!-- 2. Hero Section (Full width image area & Scalloped bottom) -->
-    <section id="hero-section" class="relative bg-[#fff8f0] pt-12 md:pt-20 pb-32 overflow-hidden z-10">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-8 relative z-20">
-            <!-- Text Content (Left on PC, Top on Mobile) -->
-            <div class="w-full md:w-1/2 text-center md:text-left z-20">
-                <span id="dynamic-hero-badge" class="inline-block px-4 py-1 bg-white text-orange-500 rounded-full text-xs font-bold shadow-sm mb-6 border border-orange-100">Welcome To Best</span>
-                <h1 class="text-4xl md:text-6xl font-extrabold text-[#3a4750] leading-tight mb-6">
-                    Trial Nanny Free <br><span class="text-orange-400">On First Day.</span>
+    <!-- 3. Hero Section (Video Button Removed) -->
+    <section id="hero-section" class="relative bg-[#fff7f0] pt-12 md:pt-16 pb-28 md:pb-32 overflow-hidden z-10">
+        <!-- Background Elements -->
+        <div class="absolute top-10 left-[10%] text-[#149c95] text-4xl opacity-50 hidden md:block"><i class="fas fa-cloud"></i></div>
+        <div class="absolute top-20 right-[40%] text-orange-400 text-2xl hidden md:block"><i class="fas fa-star"></i></div>
+        
+        <div class="max-w-7xl mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center relative z-20">
+            <!-- Text Content -->
+            <div class="w-full md:w-[45%] text-center md:text-left pt-4 md:pt-10 z-20 mb-10 md:mb-0">
+                <span id="dynamic-hero-badge" class="text-[#f48220] font-bold text-sm mb-3 tracking-wide block uppercase">Certified Freelancer</span>
+                <h1 class="text-4xl md:text-5xl lg:text-[3.5rem] font-extrabold text-[#1c325b] leading-[1.1] mb-6">
+                    Professional IT Services <br><span class="text-[#f48220]">On Demand.</span>
                 </h1>
-                <p id="dynamic-hero-desc" class="text-gray-500 text-sm md:text-base mb-8 leading-relaxed max-w-md mx-auto md:mx-0"></p>
-                <div class="flex justify-center md:justify-start gap-4 items-center">
-                    <a href="#services-container" class="bg-orange-400 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-orange-500 transition">Explore More</a>
-                    <a href="#contact" class="text-gray-500 font-bold hover:text-orange-500 transition flex items-center gap-2">
-                        <span class="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-orange-400">▶</span> Watch Video
-                    </a>
+                <p id="dynamic-hero-desc" class="text-gray-500 text-sm md:text-base mb-8 max-w-md mx-auto md:mx-0 leading-relaxed">Experience top-notch digital marketing, web development, and graphic design services tailored for your brand.</p>
+                
+                <div class="flex justify-center md:justify-start gap-4">
+                    <a href="#contact" class="bg-[#f48220] text-white px-8 py-3.5 rounded-full font-bold shadow-[0_8px_20px_rgba(244,130,32,0.3)] hover:-translate-y-1 transition text-sm flex items-center gap-2">Get Started <i class="fas fa-arrow-right"></i></a>
+                    <!-- ভিডিও বাটনটি এখান থেকে চিরতরে মুছে ফেলা হয়েছে -->
                 </div>
             </div>
             
-            <!-- Large Image Area (Right on PC, Bottom on Mobile) -->
-            <div class="w-full md:w-1/2 flex justify-end relative mt-10 md:mt-0">
-                <!-- Floating design elements -->
-                <div class="absolute -top-10 left-10 w-12 h-12 bg-blue-400 rounded-full opacity-60 animate-bounce"></div>
-                <div class="absolute top-20 right-20 text-orange-400 text-2xl">✦</div>
-                
-                <!-- Dynamic Image -->
-                <img id="dynamic-hero-img" src="" alt="Hero" class="w-full md:w-[120%] lg:w-[130%] h-auto max-h-[500px] object-cover rounded-3xl md:rounded-l-3xl md:rounded-r-none relative z-10 shadow-xl">
+            <!-- Hero Image -->
+            <div class="w-full md:w-[65%] flex justify-end relative mt-6 md:mt-0 md:absolute md:right-0 md:top-0 h-full">
+                <img id="dynamic-hero-img" src="https://via.placeholder.com/800x600" alt="Hero" class="w-full h-64 sm:h-80 md:h-[110%] object-cover rounded-3xl md:rounded-none md:rounded-bl-[4rem] relative z-10 shadow-2xl md:shadow-none border-4 border-white md:border-none">
             </div>
         </div>
         
-        <!-- Scalloped (খাঁজকাটা) Bottom SVG matching exactly with the image -->
-        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-30 translate-y-[50%]">
-            <svg class="w-full h-[30px] md:h-[50px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path d="M0,60 A60,60 0 0,1 120,60 A60,60 0 0,0 240,60 A60,60 0 0,1 360,60 A60,60 0 0,0 480,60 A60,60 0 0,1 600,60 A60,60 0 0,0 720,60 A60,60 0 0,1 840,60 A60,60 0 0,0 960,60 A60,60 0 0,1 1080,60 A60,60 0 0,0 1200,60 L1200,120 L0,120 Z" fill="#ffffff"></path>
+        <!-- Scalloped Wave Bottom -->
+        <div class="hidden md:block scalloped-wave z-30"></div>
+        <div class="md:hidden absolute bottom-0 left-0 w-full overflow-hidden leading-none z-10">
+            <svg class="w-full h-[40px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,60 Q150,120 300,60 T600,60 T900,60 T1200,60 V120 H0 Z" fill="#ffffff"></path>
             </svg>
         </div>
     </section>
 
-    <!-- 3. About Section (Organic Shape Image) -->
-    <section id="about-section" class="py-24 bg-white relative z-0">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
+    <!-- 4. Education & About -->
+    <section id="about-education" class="py-16 md:py-24 bg-white relative z-0">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center gap-12 md:gap-16">
             <!-- Organic Image -->
-            <div class="w-full md:w-1/2 flex justify-center relative order-2 md:order-1">
-                <div class="w-72 h-72 md:w-[450px] md:h-[450px] bg-[#f9e9e1] organic-shape absolute -z-10 translate-x-4 translate-y-4"></div>
-                <img src="https://via.placeholder.com/450" alt="About" class="w-72 h-72 md:w-[450px] md:h-[450px] object-cover organic-shape shadow-lg">
+            <div class="w-full md:w-1/2 flex justify-center relative">
+                <div class="absolute inset-0 bg-[#fff7f0] organic-shape translate-x-4 translate-y-4 -z-10 border-[2px] border-dashed border-[#f48220]"></div>
+                <img id="dynamic-about-img" src="https://via.placeholder.com/500" alt="Education" class="w-[80%] max-w-[400px] h-auto aspect-square object-cover organic-shape shadow-xl border-8 border-white">
             </div>
             
             <!-- Text Content -->
-            <div class="w-full md:w-1/2 text-center md:text-left order-1 md:order-2">
-                <span class="text-gray-400 text-xs font-bold uppercase tracking-wider">About Us</span>
-                <h2 class="text-3xl md:text-4xl font-extrabold text-[#3a4750] mb-6 mt-2">Welcome To Best Kidsa For Your Child</h2>
-                <p class="text-gray-500 mb-10 leading-relaxed text-sm">We provide tailored digital strategies and top-notch web development to help you achieve your business goals efficiently.</p>
+            <div class="w-full md:w-1/2 text-center md:text-left">
+                <div class="flex items-center justify-center md:justify-start gap-2 mb-2">
+                    <span class="text-[#f48220] font-extrabold text-sm uppercase tracking-widest">Education & Skills</span>
+                    <div class="w-10 h-[2px] bg-[#f48220]"></div>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-[#1c325b] mb-5 leading-tight">Certified & Experienced <br>For Your Business</h2>
+                <p class="text-gray-500 text-sm md:text-base mb-8 leading-relaxed">I hold a Diploma in Agriculture, am currently pursuing my BAgEd (4th Semester), and I am a Govt. Certified Freelancer equipped to handle your digital needs.</p>
                 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <!-- 2x2 Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full text-left">
                     <div class="flex items-start gap-4">
-                        <div class="bg-orange-100 text-orange-500 p-3 rounded-2xl">🎯</div>
-                        <div class="text-left"><h4 class="font-bold text-gray-800">Our Mission</h4><p class="text-xs text-gray-500 mt-1">High-quality delivery</p></div>
+                        <div class="bg-[#f48220] text-white min-w-[50px] min-h-[50px] rounded-2xl flex items-center justify-center text-2xl shadow-md"><i class="fas fa-shield-alt"></i></div>
+                        <div><h4 class="font-bold text-[#1c325b] text-[15px] mb-1">Govt. Certified</h4><p class="text-[13px] text-gray-500 leading-tight">Certified by Youth Development</p></div>
                     </div>
                     <div class="flex items-start gap-4">
-                        <div class="bg-orange-100 text-orange-500 p-3 rounded-2xl">👁️</div>
-                        <div class="text-left"><h4 class="font-bold text-gray-800">Our Vision</h4><p class="text-xs text-gray-500 mt-1">Long term success</p></div>
+                        <div class="bg-[#f48220] text-white min-w-[50px] min-h-[50px] rounded-2xl flex items-center justify-center text-2xl shadow-md"><i class="fas fa-bullseye"></i></div>
+                        <div><h4 class="font-bold text-[#1c325b] text-[15px] mb-1">Our Mission</h4><p class="text-[13px] text-gray-500 leading-tight">To ensure business growth</p></div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="bg-[#1c325b] text-white min-w-[50px] min-h-[50px] rounded-2xl flex items-center justify-center text-2xl shadow-md"><i class="fas fa-graduation-cap"></i></div>
+                        <div><h4 class="font-bold text-[#1c325b] text-[15px] mb-1">BAgEd Student</h4><p class="text-[13px] text-gray-500 leading-tight">Currently in 4th Semester</p></div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="bg-[#f4bd20] text-white min-w-[50px] min-h-[50px] rounded-2xl flex items-center justify-center text-2xl shadow-md"><i class="fas fa-phone-alt"></i></div>
+                        <div><h4 class="font-bold text-[#1c325b] text-[15px] mb-1">Get In Touch</h4><p class="text-[13px] text-gray-500 leading-tight dynamic-phone-text">+880...</p></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 4. Services Section (Orange Wave Background) -->
-    <section id="services-container" class="relative bg-[#f5974c] py-32 z-0 mt-10">
-        <!-- Top Wave (Orange) -->
+    <!-- 5. Services Section -->
+    <section id="services-container" class="relative bg-[#f48220] py-24 md:py-32 z-0">
         <div class="absolute top-0 left-0 w-full overflow-hidden leading-none z-10 -translate-y-[98%] rotate-180">
-            <svg class="w-full h-[60px] md:h-[120px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="#f5974c"></path>
+            <svg class="w-full h-[40px] md:h-[80px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,60 Q150,120 300,60 T600,60 T900,60 T1200,60 V120 H0 Z" fill="#f48220"></path>
             </svg>
         </div>
         
-        <div class="max-w-7xl mx-auto px-6 relative z-20">
-            <div class="text-center mb-16">
-                <span class="text-orange-200 text-xs font-bold uppercase tracking-wider">Our Classes</span>
-                <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-4 mt-2">We Meet Kids At Their Level</h2>
-                <p class="text-orange-100 text-lg">Regardless Of Their Age</p>
+        <div class="max-w-7xl mx-auto px-4 md:px-6 relative z-20 text-center">
+            <div class="flex items-center justify-center gap-4 mb-4">
+                <div class="w-12 h-[1px] bg-white opacity-60"></div>
+                <span class="text-white text-sm font-bold uppercase tracking-widest opacity-90">Our Services</span>
+                <div class="w-12 h-[1px] bg-white opacity-60"></div>
             </div>
-            <!-- Dynamic Services -->
-            <div id="dynamic-srv-container" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+            <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-12">We Provide High-Quality <br>Digital Solutions</h2>
+            
+            <div id="dynamic-srv-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-5xl mx-auto"></div>
         </div>
 
-        <!-- Bottom Wave (White) -->
         <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-10 translate-y-[98%]">
-            <svg class="w-full h-[60px] md:h-[120px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="#ffffff"></path>
+            <svg class="w-full h-[40px] md:h-[80px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,60 Q150,120 300,60 T600,60 T900,60 T1200,60 V120 H0 Z" fill="#ffffff"></path>
             </svg>
         </div>
     </section>
 
-    <!-- FLOATING UI: MENU & INBOX -->
-    <div class="fixed bottom-6 right-6 flex flex-col gap-4 z-50">
-        <button id="fab-chat" class="w-14 h-14 bg-orange-400 text-white rounded-full shadow-2xl flex items-center justify-center text-2xl hover:scale-110 transition-transform">💬</button>
-        <button id="fab-menu" class="w-14 h-14 bg-[#3a4750] text-white rounded-full shadow-2xl flex items-center justify-center text-2xl hover:scale-110 transition-transform">☰</button>
-    </div>
-
-    <!-- Floating Menu Overlay -->
-    <div id="glass-menu" class="fixed bottom-24 right-6 w-56 bg-white/95 backdrop-blur-md border border-gray-200 shadow-2xl rounded-3xl p-4 hidden opacity-0 transition-all duration-300 z-50">
-        <div class="flex flex-col gap-2">
-            <a href="#hero-section" class="menu-link px-4 py-2 hover:bg-orange-50 rounded-xl font-bold text-gray-800">Home</a>
-            <a href="#about-section" class="menu-link px-4 py-2 hover:bg-orange-50 rounded-xl font-bold text-gray-800">About</a>
-            <a href="#services-container" class="menu-link px-4 py-2 hover:bg-orange-50 rounded-xl font-bold text-gray-800">Services</a>
+    <!-- 6. Experience -->
+    <section id="experience" class="py-16 md:py-24 bg-white relative z-0">
+        <div class="max-w-7xl mx-auto px-4 md:px-6">
+            <div class="flex justify-between items-center mb-10 border-b border-gray-100 pb-4">
+                <h2 class="text-2xl md:text-3xl font-extrabold text-[#1c325b] flex items-center gap-3">
+                    <i class="fas fa-clipboard-list text-[#149c95]"></i> Top Experience & Works
+                </h2>
+            </div>
+            <div id="dynamic-exp-container" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
         </div>
+    </section>
+
+    <!-- 7. Certificates -->
+    <section id="certificates" class="relative bg-[#149c95] py-20 overflow-hidden">
+        <div class="absolute top-0 left-0 w-full overflow-hidden leading-none z-10 -translate-y-[98%] rotate-180">
+            <svg class="w-full h-[40px] md:h-[60px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,60 Q150,120 300,60 T600,60 T900,60 T1200,60 V120 H0 Z" fill="#149c95"></path>
+            </svg>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 relative z-20 text-center text-white">
+            <div class="flex items-center justify-center gap-4 mb-10">
+                <i class="fas fa-certificate text-5xl opacity-90"></i>
+                <div class="text-left">
+                    <h2 class="text-2xl md:text-3xl font-extrabold leading-tight">Skills Certificate From <br>Govt. & Platforms</h2>
+                </div>
+            </div>
+            
+            <div id="dynamic-cert-container" class="flex overflow-x-auto md:grid md:grid-cols-3 gap-6 pb-4 snap-x justify-items-center"></div>
+        </div>
+    </section>
+
+    <!-- 8. Q&A / FAQ -->
+    <section id="faq" class="py-20 bg-[#fff7f0] text-center">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-2xl md:text-4xl font-extrabold text-[#1c325b] mb-10">Frequently Asked <br>Questions</h2>
+            <div id="dynamic-faq-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white pt-10 pb-6 text-center border-t border-gray-100">
+        <div class="font-extrabold text-3xl text-[#1c325b] flex items-center justify-center gap-2 mb-6">
+            <span class="text-[#f48220]">❖</span> Abidur Rahman Joy
+        </div>
+        <div class="flex flex-wrap justify-center gap-6 text-sm font-bold text-gray-500 mb-8">
+            <a href="#hero-section" class="hover:text-[#f48220]">Home</a>
+            <a href="#about-education" class="hover:text-[#f48220]">About</a>
+            <a href="#services-container" class="hover:text-[#f48220]">Services</a>
+            <a href="#experience" class="hover:text-[#f48220]">Experience</a>
+        </div>
+        <div class="bg-[#149c95] text-white py-4 text-sm font-semibold w-full flex justify-between items-center px-6 mt-4">
+            <p>© 2026 Abidur Rahman Joy. All rights reserved.</p>
+            <a href="#hero-section" class="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center hover:bg-white hover:text-[#149c95] transition"><i class="fas fa-arrow-up"></i></a>
+        </div>
+    </footer>
+
+    <!-- FLOATING UI: INBOX ONLY -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <button id="fab-chat" class="w-16 h-16 bg-[#f48220] text-white rounded-full shadow-2xl flex items-center justify-center text-3xl hover:scale-110 transition-transform"><i class="fas fa-comment-dots"></i></button>
     </div>
 
     <!-- Live Chat Inbox Overlay -->
-    <div id="glass-chat" class="fixed bottom-24 right-6 w-80 sm:w-96 bg-white shadow-2xl rounded-3xl overflow-hidden hidden opacity-0 transition-all duration-300 z-50 flex-col border border-gray-200">
-        <div class="bg-[#f5974c] p-4 text-white flex justify-between items-center shadow-md">
-            <h3 class="font-bold">Live Chat</h3>
-            <button id="close-chat-btn" class="text-white font-bold text-xl hover:text-gray-200">✖</button>
+    <div id="glass-chat" class="fixed bottom-24 right-6 w-80 md:w-96 bg-white shadow-2xl rounded-3xl overflow-hidden hidden opacity-0 transition-all duration-300 z-50 flex-col border border-gray-200">
+        <div class="bg-[#f48220] p-4 text-white flex justify-between items-center shadow-md">
+            <h3 class="font-bold text-lg"><i class="fas fa-headset mr-2"></i> Live Chat</h3>
+            <button id="close-chat-btn" class="text-white font-bold hover:text-gray-200 text-xl"><i class="fas fa-times"></i></button>
         </div>
         
         <div id="chat-auth-screen" class="p-6 text-center bg-gray-50 h-[350px] flex flex-col justify-center">
             <p class="text-gray-600 text-sm mb-4">Please enter your name to start chat.</p>
-            <input type="text" id="chat-name" placeholder="Your Name" class="w-full px-4 py-3 border rounded-xl mb-3 outline-none focus:border-orange-400 shadow-sm">
+            <input type="text" id="chat-name" placeholder="Your Name" class="w-full px-4 py-3 border border-gray-300 rounded-xl mb-3 outline-none focus:border-[#f48220]">
             <p id="chat-auth-err" class="text-red-500 text-xs hidden mb-2"></p>
-            <button id="chat-login-btn" class="w-full bg-[#f5974c] text-white py-3 rounded-xl font-bold hover:bg-orange-500 shadow-md transition-colors">Start Chat</button>
+            <button id="chat-login-btn" class="w-full bg-[#f48220] text-white py-3 rounded-xl font-bold shadow-md transition-colors hover:bg-orange-600">Start Chat</button>
         </div>
         
         <div id="chat-box-screen" class="hidden flex-col h-[350px]">
-            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto flex flex-col gap-3 bg-gray-50/50"></div>
+            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto flex flex-col gap-3 bg-gray-50"></div>
             <div class="p-3 bg-white border-t border-gray-100 flex gap-2 shadow-inner">
-                <input type="text" id="chat-input" placeholder="Type a message..." class="flex-1 px-4 py-2 bg-gray-100 border-none rounded-full outline-none focus:ring-2 focus:ring-orange-400 text-sm">
-                <button id="chat-send-btn" class="bg-[#f5974c] text-white w-10 h-10 rounded-full font-bold flex justify-center items-center shadow-md hover:bg-orange-500 transition-colors">➤</button>
+                <input type="text" id="chat-input" placeholder="Type a message..." class="flex-1 px-4 py-2 bg-gray-100 rounded-full outline-none text-sm focus:ring-2 focus:ring-[#f48220]">
+                <button id="chat-send-btn" class="bg-[#f48220] text-white w-10 h-10 rounded-full font-bold flex justify-center items-center shadow-md"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
     </div>
