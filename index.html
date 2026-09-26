@@ -1,13 +1,29 @@
-<!-- ================= HERO SECTION (Organic Shape & Waves) ================= -->
-    <section id="hero-section" class="relative pt-24 md:pt-32 pb-32 z-10" style="background-color: #fff7f0;">
+<!DOCTYPE html>
+<html lang="bn" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abidur Rahman Joy | Best Web Site Builder & Digital Marketing Expert</title>
+    
+    <!-- Tailwind CSS (এটি মুছে গেলে ডিজাইন ভেঙে যায়) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Marquee Animation Style -->
+    <style>
+        @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+        .animate-marquee { display: inline-flex; animation: marquee 20s linear infinite; min-width: 200%; }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden text-gray-800 relative bg-[#fff7f0]">
+
+    <!-- ================= HERO SECTION ================= -->
+    <section id="hero-section" class="relative pt-24 md:pt-32 pb-32 z-10 bg-[#fff7f0]">
         <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-12 relative z-20">
             
             <!-- Image (মোবাইলে প্রথমে) -->
             <div class="w-full md:w-1/2 flex justify-center order-1 md:order-2">
                 <div class="relative w-64 h-64 md:w-[450px] md:h-[450px]">
-                    <!-- ব্যাকগ্রাউন্ডের ভাসমান শ্যাডো বা অর্গানিক শেপ -->
                     <div class="absolute inset-0 bg-orange-300 mix-blend-multiply opacity-50 filter blur-2xl rounded-full translate-x-4 translate-y-4"></div>
-                    <!-- ছবির আঁকাবাঁকা অর্গানিক ফ্রেম (ছবির মতো) -->
                     <img id="dynamic-hero-img" src="" alt="Hero" class="relative w-full h-full object-cover border-[8px] border-white shadow-2xl z-10 transition-transform hover:scale-105" style="border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;">
                 </div>
             </div>
@@ -20,12 +36,12 @@
                 </h1>
                 <p id="dynamic-hero-desc" class="text-gray-600 text-lg md:text-xl mb-8 font-medium"></p>
                 <div class="flex gap-4 justify-center md:justify-start">
-                    <a href="#services-container" class="bg-orange-500 text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-orange-500/40 hover:bg-orange-600 transition hover:-translate-y-1">Explore More</a>
+                    <a href="#services-container" class="bg-orange-500 text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-orange-500/40 hover:bg-orange-600 transition hover:-translate-y-1 block md:inline-block">Explore More</a>
                 </div>
             </div>
         </div>
 
-        <!-- Hero Bottom Wave (Smooth Curve) -->
+        <!-- Hero Bottom Wave -->
         <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-10 translate-y-[99%]">
             <svg class="relative block w-full h-[60px] md:h-[120px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                 <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="#ffffff"></path>
@@ -33,7 +49,7 @@
         </div>
     </section>
 
-    <!-- ================= RUNNING TEXT (MARQUEE - ছবির মাঝখানের রিবনের মতো) ================= -->
+    <!-- ================= MARQUEE ================= -->
     <div class="bg-white py-8 overflow-hidden z-20 relative">
         <div class="whitespace-nowrap animate-marquee flex gap-12 items-center text-orange-400 font-extrabold text-xl md:text-2xl">
             <span>✱ 2024 Top Developer</span>
@@ -45,16 +61,10 @@
             <span>✱ Award Winning Services</span>
         </div>
     </div>
-    <!-- Marquee Animation Style -->
-    <style>
-        @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
-        .animate-marquee { display: inline-flex; animation: marquee 20s linear infinite; min-width: 200%; }
-    </style>
 
-    <!-- ================= SERVICES SECTION (Orange BG, Waves & Image-Top Cards) ================= -->
+    <!-- ================= SERVICES SECTION ================= -->
     <section id="services-container" class="relative bg-[#f9a826] py-32 z-0 mt-10">
-        
-        <!-- Top Wave (Orange match) -->
+        <!-- Top Wave -->
         <div class="absolute top-0 left-0 w-full overflow-hidden leading-none z-10 -translate-y-[99%] rotate-180">
             <svg class="relative block w-full h-[60px] md:h-[120px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                 <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="#f9a826"></path>
@@ -67,9 +77,8 @@
                 <p class="text-orange-100 text-lg font-medium">Providing top-tier digital solutions for your business</p>
             </div>
             
-            <!-- Cards Grid Container -->
             <div id="dynamic-srv-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- JS will inject exactly matched cards here -->
+                <!-- JS will inject cards here -->
             </div>
         </div>
 
@@ -80,3 +89,9 @@
             </svg>
         </div>
     </section>
+
+    <!-- JS Scripts -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/render-data.js"></script>
+</body>
+</html>
