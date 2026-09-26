@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Abidur Rahman Joy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/theme.css">
+</head>
+<body class="bg-theme flex items-center justify-center min-h-screen">
+
+    <!-- Login Section -->
+    <div id="login-section" class="glass-effect p-10 rounded-3xl w-full max-w-md text-center">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">Admin Login</h2>
+        <input type="email" id="admin-email" placeholder="Email" class="w-full mb-4 px-4 py-2 rounded-lg border outline-none">
+        <input type="password" id="admin-password" placeholder="Password" class="w-full mb-6 px-4 py-2 rounded-lg border outline-none">
+        <button id="login-btn" class="w-full bg-orange-500 text-white font-bold py-2 rounded-lg hover:bg-orange-600 transition">Login</button>
+        <p id="login-error" class="text-red-500 text-sm mt-3 hidden">Invalid credentials or not authorized!</p>
+    </div>
+
+    <!-- Dashboard Section (Hidden by default) -->
+    <div id="dashboard-section" class="hidden w-full max-w-4xl p-6">
+        <div class="glass-effect p-8 rounded-3xl">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800">Dashboard</h2>
+                <button id="logout-btn" class="bg-red-500 text-white px-4 py-2 rounded-lg font-bold">Logout</button>
+            </div>
+            
+            <!-- Update Hero Section -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border mb-6">
+                <h3 class="text-xl font-bold text-orange-500 mb-4">Update Hero Section</h3>
+                
+                <label class="block text-sm font-semibold mb-1">Hero Title</label>
+                <input type="text" id="hero-title" class="w-full mb-4 px-4 py-2 border rounded-lg" placeholder="Hi, I'm Abidur Rahman Joy">
+                
+                <label class="block text-sm font-semibold mb-1">Hero Description</label>
+                <textarea id="hero-desc" class="w-full mb-4 px-4 py-2 border rounded-lg" rows="3"></textarea>
+                
+                <label class="block text-sm font-semibold mb-1">Profile Image (Cloudinary)</label>
+                <input type="file" id="hero-image" class="w-full mb-6" accept="image/*">
+                
+                <button id="save-hero-btn" class="bg-green-500 text-white px-6 py-2 rounded-lg font-bold hover:bg-green-600">Save Changes</button>
+                <p id="save-msg" class="text-green-600 font-bold mt-3 hidden">Successfully Updated!</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/admin.js"></script>
+</body>
+</html>
