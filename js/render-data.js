@@ -61,44 +61,80 @@ async function renderWebsiteData() {
         }
     } catch(e) { console.log("Services Error:", e); }
 
-    // 5. Render Contacts (100% Fixed Links)
+    // 5. Render Contacts (অটো-ট্র্যাকিং সিস্টেম)
     try {
         const contactSnap = await getDoc(doc(db, "siteData", "contact"));
         if (contactSnap.exists()) {
             const cData = contactSnap.data();
             
-            // WhatsApp Link
-            if(cData.phone) {
-                const waLink = `https://wa.me/${cData.phone.replace(/[^0-9]/g, '')}`;
-                document.querySelectorAll('.dynamic-phone-link').forEach(link => { link.href = waLink; });
-                document.querySelectorAll('.dynamic-phone-text').forEach(text => { text.innerText = cData.phone; });
-            }
+            // স্মার্ট চেকার: লিংকগুলো স্ক্রিনে আসা পর্যন্ত অপেক্ষা করবে
+            const linkTimer = setInterval(() => {
+                const fbElem = document.getElementById("dyn-fb");
+                const phElems = document.querySelectorAll('.dynamic-phone-link');
+                
+                if (fbElem || phElems.length > 0) {
+                    clearInterval(linkTimer); // লিংক পেয়ে গেলে খোঁজা বন্ধ করবে
+                    
+                    if(cData.phone) {
+                        const waLink = `https://wa.me/${cData.phone.replace(/[^0-9]/g, '')}`;
+                        phElems.forEach(link => { link.href = waLink; });
+                        document.querySelectorAll('.dynamic-phone-text').forEach(text => { text.innerText = cData.phone; });
+                    }
+                    if(cData.fb && fbElem) fbElem.href = cData.fb;
+                    if(cData.linkedin && document.getElementById("dyn-linkedin")) document.getElementById("dyn-linkedin").href = cData.linkedin;
+                }
+            }, 300);
             
-            // Facebook Link
-            if(cData.fb && document.getElementById("dyn-fb")) {
-                document.getElementById("dyn-fb").href = cData.fb;
-            }
-            
-            // LinkedIn Link
-            if(cData.linkedin && document.getElementById("dyn-linkedin")) {
-                document.getElementById("dyn-linkedin").href = cData.linkedin;
-            }
+            setTimeout(() => clearInterval(linkTimer), 8000); // ৮ সেকেন্ড পর খোঁজা বন্ধ
         }
     } catch(e) { console.log("Contact Error:", e); }
 
-    // 6. Floating Menu & Chat Logic
+    // 6. Floating Menu & Chat Logic Setup
     setupFloatingUI();
+
+    // 7. Welcome Popup Logic (24 hours rule included)
+    setTimeout(async () => {
+        const lastSeen = localStorage.getItem('joy_popup_seen');
+        if (!lastSeen || Date.now() - lastSeen > 86400000) { // 86400000 ms = 24 hours
+            try {
+                const popSnap = await getDoc(doc(db, "siteData", "popup"));
+                if(popSnap.exists()) {
+                    const p = popSnap.data();
+                    
+                    if(p.title && document.getElementById("popup-title")) document.getElementById("popup-title").innerText = p.title;
+                    if(p.desc && document.getElementById("popup-desc")) document.getElementById("popup-desc").innerText = p.desc;
+                    if(p.imageUrl && document.getElementById("popup-img")) document.getElementById("popup-img").src = p.imageUrl;
+                    
+                    const overlay = document.getElementById('welcome-popup-overlay');
+                    if(overlay && (p.title || p.desc || p.imageUrl)) { 
+                        overlay.classList.remove('hidden'); 
+                        setTimeout(() => overlay.classList.remove('opacity-0'), 50);
+                        
+                        const closePop = () => { 
+                            overlay.classList.add('opacity-0'); 
+                            setTimeout(() => overlay.classList.add('hidden'), 500); 
+                            localStorage.setItem('joy_popup_seen', Date.now()); 
+                        };
+                        
+                        document.getElementById('close-popup-btn')?.addEventListener('click', closePop);
+                        document.getElementById('popup-action-btn')?.addEventListener('click', closePop);
+                    }
+                }
+            } catch(error) {
+                console.error("Popup Error:", error);
+            }
+        }
+    }, 2000); 
 }
 
-// 100% Safe DOM Loader (Waits for exactly 1.2 seconds to ensure HTML is ready)
-setTimeout(() => {
-    if(typeof loadComponent === 'function') {
-        loadComponent('popup-container', 'components/popup.html').then(() => renderWebsiteData());
-    } else {
+// 100% Safe DOM Loader (পুরো ওয়েবসাইট লোড হওয়া পর্যন্ত অপেক্ষা করবে)
+const domChecker = setInterval(() => {
+    if (document.getElementById("dynamic-hero-name")) {
+        clearInterval(domChecker);
         renderWebsiteData();
     }
-}, 1200);
-
+}, 200);
+setTimeout(() => clearInterval(domChecker), 8000);
 
 // ==========================================
 // FLOATING UI & SMART CHAT LOGIC
@@ -164,14 +200,12 @@ function setupFloatingUI() {
         loadRealtimeMessages();
     });
 
-    // INSTANT SEND LOGIC 
     const sendMsg = async () => {
         const input = document.getElementById("chat-input");
         const btn = document.getElementById("chat-send-btn");
         const text = input.value.trim();
         if(!text || !currentClientData) return;
         
-        // Show instantly on screen
         const chatBox = document.getElementById("chat-messages");
         const instantDiv = document.createElement("div");
         instantDiv.className = "max-w-[85%] p-3 rounded-2xl text-sm bg-orange-400 text-white self-end rounded-br-none shadow-sm opacity-70"; 
