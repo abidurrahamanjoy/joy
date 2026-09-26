@@ -3,83 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | Joy Portfolio</title>
+    <title>Agency Dashboard | Abidur Rahman Joy</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/theme.css">
+    <style>
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .glass-inbox { background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); }
+        /* Toggle Switch CSS */
+        .toggle-checkbox:checked { right: 0; border-color: #f97316; }
+        .toggle-checkbox:checked + .toggle-label { background-color: #f97316; }
+    </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-50 text-gray-800 font-sans">
 
-    <div id="login-section" class="flex items-center justify-center min-h-screen">
-        <div class="bg-white p-10 rounded-3xl w-full max-w-md text-center shadow-xl border-t-4 border-orange-500">
-            <h2 class="text-3xl font-bold mb-6 text-orange-500">Admin Login</h2>
+    <!-- Login Section -->
+    <div id="login-section" class="flex items-center justify-center min-h-screen bg-gray-100">
+        <div class="bg-white p-10 rounded-3xl w-full max-w-md text-center shadow-2xl border-t-4 border-orange-500">
+            <h2 class="text-3xl font-extrabold mb-6 text-orange-500">Admin Login</h2>
             <input type="email" id="admin-email" placeholder="Email" class="w-full mb-4 px-4 py-3 rounded-lg border outline-none bg-gray-50">
             <input type="password" id="admin-password" placeholder="Password" class="w-full mb-6 px-4 py-3 rounded-lg border outline-none bg-gray-50">
             <button id="login-btn" class="w-full bg-orange-600 text-white font-bold py-3 rounded-lg hover:bg-orange-700 transition shadow-lg">Secure Login</button>
         </div>
     </div>
 
-    <div id="dashboard-section" class="hidden max-w-7xl mx-auto p-4 md:p-8">
-        <div class="flex justify-between items-center mb-8 bg-white p-6 rounded-2xl shadow-sm border">
-            <h2 class="text-2xl md:text-3xl font-extrabold text-orange-600">Control Panel</h2>
-            <button id="logout-btn" class="bg-red-500 text-white px-6 py-2 rounded-lg font-bold shadow-md">Logout</button>
-        </div>
-
-        <!-- NEW: Analytics Dashboard -->
-        <div class="bg-gradient-to-r from-gray-900 to-gray-800 p-8 rounded-3xl shadow-xl mb-8 text-white">
-            <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">📊 Live Analytics Tracker</h3>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                <div class="bg-white/10 p-4 rounded-2xl">
-                    <p class="text-sm text-gray-300">Total Views</p>
-                    <p id="stat-views" class="text-3xl font-black text-orange-400">0</p>
-                </div>
-                <div class="bg-white/10 p-4 rounded-2xl">
-                    <p class="text-sm text-gray-300">Avg. Time Spent</p>
-                    <p id="stat-time" class="text-3xl font-black text-blue-400">0s</p>
-                </div>
-                <div class="bg-white/10 p-4 rounded-2xl">
-                    <p class="text-sm text-gray-300">WhatsApp Clicks</p>
-                    <p id="stat-wa" class="text-3xl font-black text-green-400">0</p>
-                </div>
-                <div class="bg-white/10 p-4 rounded-2xl">
-                    <p class="text-sm text-gray-300">Facebook Clicks</p>
-                    <p id="stat-fb" class="text-3xl font-black text-blue-500">0</p>
-                </div>
+    <!-- Dashboard Section -->
+    <div id="dashboard-section" class="hidden flex h-screen overflow-hidden">
+        
+        <!-- Sidebar -->
+        <aside class="w-64 bg-gray-900 text-white flex flex-col h-full shadow-2xl">
+            <div class="p-6 text-center border-b border-gray-700">
+                <h2 class="text-2xl font-black text-orange-500">Agency Panel</h2>
+                <p class="text-xs text-gray-400 mt-1">Super Admin Mode</p>
             </div>
-        </div>
+            <nav class="flex-1 overflow-y-auto py-4 space-y-1">
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn active font-medium" data-target="tab-analytics">📊 Analytics & Core</button>
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-inbox">💬 Inbox (Glass)</button>
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-hero">🎨 Hero & Popup</button>
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-services">💼 Services & Pricing</button>
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-seo">🔍 SEO & Marketing</button>
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-tools">🚀 Advanced Tools</button>
+            </nav>
+            <div class="p-4 border-t border-gray-700">
+                <button id="logout-btn" class="w-full bg-red-600 text-white py-2 rounded-lg font-bold hover:bg-red-700">Logout</button>
+            </div>
+        </aside>
 
-        <div class="grid md:grid-cols-2 gap-6">
+        <!-- Main Content Area -->
+        <main class="flex-1 h-full overflow-y-auto bg-gray-50 p-8">
             
-            <!-- NEW: Popup Editor -->
-            <div class="bg-white p-6 rounded-3xl shadow-sm border">
-                <h3 class="text-xl font-bold mb-4 border-b pb-2 text-gray-700">✨ Update Welcome Popup</h3>
-                <input type="text" id="popup-title" placeholder="Title (e.g., আসসালামু আলাইকুম)" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
-                <textarea id="popup-desc" placeholder="Welcome Message..." class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="3"></textarea>
-                <label class="text-xs font-bold text-gray-500">3D Peeking Character Image (Transparent PNG best)</label>
-                <input type="file" id="popup-image" class="w-full mb-4 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-orange-50 file:text-orange-700">
-                <button id="save-popup-btn" class="w-full bg-purple-600 text-white py-3 rounded-lg font-bold shadow-lg hover:bg-purple-700">💾 Save Popup Design</button>
+            <!-- TAB 1: Analytics & Core Settings -->
+            <div id="tab-analytics" class="tab-content active">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-3xl font-extrabold text-gray-800">Live Analytics</h2>
+                    <div class="flex items-center gap-4">
+                        <span class="font-bold text-gray-600">Maintenance Mode:</span>
+                        <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                            <input type="checkbox" id="maintenance-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                            <label for="maintenance-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center mb-8">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border-t-4 border-orange-500">
+                        <p class="text-sm text-gray-500">Total Views</p>
+                        <p id="stat-views" class="text-4xl font-black text-gray-800 mt-2">0</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border-t-4 border-blue-500">
+                        <p class="text-sm text-gray-500">Avg. Time</p>
+                        <p id="stat-time" class="text-4xl font-black text-gray-800 mt-2">0s</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border-t-4 border-green-500">
+                        <p class="text-sm text-gray-500">WhatsApp Clicks</p>
+                        <p id="stat-wa" class="text-4xl font-black text-gray-800 mt-2">0</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border-t-4 border-purple-500">
+                        <p class="text-sm text-gray-500">CV Downloads</p>
+                        <p id="stat-cv" class="text-4xl font-black text-gray-800 mt-2">0</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-3xl shadow-sm border">
+                    <h3 class="text-xl font-bold mb-4 border-b pb-2">🎉 Promo & Discount Bar</h3>
+                    <input type="text" id="promo-text" placeholder="e.g., Eid Offer: 20% Off on Web Development!" class="w-full mb-4 px-4 py-3 rounded-lg border bg-gray-50">
+                    <div class="flex items-center justify-between">
+                        <label class="flex items-center gap-2 cursor-pointer font-bold text-gray-600">
+                            <input type="checkbox" id="promo-show" class="w-5 h-5 rounded text-orange-600"> Show Promo on Website
+                        </label>
+                        <button id="save-promo-btn" class="bg-green-600 text-white px-8 py-3 rounded-lg font-bold shadow-lg hover:bg-green-700">Save Promo</button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Existing Hero Editor -->
-            <div class="bg-white p-6 rounded-3xl shadow-sm border">
-                <h3 class="text-xl font-bold mb-4 border-b pb-2 text-gray-700">🎨 Update Hero Section</h3>
-                <input type="text" id="hero-badge" placeholder="Badge Text" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
-                <input type="text" id="hero-name" placeholder="Your Name" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
-                <textarea id="hero-desc" placeholder="Subtitle" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="2"></textarea>
-                <label class="text-xs font-bold text-gray-500">Profile Image</label>
-                <input type="file" id="hero-image" class="w-full mb-4 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-orange-50 file:text-orange-700">
-                <button id="save-hero-btn" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold shadow-lg hover:bg-blue-700">💾 Save Hero Design</button>
+            <!-- TAB 2: INBOX (Glass Effect) -->
+            <div id="tab-inbox" class="tab-content relative rounded-3xl overflow-hidden p-8" style="background: url('https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=2000') center/cover;">
+                <div class="absolute inset-0 bg-black/20"></div>
+                <div class="relative z-10 glass-inbox p-8 rounded-[2.5rem]">
+                    <h2 class="text-3xl font-extrabold text-white mb-6 drop-shadow-md">Client Inbox & Bookings</h2>
+                    <div id="inbox-messages" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+                        <!-- Messages will load here -->
+                        <div class="bg-white/80 p-5 rounded-2xl shadow-sm">
+                            <div class="flex justify-between mb-2"><h4 class="font-bold text-gray-900">Demo Client</h4><span class="text-xs text-gray-500">Just now</span></div>
+                            <p class="text-sm text-gray-700">Hi Joy, I need an eCommerce website. Let's talk.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            
-            <!-- Education, Services, Contact Editors (Keep your existing HTML for these sections here to save space in the message) -->
-             <div class="bg-white p-6 rounded-3xl shadow-sm border">
-                <h3 class="text-xl font-bold mb-4 border-b pb-2 text-gray-700">Update Social Links</h3>
-                <input type="text" id="contact-phone" placeholder="WhatsApp Number" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
-                <input type="text" id="contact-fb" placeholder="Facebook URL" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
-                <input type="text" id="contact-linkedin" placeholder="LinkedIn URL" class="w-full mb-4 px-4 py-2 rounded border bg-gray-50">
-                <button id="save-contact-btn" class="w-full bg-blue-500 text-white py-2 rounded font-bold shadow">Save Links</button>
+
+            <!-- TAB 3: Hero & Popup -->
+            <div id="tab-hero" class="tab-content">
+                <!-- Use your existing HTML for Hero & Popup Update boxes here -->
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Visual Settings</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border">
+                        <h3 class="font-bold mb-4 border-b pb-2">Hero Section</h3>
+                        <input type="text" id="hero-badge" placeholder="Badge Text" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                        <input type="text" id="hero-name" placeholder="Name" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                        <textarea id="hero-desc" placeholder="Description" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="3"></textarea>
+                        <input type="file" id="hero-image" class="w-full mb-4 text-sm file:bg-orange-50 file:text-orange-700 file:border-0 file:px-4 file:py-2 file:rounded-full">
+                        <button id="save-hero-btn" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold">Save Hero Data</button>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border">
+                        <h3 class="font-bold mb-4 border-b pb-2">Welcome Popup</h3>
+                        <input type="text" id="popup-title" placeholder="Title" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                        <textarea id="popup-desc" placeholder="Message" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="3"></textarea>
+                        <button id="save-popup-btn" class="w-full bg-purple-600 text-white py-3 rounded-lg font-bold mt-4">Save Popup</button>
+                    </div>
+                </div>
             </div>
-        </div>
+
+            <!-- TAB 4: Services & Pricing -->
+            <div id="tab-services" class="tab-content">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Services Manager</h2>
+                <div class="bg-white p-6 rounded-3xl shadow-sm border mb-8">
+                    <h3 class="font-bold mb-4">Add New Service</h3>
+                    <input type="text" id="srv-title" placeholder="Service Name" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                    <textarea id="srv-desc" placeholder="Details (Use basic HTML for bold/italic if needed)" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="3"></textarea>
+                    
+                    <!-- Hide/Show Toggle for Services -->
+                    <label class="flex items-center gap-2 mb-4 cursor-pointer font-bold text-gray-600">
+                        <input type="checkbox" id="srv-visible" checked class="w-5 h-5 rounded text-orange-600"> Show this service publicly
+                    </label>
+                    <button id="add-srv-btn" class="w-full bg-green-500 text-white py-3 rounded-lg font-bold">Add Service</button>
+                </div>
+                <div id="admin-srv-list" class="space-y-3"></div>
+            </div>
+
+            <!-- TAB 5: SEO & Marketing -->
+            <div id="tab-seo" class="tab-content">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">SEO Meta Controller</h2>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border">
+                    <p class="text-sm text-gray-500 mb-6">Update these to rank higher on Google & AI search results. No coding required.</p>
+                    
+                    <label class="font-bold text-gray-700">Website Title</label>
+                    <input type="text" id="seo-title" class="w-full mb-4 px-4 py-3 rounded border bg-gray-50">
+                    
+                    <label class="font-bold text-gray-700">Meta Description (Max 160 chars)</label>
+                    <textarea id="seo-desc" class="w-full mb-4 px-4 py-3 rounded border bg-gray-50" rows="3"></textarea>
+                    
+                    <label class="font-bold text-gray-700">Keywords (Comma separated)</label>
+                    <textarea id="seo-keywords" class="w-full mb-6 px-4 py-3 rounded border bg-gray-50" rows="2"></textarea>
+                    
+                    <button id="save-seo-btn" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-bold">Update SEO Data</button>
+                </div>
+            </div>
+
+            <!-- TAB 6: Advanced Tools (UI Placeholders for Future Features) -->
+            <div id="tab-tools" class="tab-content">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Advanced Agency Tools</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border flex flex-col items-center justify-center text-center opacity-70">
+                        <span class="text-4xl mb-2">🤖</span>
+                        <h3 class="font-bold text-lg">AI Content Writer</h3>
+                        <p class="text-xs text-gray-500 mt-1">Generate descriptions instantly (Module Ready)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border flex flex-col items-center justify-center text-center opacity-70">
+                        <span class="text-4xl mb-2">🧾</span>
+                        <h3 class="font-bold text-lg">Invoice Generator</h3>
+                        <p class="text-xs text-gray-500 mt-1">Create and send payment links (Module Ready)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border flex flex-col items-center justify-center text-center opacity-70">
+                        <span class="text-4xl mb-2">📁</span>
+                        <h3 class="font-bold text-lg">1-Click Backup</h3>
+                        <p class="text-xs text-gray-500 mt-1">Restore previous website versions (Module Ready)</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
     </div>
     <script type="module" src="js/admin.js"></script>
+    <script>
+        // Simple Tab Switching Logic
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('bg-gray-800', 'border-l-4', 'border-orange-500'));
+                btn.classList.add('bg-gray-800', 'border-l-4', 'border-orange-500');
+                document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+                document.getElementById(btn.dataset.target).classList.add('active');
+            });
+        });
+    </script>
 </body>
 </html>
