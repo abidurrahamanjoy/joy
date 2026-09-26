@@ -6,6 +6,7 @@ let chatUnsubscribe = null;
 
 async function renderWebsiteData() {
     
+    // 1. Maintenance & SEO
     try {
         const setSnap = await getDoc(doc(db, "siteData", "settings"));
         if(setSnap.exists()) {
@@ -17,18 +18,19 @@ async function renderWebsiteData() {
             if(st.promoShow && st.promoText && !document.getElementById('promo-bar')) { 
                 const p = document.createElement('div'); 
                 p.id = 'promo-bar';
-                p.className = "bg-orange-600 text-white text-center py-2 font-bold z-50 animate-pulse"; 
+                p.className = "bg-orange-600 text-white text-center py-2 font-bold z-50 animate-pulse relative"; 
                 p.innerText = st.promoText; 
                 document.body.prepend(p); 
             }
         }
         const seoSnap = await getDoc(doc(db, "siteData", "seo"));
         if(seoSnap.exists() && seoSnap.data().title) document.title = seoSnap.data().title;
-    } catch(e) {}
+    } catch(e) { console.log("Settings Error:", e); }
 
+    // 2. Analytics
     try { await setDoc(doc(db, "analytics", "stats"), { views: increment(1) }, { merge: true }); } catch(e){}
 
-    // Render Hero (Original)
+    // 3. Render Hero Section
     try {
         const heroSnap = await getDoc(doc(db, "siteData", "hero"));
         if (heroSnap.exists()) {
@@ -36,33 +38,45 @@ async function renderWebsiteData() {
             if(document.getElementById("dynamic-hero-badge")) document.getElementById("dynamic-hero-badge").innerText = data.badge || '';
             if(document.getElementById("dynamic-hero-name")) document.getElementById("dynamic-hero-name").innerText = data.name || '';
             if(document.getElementById("dynamic-hero-desc")) document.getElementById("dynamic-hero-desc").innerText = data.desc || '';
-            
-            if(data.imageUrl) {
-                if(document.getElementById("dynamic-hero-img")) document.getElementById("dynamic-hero-img").src = data.imageUrl;
-                if(document.getElementById("dynamic-og-image")) document.getElementById("dynamic-og-image").content = data.imageUrl;
-            }
-            if(data.bgColor && document.getElementById("hero-section")) document.getElementById("hero-section").style.backgroundColor = data.bgColor;
+            if(document.getElementById("dynamic-hero-img") && data.imageUrl) document.getElementById("dynamic-hero-img").src = data.imageUrl;
         }
-    } catch(e) {}
+    } catch(e) { console.log("Hero Error:", e); }
 
-    // Render Services (Original Glass Effect)
+    // 4. Render Services (UI exactly matching the reference card style)
     try {
         const srvSnap = await getDocs(query(collection(db, "services"), orderBy("timestamp", "asc")));
         if(!srvSnap.empty && document.getElementById("dynamic-srv-container")) {
             let srvHtml = '';
             srvSnap.forEach(doc => { 
                 if(doc.data().isVisible) {
-                    srvHtml += `<div class="glass-effect p-8 rounded-3xl shadow-md border-t-4 border-orange-500 bg-white/60">
-                                    <h4 class="font-bold text-lg text-orange-700 mb-3">${doc.data().title}</h4>
-                                    <p class="text-sm text-gray-800 font-medium">${doc.data().desc}</p>
-                                </div>`; 
+                    srvHtml += `
+                        <div class="bg-white rounded-[2rem] overflow-hidden shadow-2xl flex flex-col transform hover:-translate-y-3 transition duration-300 group z-20">
+                            <!-- Top Half -->
+                            <div class="h-40 md:h-48 bg-[#fff7f0] relative flex items-center justify-center">
+                                <div class="text-6xl group-hover:scale-110 transition-transform duration-500 z-10">💻</div>
+                                <!-- Inner Wave -->
+                                <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
+                                    <svg class="relative block w-full h-[30px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                                        <path d="M0,0V120H1200V0C1014.28,97.77,816.57,110.15,595.6,83.47,381.18,57.59,190.49,67.62,0,0Z" fill="#ffffff"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <!-- Bottom Half -->
+                            <div class="p-8 flex-1 flex flex-col text-center bg-white z-20">
+                                <h4 class="font-extrabold text-xl text-gray-800 mb-3">${doc.data().title}</h4>
+                                <p class="text-sm text-gray-500 font-medium line-clamp-3 mb-6">${doc.data().desc}</p>
+                                <div class="mt-auto">
+                                    <button class="px-6 py-2 bg-orange-50 text-orange-500 rounded-full font-bold text-sm hover:bg-orange-500 hover:text-white transition">Read More</button>
+                                </div>
+                            </div>
+                        </div>`; 
                 }
             });
             document.getElementById("dynamic-srv-container").innerHTML = srvHtml;
         }
-    } catch(e) {}
+    } catch(e) { console.log("Services Error:", e); }
 
-    // Render Contacts
+    // 5. Render Contacts
     try {
         const contactSnap = await getDoc(doc(db, "siteData", "contact"));
         if (contactSnap.exists()) {
@@ -83,11 +97,12 @@ async function renderWebsiteData() {
             }, 300);
             setTimeout(() => clearInterval(linkTimer), 8000);
         }
-    } catch(e) {}
+    } catch(e) { console.log("Contact Error:", e); }
 
+    // 6. Floating UI Setup
     setupFloatingUI();
 
-    // Welcome Popup Logic
+    // 7. Welcome Popup (24h logic)
     setTimeout(async () => {
         const lastSeen = localStorage.getItem('joy_popup_seen');
         if (!lastSeen || Date.now() - lastSeen > 86400000) {
@@ -95,8 +110,8 @@ async function renderWebsiteData() {
                 const popSnap = await getDoc(doc(db, "siteData", "popup"));
                 if(popSnap.exists()) {
                     const p = popSnap.data();
-                    if(p.title) document.getElementById("popup-title").innerText = p.title;
-                    if(p.desc) document.getElementById("popup-desc").innerText = p.desc;
+                    if(p.title && document.getElementById("popup-title")) document.getElementById("popup-title").innerText = p.title;
+                    if(p.desc && document.getElementById("popup-desc")) document.getElementById("popup-desc").innerText = p.desc;
                     if(p.imageUrl && document.getElementById("popup-img")) document.getElementById("popup-img").src = p.imageUrl;
                     
                     const overlay = document.getElementById('welcome-popup-overlay');
@@ -112,11 +127,12 @@ async function renderWebsiteData() {
                         document.getElementById('popup-action-btn')?.addEventListener('click', closePop);
                     }
                 }
-            } catch(error) {}
+            } catch(error) { console.error("Popup Error:", error); }
         }
     }, 2000);
 }
 
+// DOM Loader
 const domChecker = setInterval(() => {
     if (document.getElementById("dynamic-hero-name")) {
         clearInterval(domChecker);
@@ -125,6 +141,9 @@ const domChecker = setInterval(() => {
 }, 200);
 setTimeout(() => clearInterval(domChecker), 8000);
 
+// ==========================================
+// FLOATING UI & SMART CHAT LOGIC
+// ==========================================
 function setupFloatingUI() {
     document.getElementById("fab-menu")?.addEventListener("click", () => {
         const m = document.getElementById("glass-menu");
@@ -153,6 +172,7 @@ function setupFloatingUI() {
             c.classList.add("opacity-0", "translate-y-4"); setTimeout(() => c.classList.add("hidden"), 300);
         }
     };
+    
     document.getElementById("fab-chat")?.addEventListener("click", toggleChat);
     document.getElementById("close-chat-btn")?.addEventListener("click", toggleChat);
 
@@ -221,6 +241,7 @@ function setupFloatingUI() {
             input.value = text;
         }
     };
+    
     document.getElementById("chat-send-btn")?.addEventListener("click", sendMsg);
     document.getElementById("chat-input")?.addEventListener("keypress", (e) => { if(e.key === 'Enter') sendMsg(); });
 
@@ -246,7 +267,7 @@ function setupFloatingUI() {
                 }
             });
             
-            if(!hasMessages) chatBox.innerHTML = `<p class="text-center text-gray-500 text-sm mt-10">Say hi to Abidur Rahman Joy! 👋</p>`;
+            if(!hasMessages) chatBox.innerHTML = `<p class="text-center text-gray-500 text-sm mt-10">Say hi! 👋</p>`;
             chatBox.scrollTop = chatBox.scrollHeight;
         });
     }
