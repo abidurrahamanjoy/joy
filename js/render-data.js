@@ -1,5 +1,5 @@
 import { db } from "./firebase-config.js";
-import { doc, getDoc, collection, getDocs, orderBy, query, setDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { doc, getDoc, collection, getDocs, orderBy, query, setDoc, increment, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 async function renderWebsiteData() {
     
@@ -72,3 +72,29 @@ async function renderWebsiteData() {
 }
 
 setTimeout(() => { renderWebsiteData(); }, 800);
+
+// Handle Public Inbox Message Submission
+setTimeout(() => {
+    const contactForm = document.getElementById("client-contact-form");
+    if (contactForm) {
+        contactForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById("client-submit-btn");
+            btn.innerText = "Sending Message...";
+            try {
+                await addDoc(collection(db, "messages"), {
+                    name: document.getElementById("client-name").value,
+                    email: document.getElementById("client-email").value,
+                    message: document.getElementById("client-message").value,
+                    timestamp: Date.now()
+                });
+                contactForm.reset();
+                btn.innerText = "Send Message 🚀";
+                document.getElementById("form-success-msg").classList.remove("hidden");
+                setTimeout(() => document.getElementById("form-success-msg").classList.add("hidden"), 5000);
+            } catch(error) {
+                btn.innerText = "Error! Try again.";
+            }
+        });
+    }
+}, 1200); // Wait for HTML to load
