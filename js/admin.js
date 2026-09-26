@@ -174,18 +174,29 @@ async function loadAdminData() {
         if(document.getElementById("admin-srv-list")) document.getElementById("admin-srv-list").innerHTML = html;
 
         // BULLETPROOF ADMIN INBOX
+        // ... (Keep the upper part of loadAdminData same) ...
+
+        // BULLETPROOF ADMIN INBOX (Mobile Responsive UI)
         const inboxContainer = document.getElementById("inbox-messages");
         if(inboxContainer) {
             inboxContainer.innerHTML = `
-                <div class="flex h-[50vh] gap-4">
-                    <div id="admin-user-list" class="w-1/3 bg-white/50 rounded-xl overflow-y-auto border border-white space-y-2 p-2"></div>
-                    <div class="w-2/3 bg-white/80 rounded-xl border border-white flex flex-col relative">
-                        <div id="admin-chat-box" class="flex-1 p-4 overflow-y-auto space-y-3 flex flex-col">
-                            <p class="text-center text-gray-400 mt-10">Select a client to view chat</p>
+                <div class="flex flex-col md:flex-row h-[70vh] md:h-[50vh] gap-4 w-full">
+                    
+                    <!-- User List (Stacks on top for mobile, left side on PC) -->
+                    <div id="admin-user-list" class="w-full md:w-1/3 bg-white/60 rounded-xl overflow-y-auto border border-white space-y-2 p-2 h-1/3 md:h-full flex-shrink-0 shadow-inner">
+                        <p class="text-sm text-center text-gray-600 p-2">Loading clients...</p>
+                    </div>
+                    
+                    <!-- Chat Box (Bottom on mobile, right side on PC) -->
+                    <div class="w-full md:w-2/3 bg-white/90 rounded-xl border border-white flex flex-col relative h-2/3 md:h-full shadow-lg">
+                        <div id="admin-chat-header" class="p-3 border-b bg-gray-50 rounded-t-xl font-bold text-gray-800 text-center">
+                            Select a client to chat
                         </div>
-                        <div class="p-3 bg-gray-100 flex gap-2 border-t rounded-b-xl">
-                            <input type="text" id="admin-chat-input" placeholder="Type reply..." class="flex-1 px-4 py-2 rounded-lg border outline-none">
-                            <button id="admin-chat-send" class="bg-orange-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-orange-700">Send</button>
+                        <div id="admin-chat-box" class="flex-1 p-4 overflow-y-auto space-y-3 flex flex-col bg-gray-50/50">
+                        </div>
+                        <div class="p-3 bg-white flex gap-2 border-t rounded-b-xl shadow-inner">
+                            <input type="text" id="admin-chat-input" placeholder="Type reply..." class="flex-1 px-4 py-2 rounded-full border border-gray-300 outline-none focus:border-orange-500 bg-gray-50">
+                            <button id="admin-chat-send" class="bg-orange-600 text-white w-10 h-10 rounded-full font-bold flex items-center justify-center hover:bg-orange-700 shadow-md">➤</button>
                         </div>
                     </div>
                 </div>
@@ -209,21 +220,31 @@ async function loadAdminData() {
                 const userListDiv = document.getElementById("admin-user-list");
                 userListDiv.innerHTML = "";
                 
+                if(clientsMap.size === 0) {
+                    userListDiv.innerHTML = `<p class="text-sm text-center text-gray-500 mt-4">No messages yet</p>`;
+                }
+                
                 Array.from(clientsMap.entries()).sort((a,b) => b[1].lastTime - a[1].lastTime).forEach(([cId, cData]) => {
                     const btn = document.createElement("button");
-                    btn.className = `w-full text-left p-3 rounded-lg font-bold text-sm transition ${activeClientId === cId ? 'bg-orange-500 text-white shadow-md' : 'bg-white text-gray-700 hover:bg-gray-100'}`;
+                    btn.className = `w-full text-left p-3 rounded-lg font-bold text-sm transition shadow-sm ${activeClientId === cId ? 'bg-orange-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-100'}`;
                     btn.innerText = `👤 ${cData.name}`;
                     btn.onclick = () => { activeClientId = cId; loadAdminData(); };
                     userListDiv.appendChild(btn);
                 });
 
                 const chatBox = document.getElementById("admin-chat-box");
+                const chatHeader = document.getElementById("admin-chat-header");
+                
                 if(activeClientId) {
+                    const activeClientData = clientsMap.get(activeClientId);
+                    chatHeader.innerText = `Chatting with: ${activeClientData ? activeClientData.name : 'Client'}`;
+                    
                     chatBox.innerHTML = "";
                     allMessages.filter(m => m.clientId === activeClientId).forEach(m => {
                         const isClient = m.sender === 'client';
                         const div = document.createElement("div");
-                        div.className = `max-w-[75%] p-3 rounded-xl text-sm ${isClient ? 'bg-gray-200 text-gray-800 self-start' : 'bg-orange-500 text-white self-end'}`;
+                        // Mobile friendly chat bubbles
+                        div.className = `max-w-[85%] p-3 rounded-2xl text-sm ${isClient ? 'bg-gray-200 text-gray-800 self-start rounded-bl-none' : 'bg-orange-500 text-white self-end rounded-br-none shadow-sm'}`;
                         div.innerText = m.text;
                         chatBox.appendChild(div);
                     });
@@ -233,12 +254,12 @@ async function loadAdminData() {
                 console.error(error);
             });
 
-            // Instant Admin Reply
+            // Instant Admin Reply Fix
             const adminSendBtn = document.getElementById("admin-chat-send");
             const newAdminSendBtn = adminSendBtn.cloneNode(true);
             adminSendBtn.parentNode.replaceChild(newAdminSendBtn, adminSendBtn);
             
-            newAdminSendBtn.addEventListener("click", async () => {
+            const sendReply = async () => {
                 const adminInput = document.getElementById("admin-chat-input");
                 const text = adminInput.value.trim();
                 if(!text || !activeClientId) return;
@@ -254,56 +275,17 @@ async function loadAdminData() {
                         text: text,
                         timestamp: Date.now()
                     });
-                    newAdminSendBtn.innerText = "Send";
+                    newAdminSendBtn.innerText = "➤";
                 } catch (err) {
-                    alert("Failed to send! Check Firebase Rules.");
-                    newAdminSendBtn.innerText = "Send";
+                    alert("Failed to send!");
+                    newAdminSendBtn.innerText = "➤";
                     adminInput.value = text;
                 }
-            });
+            };
+            
+            newAdminSendBtn.addEventListener("click", sendReply);
+            document.getElementById("admin-chat-input").addEventListener("keypress", (e) => { if(e.key === 'Enter') sendReply(); });
         }
-    } catch(err) { console.error(err); }
-}
 
-// ADVANCED TOOLS
-document.getElementById("ai-generate-btn")?.addEventListener("click", () => {
-    const topic = document.getElementById("ai-topic").value.trim();
-    if(!topic) return alert("Please enter a topic first! (e.g., Facebook Ads)");
-    const templates = [
-        `Are you looking for professional ${topic} services? I provide top-tier, high-converting solutions tailored to grow your business rapidly. Let's skyrocket your sales today!`,
-        `Stop wasting money on poor strategies. As an expert in ${topic}, I apply data-driven methods to ensure maximum ROI for your brand. Get premium quality at an affordable cost!`,
-        `Need the best ${topic} expert in Bangladesh? You found him. I build highly optimized, visually stunning, and result-oriented solutions that your customers will love.`
-    ];
-    document.getElementById("ai-output").value = templates[Math.floor(Math.random() * templates.length)];
-});
-
-document.getElementById("generate-invoice-btn")?.addEventListener("click", () => {
-    const cName = document.getElementById("inv-client").value.trim();
-    const srv = document.getElementById("inv-service").value.trim();
-    const amt = document.getElementById("inv-amount").value.trim();
-    if(!cName || !srv || !amt) return alert("Please fill all invoice fields!");
-    document.getElementById("inv-output").value = `*INVOICE / BILL*\n\nHello ${cName},\nHere are the payment details for your project:\n\n*Service:* ${srv}\n*Total Amount:* ৳${amt}\n\n*Payment Methods:*\nBkash/Nagad: 01786689656 (Personal)\n\nPlease reply with a screenshot after sending the payment. Thanks!\n- Abidur Rahman Joy`;
-});
-
-document.getElementById("backup-btn")?.addEventListener("click", async (e) => {
-    e.target.innerText = "⏳ Preparing Backup...";
-    try {
-        const backupData = { siteData: {}, services: [], backupDate: new Date().toISOString() };
-        const siteDataSnap = await getDocs(collection(db, "siteData"));
-        siteDataSnap.forEach(doc => { backupData.siteData[doc.id] = doc.data(); });
-        const srvSnap = await getDocs(collection(db, "services"));
-        srvSnap.forEach(doc => { backupData.services.push({ id: doc.id, ...doc.data() }); });
-
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
-        const dlAnchorElem = document.createElement('a');
-        dlAnchorElem.setAttribute("href", dataStr);
-        dlAnchorElem.setAttribute("download", `Joy_Portfolio_Backup.json`);
-        document.body.appendChild(dlAnchorElem); dlAnchorElem.click(); dlAnchorElem.remove();
-        
-        e.target.innerText = "✅ Backup Downloaded!";
-        setTimeout(() => e.target.innerHTML = "⬇️ Download Full Backup", 3000);
-    } catch(error) {
-        alert("Backup failed! Check your internet connection.");
-        e.target.innerHTML = "⬇️ Download Full Backup";
-    }
-});
+// ... (Keep Advanced tools Logic below as it was) ...
+       
