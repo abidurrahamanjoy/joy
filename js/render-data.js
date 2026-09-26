@@ -4,7 +4,6 @@ import { doc, getDoc, collection, getDocs, orderBy, query, setDoc, increment, ad
 let currentClientData = null;
 let chatUnsubscribe = null;
 
-// মূল ডেটা রেন্ডার ফাংশন
 async function renderWebsiteData() {
     
     // 1. Maintenance & SEO
@@ -19,7 +18,7 @@ async function renderWebsiteData() {
             if(st.promoShow && st.promoText && !document.getElementById('promo-bar')) { 
                 const p = document.createElement('div'); 
                 p.id = 'promo-bar';
-                p.className = "bg-orange-600 text-white text-center py-2 font-bold z-50 animate-pulse"; 
+                p.className = "bg-orange-600 text-white text-center py-2 font-bold z-50 animate-pulse relative"; 
                 p.innerText = st.promoText; 
                 document.body.prepend(p); 
             }
@@ -40,11 +39,10 @@ async function renderWebsiteData() {
             if(document.getElementById("dynamic-hero-name")) document.getElementById("dynamic-hero-name").innerText = data.name || '';
             if(document.getElementById("dynamic-hero-desc")) document.getElementById("dynamic-hero-desc").innerText = data.desc || '';
             if(document.getElementById("dynamic-hero-img") && data.imageUrl) document.getElementById("dynamic-hero-img").src = data.imageUrl;
-            if(data.bgColor && document.getElementById("hero-section")) document.getElementById("hero-section").style.backgroundColor = data.bgColor;
         }
     } catch(e) { console.log("Hero Error:", e); }
 
-   // 4. Render Services (UI exactly matching the reference card style)
+    // 4. Render Services (UI exactly matching the reference card style)
     try {
         const srvSnap = await getDocs(query(collection(db, "services"), orderBy("timestamp", "asc")));
         if(!srvSnap.empty && document.getElementById("dynamic-srv-container")) {
@@ -52,52 +50,42 @@ async function renderWebsiteData() {
             srvSnap.forEach(doc => { 
                 if(doc.data().isVisible) {
                     srvHtml += `
-                        <div class="bg-white rounded-[2rem] overflow-hidden shadow-2xl flex flex-col transform hover:-translate-y-3 transition duration-300 group">
-                            
-                            <!-- Top Half: Card Image/Decoration Area -->
+                        <div class="bg-white rounded-[2rem] overflow-hidden shadow-2xl flex flex-col transform hover:-translate-y-3 transition duration-300 group z-20">
+                            <!-- Top Half -->
                             <div class="h-40 md:h-48 bg-[#fff7f0] relative flex items-center justify-center">
-                                <!-- Placeholder Icon / Image effect -->
-                                <div class="text-6xl group-hover:scale-110 transition-transform duration-500">💻</div>
-                                
-                                <!-- Inner Wave Divider matching the image -->
+                                <div class="text-6xl group-hover:scale-110 transition-transform duration-500 z-10">💻</div>
+                                <!-- Inner Wave -->
                                 <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
                                     <svg class="relative block w-full h-[30px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                                         <path d="M0,0V120H1200V0C1014.28,97.77,816.57,110.15,595.6,83.47,381.18,57.59,190.49,67.62,0,0Z" fill="#ffffff"></path>
                                     </svg>
                                 </div>
                             </div>
-                            
-                            <!-- Bottom Half: Text Area -->
-                            <div class="p-8 flex-1 flex flex-col text-center bg-white">
+                            <!-- Bottom Half -->
+                            <div class="p-8 flex-1 flex flex-col text-center bg-white z-20">
                                 <h4 class="font-extrabold text-xl text-gray-800 mb-3">${doc.data().title}</h4>
                                 <p class="text-sm text-gray-500 font-medium line-clamp-3 mb-6">${doc.data().desc}</p>
-                                
-                                <!-- Read More Button matching reference -->
                                 <div class="mt-auto">
                                     <button class="px-6 py-2 bg-orange-50 text-orange-500 rounded-full font-bold text-sm hover:bg-orange-500 hover:text-white transition">Read More</button>
                                 </div>
                             </div>
-                            
                         </div>`; 
                 }
             });
             document.getElementById("dynamic-srv-container").innerHTML = srvHtml;
         }
     } catch(e) { console.log("Services Error:", e); }
-    // 5. Render Contacts (অটো-ট্র্যাকিং সিস্টেম)
+
+    // 5. Render Contacts
     try {
         const contactSnap = await getDoc(doc(db, "siteData", "contact"));
         if (contactSnap.exists()) {
             const cData = contactSnap.data();
-            
-            // স্মার্ট চেকার: লিংকগুলো স্ক্রিনে আসা পর্যন্ত অপেক্ষা করবে
             const linkTimer = setInterval(() => {
                 const fbElem = document.getElementById("dyn-fb");
                 const phElems = document.querySelectorAll('.dynamic-phone-link');
-                
                 if (fbElem || phElems.length > 0) {
-                    clearInterval(linkTimer); // লিংক পেয়ে গেলে খোঁজা বন্ধ করবে
-                    
+                    clearInterval(linkTimer);
                     if(cData.phone) {
                         const waLink = `https://wa.me/${cData.phone.replace(/[^0-9]/g, '')}`;
                         phElems.forEach(link => { link.href = waLink; });
@@ -107,23 +95,21 @@ async function renderWebsiteData() {
                     if(cData.linkedin && document.getElementById("dyn-linkedin")) document.getElementById("dyn-linkedin").href = cData.linkedin;
                 }
             }, 300);
-            
-            setTimeout(() => clearInterval(linkTimer), 8000); // ৮ সেকেন্ড পর খোঁজা বন্ধ
+            setTimeout(() => clearInterval(linkTimer), 8000);
         }
     } catch(e) { console.log("Contact Error:", e); }
 
-    // 6. Floating Menu & Chat Logic Setup
+    // 6. Floating UI Setup
     setupFloatingUI();
 
-    // 7. Welcome Popup Logic (24 hours rule included)
+    // 7. Welcome Popup (24h logic)
     setTimeout(async () => {
         const lastSeen = localStorage.getItem('joy_popup_seen');
-        if (!lastSeen || Date.now() - lastSeen > 86400000) { // 86400000 ms = 24 hours
+        if (!lastSeen || Date.now() - lastSeen > 86400000) {
             try {
                 const popSnap = await getDoc(doc(db, "siteData", "popup"));
                 if(popSnap.exists()) {
                     const p = popSnap.data();
-                    
                     if(p.title && document.getElementById("popup-title")) document.getElementById("popup-title").innerText = p.title;
                     if(p.desc && document.getElementById("popup-desc")) document.getElementById("popup-desc").innerText = p.desc;
                     if(p.imageUrl && document.getElementById("popup-img")) document.getElementById("popup-img").src = p.imageUrl;
@@ -132,25 +118,21 @@ async function renderWebsiteData() {
                     if(overlay && (p.title || p.desc || p.imageUrl)) { 
                         overlay.classList.remove('hidden'); 
                         setTimeout(() => overlay.classList.remove('opacity-0'), 50);
-                        
                         const closePop = () => { 
                             overlay.classList.add('opacity-0'); 
                             setTimeout(() => overlay.classList.add('hidden'), 500); 
                             localStorage.setItem('joy_popup_seen', Date.now()); 
                         };
-                        
                         document.getElementById('close-popup-btn')?.addEventListener('click', closePop);
                         document.getElementById('popup-action-btn')?.addEventListener('click', closePop);
                     }
                 }
-            } catch(error) {
-                console.error("Popup Error:", error);
-            }
+            } catch(error) { console.error("Popup Error:", error); }
         }
-    }, 2000); 
+    }, 2000);
 }
 
-// 100% Safe DOM Loader (পুরো ওয়েবসাইট লোড হওয়া পর্যন্ত অপেক্ষা করবে)
+// DOM Loader
 const domChecker = setInterval(() => {
     if (document.getElementById("dynamic-hero-name")) {
         clearInterval(domChecker);
@@ -163,8 +145,6 @@ setTimeout(() => clearInterval(domChecker), 8000);
 // FLOATING UI & SMART CHAT LOGIC
 // ==========================================
 function setupFloatingUI() {
-    
-    // Toggle Menu
     document.getElementById("fab-menu")?.addEventListener("click", () => {
         const m = document.getElementById("glass-menu");
         const c = document.getElementById("glass-chat");
@@ -181,7 +161,6 @@ function setupFloatingUI() {
         if(m) { m.classList.add("opacity-0", "translate-y-4"); setTimeout(() => m.classList.add("hidden"), 300); }
     }));
 
-    // Toggle Chat
     const toggleChat = () => {
         const c = document.getElementById("glass-chat");
         const m = document.getElementById("glass-menu");
@@ -193,6 +172,7 @@ function setupFloatingUI() {
             c.classList.add("opacity-0", "translate-y-4"); setTimeout(() => c.classList.add("hidden"), 300);
         }
     };
+    
     document.getElementById("fab-chat")?.addEventListener("click", toggleChat);
     document.getElementById("close-chat-btn")?.addEventListener("click", toggleChat);
 
@@ -261,6 +241,7 @@ function setupFloatingUI() {
             input.value = text;
         }
     };
+    
     document.getElementById("chat-send-btn")?.addEventListener("click", sendMsg);
     document.getElementById("chat-input")?.addEventListener("keypress", (e) => { if(e.key === 'Enter') sendMsg(); });
 
@@ -286,7 +267,7 @@ function setupFloatingUI() {
                 }
             });
             
-            if(!hasMessages) chatBox.innerHTML = `<p class="text-center text-gray-500 text-sm mt-10">Say hi to Abidur Rahman Joy! 👋</p>`;
+            if(!hasMessages) chatBox.innerHTML = `<p class="text-center text-gray-500 text-sm mt-10">Say hi! 👋</p>`;
             chatBox.scrollTop = chatBox.scrollHeight;
         });
     }
