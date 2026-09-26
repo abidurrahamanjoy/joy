@@ -2,56 +2,58 @@ import { db } from "./firebase-config.js";
 import { doc, getDoc, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 async function renderWebsiteData() {
-    // 1. Render Hero Section
+    // 1. Render Hero & Apply Drag/Drop Style Logic
     try {
         const heroSnap = await getDoc(doc(db, "siteData", "hero"));
         if (heroSnap.exists()) {
             const data = heroSnap.data();
-            if(document.getElementById("dynamic-hero-title") && data.title) document.getElementById("dynamic-hero-title").innerHTML = data.title;
+            
+            // Text Replacement
+            if(document.getElementById("dynamic-hero-badge") && data.badge) document.getElementById("dynamic-hero-badge").innerText = data.badge;
+            if(document.getElementById("dynamic-hero-greeting") && data.greeting) document.getElementById("dynamic-hero-greeting").innerText = data.greeting;
+            if(document.getElementById("dynamic-hero-name") && data.name) document.getElementById("dynamic-hero-name").innerText = data.name;
+            if(document.getElementById("dynamic-hero-title") && data.title) document.getElementById("dynamic-hero-title").innerText = data.title;
             if(document.getElementById("dynamic-hero-desc") && data.desc) document.getElementById("dynamic-hero-desc").innerText = data.desc;
             if(document.getElementById("dynamic-hero-img") && data.imageUrl) document.getElementById("dynamic-hero-img").src = data.imageUrl;
+            
+            // Design Logic Injection
+            if(data.bgColor && document.getElementById("hero-section")) {
+                document.getElementById("hero-section").style.backgroundColor = data.bgColor;
+            }
+            if(data.layout === 'left' && document.getElementById("hero-layout")) {
+                document.getElementById("hero-layout").classList.add("md:flex-row-reverse");
+            } else if(document.getElementById("hero-layout")) {
+                document.getElementById("hero-layout").classList.remove("md:flex-row-reverse");
+            }
         }
     } catch(e){}
 
-    // 2. Render Contact Links
+    // 2. Render Contacts
     try {
         const contactSnap = await getDoc(doc(db, "siteData", "contact"));
         if (contactSnap.exists()) {
             const cData = contactSnap.data();
-            if(document.getElementById("dyn-phone") && cData.phone) {
-                document.getElementById("dyn-phone").href = `https://wa.me/${cData.phone.replace(/[^0-9]/g, '')}`;
-                document.getElementById("dyn-phone-text").innerText = cData.phone;
-            }
+            // Automatically update all call-to-action phone links across the site
+            const phoneLinks = document.querySelectorAll('.dynamic-phone-link');
+            phoneLinks.forEach(link => {
+                link.href = `https://wa.me/${cData.phone.replace(/[^0-9]/g, '')}`;
+            });
+            const phoneTexts = document.querySelectorAll('.dynamic-phone-text');
+            phoneTexts.forEach(text => { text.innerText = cData.phone; });
+            
             if(document.getElementById("dyn-fb") && cData.fb) document.getElementById("dyn-fb").href = cData.fb;
             if(document.getElementById("dyn-linkedin") && cData.linkedin) document.getElementById("dyn-linkedin").href = cData.linkedin;
         }
     } catch(e){}
 
-    // 3. Render Education List (Only overwrite if Firebase has custom data)
-    try {
-        const eduSnap = await getDocs(query(collection(db, "education"), orderBy("timestamp", "asc")));
-        if(!eduSnap.empty) {
-            let eduHtml = '';
-            eduSnap.forEach(doc => {
-                eduHtml += `
-                <div class="bg-white p-8 rounded-3xl shadow-lg border border-orange-100 hover:-translate-y-2 transition duration-300">
-                    <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 mb-6 text-xl">🎓</div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">${doc.data().title}</h3>
-                    <p class="text-gray-600">${doc.data().desc}</p>
-                </div>`;
-            });
-            if(document.getElementById("dynamic-edu-container")) document.getElementById("dynamic-edu-container").innerHTML = eduHtml;
-        }
-    } catch(e){}
-
-    // 4. Render Services List (Only overwrite if Firebase has custom data)
+    // 3. Render Services
     try {
         const srvSnap = await getDocs(query(collection(db, "services"), orderBy("timestamp", "asc")));
         if(!srvSnap.empty) {
             let srvHtml = '';
             srvSnap.forEach(doc => {
                 srvHtml += `
-                <div class="glass-effect p-8 rounded-3xl hover:shadow-xl transition border-t-4 border-orange-500 bg-white/60">
+                <div class="glass-effect p-8 rounded-3xl hover:shadow-xl transition border-t-4 border-orange-500 bg-white/60 text-center md:text-left">
                     <h4 class="font-bold text-lg text-orange-700 mb-3">${doc.data().title}</h4>
                     <p class="text-sm text-gray-800 font-medium">${doc.data().desc}</p>
                 </div>`;
@@ -60,6 +62,4 @@ async function renderWebsiteData() {
         }
     } catch(e){}
 }
-
-// Timeout ensures loader.js has already painted the components before checking DB
 setTimeout(renderWebsiteData, 800);
