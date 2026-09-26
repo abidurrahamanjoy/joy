@@ -34,11 +34,27 @@ async function uploadImg(file) {
     } catch(err) { return null; }
 }
 
+// 100% SECURE SAVE LOGIC (Prevents overwriting with blank data)
 document.getElementById("save-hero-btn")?.addEventListener("click", async (e) => {
     e.target.innerText = "Saving...";
     const file = document.getElementById("hero-image")?.files[0];
-    const data = { badge: document.getElementById("hero-badge").value, name: document.getElementById("hero-name").value, desc: document.getElementById("hero-desc").value, bgColor: document.getElementById("hero-bg-color")?.value || "#FFF0E6", layout: document.getElementById("hero-layout")?.value || "right" };
+    const data = {};
+    
+    // Only save text if the input boxes are NOT empty
+    const badge = document.getElementById("hero-badge").value.trim();
+    const name = document.getElementById("hero-name").value.trim();
+    const desc = document.getElementById("hero-desc").value.trim();
+    const bgColor = document.getElementById("hero-bg-color")?.value;
+    const layout = document.getElementById("hero-layout")?.value;
+
+    if(badge) data.badge = badge;
+    if(name) data.name = name;
+    if(desc) data.desc = desc;
+    if(bgColor) data.bgColor = bgColor;
+    if(layout) data.layout = layout;
+
     if (file) { const img = await uploadImg(file); if(img) data.imageUrl = img; }
+    
     await setDoc(doc(db, "siteData", "hero"), data, { merge: true });
     e.target.innerText = "Saved!"; setTimeout(() => e.target.innerText = "Save Hero Data", 2000);
 });
@@ -58,15 +74,30 @@ document.getElementById("save-seo-btn")?.addEventListener("click", async (e) => 
 document.getElementById("save-popup-btn")?.addEventListener("click", async (e) => {
     e.target.innerText = "Saving...";
     const file = document.getElementById("popup-image")?.files[0];
-    const data = { title: document.getElementById("popup-title").value, desc: document.getElementById("popup-desc").value };
+    const data = {};
+    const pTitle = document.getElementById("popup-title").value.trim();
+    const pDesc = document.getElementById("popup-desc").value.trim();
+    
+    if(pTitle) data.title = pTitle;
+    if(pDesc) data.desc = pDesc;
     if (file) { const img = await uploadImg(file); if(img) data.imageUrl = img; }
+    
     await setDoc(doc(db, "siteData", "popup"), data, { merge: true });
     e.target.innerText = "Saved!"; setTimeout(() => e.target.innerText = "Save Popup", 2000);
 });
 
 document.getElementById("save-contact-btn")?.addEventListener("click", async (e) => {
     e.target.innerText = "Saving...";
-    await setDoc(doc(db, "siteData", "contact"), { phone: document.getElementById("contact-phone").value, fb: document.getElementById("contact-fb").value, linkedin: document.getElementById("contact-linkedin").value }, { merge: true });
+    const data = {};
+    const ph = document.getElementById("contact-phone").value.trim();
+    const fb = document.getElementById("contact-fb").value.trim();
+    const li = document.getElementById("contact-linkedin").value.trim();
+    
+    if(ph) data.phone = ph;
+    if(fb) data.fb = fb;
+    if(li) data.linkedin = li;
+
+    await setDoc(doc(db, "siteData", "contact"), data, { merge: true });
     e.target.innerText = "Saved!"; setTimeout(() => e.target.innerText = "Save Links", 2000);
 });
 
@@ -199,7 +230,6 @@ async function loadAdminData() {
                     chatBox.scrollTop = chatBox.scrollHeight;
                 }
             }, (error) => {
-                alert("Inbox Sync Failed! Check Firebase Rules.");
                 console.error(error);
             });
 
