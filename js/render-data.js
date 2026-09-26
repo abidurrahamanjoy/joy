@@ -4,24 +4,34 @@ import { doc, getDoc, collection, getDocs, orderBy, query, setDoc, increment, ad
 let currentClientData = null;
 let chatUnsubscribe = null;
 
+// মূল ডেটা রেন্ডার ফাংশন
 async function renderWebsiteData() {
     
-    // 1. Core Functions (Maintenance, Promo, SEO)
+    // 1. Maintenance & SEO
     try {
         const setSnap = await getDoc(doc(db, "siteData", "settings"));
         if(setSnap.exists()) {
             const st = setSnap.data();
-            if(st.maintenanceMode) { document.body.innerHTML = `<div class="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white text-center"><h1 class="text-4xl font-bold">Under Construction</h1></div>`; return; }
-            if(st.promoShow && st.promoText) { const p = document.createElement('div'); p.className = "bg-orange-600 text-white text-center py-2 font-bold z-50 animate-pulse"; p.innerText = st.promoText; document.body.prepend(p); }
+            if(st.maintenanceMode) { 
+                document.body.innerHTML = `<div class="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white text-center"><h1 class="text-4xl font-bold">Under Construction</h1></div>`; 
+                return; 
+            }
+            if(st.promoShow && st.promoText && !document.getElementById('promo-bar')) { 
+                const p = document.createElement('div'); 
+                p.id = 'promo-bar';
+                p.className = "bg-orange-600 text-white text-center py-2 font-bold z-50 animate-pulse"; 
+                p.innerText = st.promoText; 
+                document.body.prepend(p); 
+            }
         }
         const seoSnap = await getDoc(doc(db, "siteData", "seo"));
-        if(seoSnap.exists()) { const seo = seoSnap.data(); if(seo.title) document.title = seo.title; }
-    } catch(e){}
+        if(seoSnap.exists() && seoSnap.data().title) document.title = seoSnap.data().title;
+    } catch(e) { console.log("Settings Error:", e); }
 
-    // Analytics Tracking
+    // 2. Analytics
     try { await setDoc(doc(db, "analytics", "stats"), { views: increment(1) }, { merge: true }); } catch(e){}
 
-    // Render Hero
+    // 3. Render Hero Section
     try {
         const heroSnap = await getDoc(doc(db, "siteData", "hero"));
         if (heroSnap.exists()) {
@@ -31,74 +41,99 @@ async function renderWebsiteData() {
             if(document.getElementById("dynamic-hero-desc")) document.getElementById("dynamic-hero-desc").innerText = data.desc || '';
             if(document.getElementById("dynamic-hero-img") && data.imageUrl) document.getElementById("dynamic-hero-img").src = data.imageUrl;
             if(data.bgColor && document.getElementById("hero-section")) document.getElementById("hero-section").style.backgroundColor = data.bgColor;
-            if(data.layout === 'left' && document.getElementById("hero-layout")) document.getElementById("hero-layout").classList.add("md:flex-row-reverse");
         }
-    } catch(e){}
+    } catch(e) { console.log("Hero Error:", e); }
 
-    // Render Services
+    // 4. Render Services
     try {
         const srvSnap = await getDocs(query(collection(db, "services"), orderBy("timestamp", "asc")));
-        if(!srvSnap.empty) {
+        if(!srvSnap.empty && document.getElementById("dynamic-srv-container")) {
             let srvHtml = '';
-            srvSnap.forEach(doc => { if(doc.data().isVisible) srvHtml += `<div class="glass-effect p-8 rounded-3xl shadow-md border-t-4 border-orange-500 bg-white/60"><h4 class="font-bold text-lg text-orange-700 mb-3">${doc.data().title}</h4><p class="text-sm text-gray-800 font-medium">${doc.data().desc}</p></div>`; });
-            if(document.getElementById("dynamic-srv-container")) document.getElementById("dynamic-srv-container").innerHTML = srvHtml;
+            srvSnap.forEach(doc => { 
+                if(doc.data().isVisible) {
+                    srvHtml += `<div class="glass-effect p-8 rounded-3xl shadow-md border-t-4 border-orange-500 bg-white/60">
+                                    <h4 class="font-bold text-lg text-orange-700 mb-3">${doc.data().title}</h4>
+                                    <p class="text-sm text-gray-800 font-medium">${doc.data().desc}</p>
+                                </div>`; 
+                }
+            });
+            document.getElementById("dynamic-srv-container").innerHTML = srvHtml;
         }
-    } catch(e){}
+    } catch(e) { console.log("Services Error:", e); }
 
-    // Render Contacts
+    // 5. Render Contacts (100% Fixed Links)
     try {
         const contactSnap = await getDoc(doc(db, "siteData", "contact"));
         if (contactSnap.exists()) {
             const cData = contactSnap.data();
-            document.querySelectorAll('.dynamic-phone-link').forEach(link => { link.href = `https://wa.me/${cData.phone.replace(/[^0-9]/g, '')}`; });
-            document.querySelectorAll('.dynamic-phone-text').forEach(text => { text.innerText = cData.phone; });
-            if(document.getElementById("dyn-fb") && cData.fb) document.getElementById("dyn-fb").href = cData.fb;
-            if(document.getElementById("dyn-linkedin") && cData.linkedin) document.getElementById("dyn-linkedin").href = cData.linkedin;
-        }
-    } catch(e){}
-
-    // Welcome Popup 
-    setTimeout(async () => {
-        const lastSeen = localStorage.getItem('joy_popup_seen');
-        if (!lastSeen || Date.now() - lastSeen > 86400000) {
-            const popSnap = await getDoc(doc(db, "siteData", "popup"));
-            if(popSnap.exists() && document.getElementById("popup-title")) {
-                const p = popSnap.data();
-                document.getElementById("popup-title").innerText = p.title; document.getElementById("popup-desc").innerText = p.desc;
-                if(p.imageUrl) document.getElementById("popup-img").src = p.imageUrl;
-                const overlay = document.getElementById('welcome-popup-overlay');
-                overlay.classList.remove('hidden'); setTimeout(() => overlay.classList.remove('opacity-0'), 50);
-                const closePop = () => { overlay.classList.add('opacity-0'); setTimeout(() => overlay.classList.add('hidden'), 500); localStorage.setItem('joy_popup_seen', Date.now()); };
-                document.getElementById('close-popup-btn').addEventListener('click', closePop); document.getElementById('popup-action-btn').addEventListener('click', closePop);
+            
+            // WhatsApp Link
+            if(cData.phone) {
+                const waLink = `https://wa.me/${cData.phone.replace(/[^0-9]/g, '')}`;
+                document.querySelectorAll('.dynamic-phone-link').forEach(link => { link.href = waLink; });
+                document.querySelectorAll('.dynamic-phone-text').forEach(text => { text.innerText = cData.phone; });
+            }
+            
+            // Facebook Link
+            if(cData.fb && document.getElementById("dyn-fb")) {
+                document.getElementById("dyn-fb").href = cData.fb;
+            }
+            
+            // LinkedIn Link
+            if(cData.linkedin && document.getElementById("dyn-linkedin")) {
+                document.getElementById("dyn-linkedin").href = cData.linkedin;
             }
         }
-    }, 1500);
+    } catch(e) { console.log("Contact Error:", e); }
 
-    // ==========================================
-    // BULLETPROOF FLOATING UI & SMART CHAT 
-    // ==========================================
+    // 6. Floating Menu & Chat Logic
+    setupFloatingUI();
+}
+
+// 100% Safe DOM Loader (Wait for HTML components to load before injecting data)
+const checkDOMReady = setInterval(() => {
+    // Checking if contact section is loaded by loader.js
+    if (document.getElementById("dyn-fb") || document.getElementById("dynamic-hero-name")) {
+        clearInterval(checkDOMReady);
+        renderWebsiteData();
+    }
+}, 200);
+
+// Stop checking after 10 seconds to prevent infinite loop if components fail
+setTimeout(() => clearInterval(checkDOMReady), 10000);
+
+
+// ==========================================
+// FLOATING UI & SMART CHAT LOGIC
+// ==========================================
+function setupFloatingUI() {
     
+    // Toggle Menu
     document.getElementById("fab-menu")?.addEventListener("click", () => {
         const m = document.getElementById("glass-menu");
-        if(m.classList.contains("hidden")) {
-            m.classList.remove("hidden"); setTimeout(() => { m.classList.remove("opacity-0", "translate-y-4"); }, 10);
-            document.getElementById("glass-chat").classList.add("hidden", "opacity-0", "translate-y-4");
-        } else {
+        const c = document.getElementById("glass-chat");
+        if(m && m.classList.contains("hidden")) {
+            m.classList.remove("hidden"); setTimeout(() => m.classList.remove("opacity-0", "translate-y-4"), 10);
+            if(c) c.classList.add("hidden", "opacity-0", "translate-y-4");
+        } else if (m) {
             m.classList.add("opacity-0", "translate-y-4"); setTimeout(() => m.classList.add("hidden"), 300);
         }
     });
 
     document.querySelectorAll(".menu-link").forEach(l => l.addEventListener("click", () => {
-        document.getElementById("glass-menu").classList.add("opacity-0", "translate-y-4"); setTimeout(() => document.getElementById("glass-menu").classList.add("hidden"), 300);
+        const m = document.getElementById("glass-menu");
+        if(m) { m.classList.add("opacity-0", "translate-y-4"); setTimeout(() => m.classList.add("hidden"), 300); }
     }));
 
+    // Toggle Chat
     const toggleChat = () => {
         const c = document.getElementById("glass-chat");
-        if(c.classList.contains("hidden")) {
-            c.classList.remove("hidden"); setTimeout(() => { c.classList.remove("opacity-0", "translate-y-4"); }, 10);
-            document.getElementById("glass-menu").classList.add("hidden", "opacity-0", "translate-y-4");
+        const m = document.getElementById("glass-menu");
+        if(c && c.classList.contains("hidden")) {
+            c.classList.remove("hidden"); setTimeout(() => c.classList.remove("opacity-0", "translate-y-4"), 10);
+            if(m) m.classList.add("hidden", "opacity-0", "translate-y-4");
             checkChatSession(); 
-        } else {
+        } else if (c) {
             c.classList.add("opacity-0", "translate-y-4"); setTimeout(() => c.classList.add("hidden"), 300);
         }
     };
@@ -109,17 +144,17 @@ async function renderWebsiteData() {
         const savedSession = localStorage.getItem("joy_chat_session");
         if(savedSession) {
             currentClientData = JSON.parse(savedSession);
-            document.getElementById("chat-auth-screen").classList.add("hidden");
-            document.getElementById("chat-box-screen").classList.remove("hidden");
+            document.getElementById("chat-auth-screen")?.classList.add("hidden");
+            document.getElementById("chat-box-screen")?.classList.remove("hidden");
             loadRealtimeMessages();
         } else {
-            document.getElementById("chat-auth-screen").classList.remove("hidden");
-            document.getElementById("chat-box-screen").classList.add("hidden");
+            document.getElementById("chat-auth-screen")?.classList.remove("hidden");
+            document.getElementById("chat-box-screen")?.classList.add("hidden");
         }
     }
 
     document.getElementById("chat-login-btn")?.addEventListener("click", () => {
-        const name = document.getElementById("chat-name").value.trim();
+        const name = document.getElementById("chat-name")?.value.trim();
         const errBox = document.getElementById("chat-auth-err");
         if(!name) { errBox.innerText = "Please enter your name!"; errBox.classList.remove("hidden"); return; }
         
@@ -132,14 +167,14 @@ async function renderWebsiteData() {
         loadRealtimeMessages();
     });
 
-    // INSTANT SEND LOGIC (WhatsApp Style)
+    // INSTANT SEND LOGIC 
     const sendMsg = async () => {
         const input = document.getElementById("chat-input");
         const btn = document.getElementById("chat-send-btn");
         const text = input.value.trim();
         if(!text || !currentClientData) return;
         
-        // 1. Show instantly on screen
+        // Show instantly on screen
         const chatBox = document.getElementById("chat-messages");
         const instantDiv = document.createElement("div");
         instantDiv.className = "max-w-[85%] p-3 rounded-2xl text-sm bg-orange-400 text-white self-end rounded-br-none shadow-sm opacity-70"; 
@@ -154,7 +189,6 @@ async function renderWebsiteData() {
         input.value = "";
         btn.innerText = "⏳";
         
-        // 2. Send to Firebase
         try {
             await addDoc(collection(db, "messages"), {
                 clientId: currentClientData.uid,
@@ -167,8 +201,6 @@ async function renderWebsiteData() {
             instantDiv.classList.remove("opacity-70", "bg-orange-400");
             instantDiv.classList.add("bg-orange-500");
         } catch(error) {
-            console.error(error);
-            alert("⚠️ Message failed to send! Please check your Firebase Firestore Rules (allow read, write: if true;)");
             btn.innerText = "➤";
             instantDiv.innerText = "❌ Failed to send";
             instantDiv.classList.add("bg-red-500");
@@ -178,13 +210,13 @@ async function renderWebsiteData() {
     document.getElementById("chat-send-btn")?.addEventListener("click", sendMsg);
     document.getElementById("chat-input")?.addEventListener("keypress", (e) => { if(e.key === 'Enter') sendMsg(); });
 
-    // REALTIME LISTENER WITH ERROR HANDLING
     function loadRealtimeMessages() {
         if(chatUnsubscribe) chatUnsubscribe();
         const q = query(collection(db, "messages"), orderBy("timestamp", "asc"));
         
         chatUnsubscribe = onSnapshot(q, (snapshot) => {
             const chatBox = document.getElementById("chat-messages");
+            if(!chatBox) return;
             chatBox.innerHTML = "";
             let hasMessages = false;
             
@@ -202,14 +234,6 @@ async function renderWebsiteData() {
             
             if(!hasMessages) chatBox.innerHTML = `<p class="text-center text-gray-500 text-sm mt-10">Say hi to Abidur Rahman Joy! 👋</p>`;
             chatBox.scrollTop = chatBox.scrollHeight;
-        }, (error) => {
-            console.error("onSnapshot Failed:", error);
-            document.getElementById("chat-messages").innerHTML = `<p class="text-center text-red-500 text-sm mt-10 p-4 font-bold border border-red-200 bg-red-50 rounded-xl">⚠️ Database blocked!<br>Make sure your Firebase Firestore Rules allow read and write.</p>`;
         });
     }
 }
-
-setTimeout(() => {
-    if(typeof loadComponent === 'function') loadComponent('popup-container', 'components/popup.html').then(() => renderWebsiteData());
-    else renderWebsiteData();
-}, 800);
