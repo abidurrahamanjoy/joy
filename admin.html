@@ -12,13 +12,16 @@
         .glass-inbox { background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); }
         .toggle-checkbox:checked { right: 0; border-color: #f97316; }
         .toggle-checkbox:checked + .toggle-label { background-color: #f97316; }
+        
+        /* Mobile Sidebar Animation */
+        #admin-sidebar { transition: transform 0.3s ease-in-out; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans">
 
     <!-- Login -->
-    <div id="login-section" class="flex items-center justify-center min-h-screen bg-gray-100">
-        <div class="bg-white p-10 rounded-3xl w-full max-w-md text-center shadow-2xl border-t-4 border-orange-500">
+    <div id="login-section" class="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+        <div class="bg-white p-8 md:p-10 rounded-3xl w-full max-w-md text-center shadow-2xl border-t-4 border-orange-500">
             <h2 class="text-3xl font-extrabold mb-6 text-orange-500">Admin Login</h2>
             <input type="email" id="admin-email" placeholder="Email" class="w-full mb-4 px-4 py-3 rounded-lg border outline-none bg-gray-50">
             <input type="password" id="admin-password" placeholder="Password" class="w-full mb-6 px-4 py-3 rounded-lg border outline-none bg-gray-50">
@@ -27,102 +30,117 @@
     </div>
 
     <!-- Dashboard -->
-    <div id="dashboard-section" class="hidden flex h-screen overflow-hidden">
-        <aside class="w-64 bg-gray-900 text-white flex flex-col h-full shadow-2xl">
-            <div class="p-6 text-center border-b border-gray-700">
+    <div id="dashboard-section" class="hidden flex h-screen overflow-hidden relative">
+        
+        <!-- Mobile Top Bar (Visible only on mobile) -->
+        <div class="md:hidden fixed top-0 left-0 w-full bg-gray-900 text-white p-4 flex justify-between items-center z-50 shadow-md">
+            <h2 class="text-xl font-black text-orange-500">Agency Panel</h2>
+            <button id="mobile-menu-btn" class="text-2xl">☰</button>
+        </div>
+
+        <!-- Sidebar (Hidden on mobile by default, toggled via JS) -->
+        <aside id="admin-sidebar" class="w-64 bg-gray-900 text-white flex flex-col h-full shadow-2xl fixed md:relative z-40 transform -translate-x-full md:translate-x-0">
+            <div class="p-6 text-center border-b border-gray-700 hidden md:block">
                 <h2 class="text-2xl font-black text-orange-500">Agency Panel</h2>
                 <p class="text-xs text-gray-400 mt-1">Super Admin Mode</p>
             </div>
+            <!-- Mobile Close Button -->
+            <div class="md:hidden p-4 text-right border-b border-gray-700 mt-14">
+                <button id="close-sidebar-btn" class="text-white font-bold bg-gray-800 px-3 py-1 rounded">✕ Close</button>
+            </div>
+            
             <nav class="flex-1 overflow-y-auto py-4 space-y-1">
-                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn active font-medium" data-target="tab-analytics">📊 Analytics & Core</button>
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn active font-medium" data-target="tab-analytics">📊 Analytics</button>
                 <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-inbox">💬 Inbox (Glass)</button>
                 <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-hero">🎨 Hero & Popup</button>
-                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-services">💼 Services & Pricing</button>
-                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-seo">🔍 SEO & Marketing</button>
-                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-tools">🚀 Advanced Tools</button>
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-services">💼 Services</button>
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-seo">🔍 SEO & Promo</button>
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-tools">🚀 Adv. Tools</button>
             </nav>
             <div class="p-4 border-t border-gray-700">
                 <button id="logout-btn" class="w-full bg-red-600 text-white py-2 rounded-lg font-bold hover:bg-red-700">Logout</button>
             </div>
         </aside>
 
-        <main class="flex-1 h-full overflow-y-auto bg-gray-50 p-8">
+        <!-- Main Content Area (Adjusted padding for mobile) -->
+        <main class="flex-1 h-full overflow-y-auto bg-gray-50 p-4 pt-20 md:pt-8 md:p-8 w-full">
             
             <!-- TAB 1: Analytics -->
             <div id="tab-analytics" class="tab-content active">
-                <div class="flex justify-between items-center mb-8">
-                    <h2 class="text-3xl font-extrabold text-gray-800">Live Analytics</h2>
-                    <div class="flex items-center gap-4">
-                        <span class="font-bold text-gray-600">Maintenance Mode:</span>
-                        <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-800">Live Analytics</h2>
+                    <div class="flex items-center gap-4 bg-white px-4 py-2 rounded-lg shadow-sm border">
+                        <span class="font-bold text-gray-600 text-sm">Maintenance:</span>
+                        <div class="relative inline-block w-12 align-middle select-none transition duration-200 ease-in">
                             <input type="checkbox" id="maintenance-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
                             <label for="maintenance-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
                         </div>
                     </div>
                 </div>
                 
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center mb-8">
-                    <div class="bg-white p-6 rounded-3xl shadow-sm border-t-4 border-orange-500">
-                        <p class="text-sm text-gray-500">Total Views</p>
-                        <p id="stat-views" class="text-4xl font-black text-gray-800 mt-2">0</p>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 text-center mb-8">
+                    <div class="bg-white p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-sm border-t-4 border-orange-500">
+                        <p class="text-xs md:text-sm text-gray-500">Views</p>
+                        <p id="stat-views" class="text-2xl md:text-4xl font-black text-gray-800 mt-1">0</p>
                     </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-sm border-t-4 border-blue-500">
-                        <p class="text-sm text-gray-500">Avg. Time</p>
-                        <p id="stat-time" class="text-4xl font-black text-gray-800 mt-2">0s</p>
+                    <div class="bg-white p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-sm border-t-4 border-blue-500">
+                        <p class="text-xs md:text-sm text-gray-500">Time</p>
+                        <p id="stat-time" class="text-2xl md:text-4xl font-black text-gray-800 mt-1">0s</p>
                     </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-sm border-t-4 border-green-500">
-                        <p class="text-sm text-gray-500">WhatsApp Clicks</p>
-                        <p id="stat-wa" class="text-4xl font-black text-gray-800 mt-2">0</p>
+                    <div class="bg-white p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-sm border-t-4 border-green-500">
+                        <p class="text-xs md:text-sm text-gray-500">WhatsApp</p>
+                        <p id="stat-wa" class="text-2xl md:text-4xl font-black text-gray-800 mt-1">0</p>
                     </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-sm border-t-4 border-purple-500">
-                        <p class="text-sm text-gray-500">FB Clicks</p>
-                        <p id="stat-fb" class="text-4xl font-black text-gray-800 mt-2">0</p>
+                    <div class="bg-white p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-sm border-t-4 border-purple-500">
+                        <p class="text-xs md:text-sm text-gray-500">FB Clicks</p>
+                        <p id="stat-fb" class="text-2xl md:text-4xl font-black text-gray-800 mt-1">0</p>
                     </div>
                 </div>
 
-                <div class="bg-white p-8 rounded-3xl shadow-sm border">
-                    <h3 class="text-xl font-bold mb-4 border-b pb-2">🎉 Promo & Discount Bar</h3>
-                    <input type="text" id="promo-text" placeholder="e.g., Eid Offer: 20% Off on Web Development!" class="w-full mb-4 px-4 py-3 rounded-lg border bg-gray-50">
-                    <div class="flex items-center justify-between">
+                <div class="bg-white p-5 md:p-8 rounded-2xl md:rounded-3xl shadow-sm border">
+                    <h3 class="text-lg md:text-xl font-bold mb-4 border-b pb-2">🎉 Promo Bar</h3>
+                    <input type="text" id="promo-text" placeholder="e.g., Eid Offer: 20% Off!" class="w-full mb-4 px-4 py-3 rounded-lg border bg-gray-50">
+                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                         <label class="flex items-center gap-2 cursor-pointer font-bold text-gray-600">
-                            <input type="checkbox" id="promo-show" class="w-5 h-5 rounded text-orange-600"> Show Promo on Website
+                            <input type="checkbox" id="promo-show" class="w-5 h-5 rounded text-orange-600"> Show Promo
                         </label>
-                        <button id="save-promo-btn" class="bg-green-600 text-white px-8 py-3 rounded-lg font-bold shadow-lg hover:bg-green-700">Save Promo</button>
+                        <button id="save-promo-btn" class="w-full md:w-auto bg-green-600 text-white px-8 py-3 rounded-lg font-bold shadow-lg hover:bg-green-700">Save Promo</button>
                     </div>
                 </div>
             </div>
 
             <!-- TAB 2: INBOX -->
-            <div id="tab-inbox" class="tab-content relative rounded-3xl overflow-hidden p-8" style="background: url('https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=2000') center/cover;">
-                <div class="absolute inset-0 bg-black/20"></div>
-                <div class="relative z-10 glass-inbox p-8 rounded-[2.5rem]">
-                    <h2 class="text-3xl font-extrabold text-white mb-6 drop-shadow-md">Client Inbox & Bookings</h2>
-                    <div id="inbox-messages" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
-                        <!-- Messages Load Here -->
+            <div id="tab-inbox" class="tab-content relative rounded-2xl md:rounded-3xl overflow-hidden p-4 md:p-8" style="background: url('https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=2000') center/cover;">
+                <div class="absolute inset-0 bg-black/40"></div>
+                <div class="relative z-10 glass-inbox p-4 md:p-8 rounded-2xl md:rounded-[2.5rem]">
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-4 drop-shadow-md">Client Inbox</h2>
+                    <div id="inbox-messages" class="w-full">
+                        <!-- Messages Load Here via JS -->
                     </div>
                 </div>
             </div>
 
             <!-- TAB 3: Hero & Popup -->
             <div id="tab-hero" class="tab-content">
-                <h2 class="text-2xl font-bold mb-6 text-gray-800">Visual Settings</h2>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="bg-white p-6 rounded-3xl shadow-sm border">
+                <h2 class="text-xl md:text-2xl font-bold mb-6 text-gray-800">Visual Settings</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Same forms, just using grid-cols-1 on mobile -->
+                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border">
                         <h3 class="font-bold mb-4 border-b pb-2">Hero Section</h3>
                         <input type="text" id="hero-badge" placeholder="Badge Text" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
                         <input type="text" id="hero-name" placeholder="Name" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
                         <textarea id="hero-desc" placeholder="Description" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="3"></textarea>
                         
-                        <div class="flex gap-4 mb-3">
-                            <div class="w-1/2">
+                        <div class="flex flex-col md:flex-row gap-4 mb-3">
+                            <div class="w-full md:w-1/2">
                                 <label class="text-xs font-bold text-gray-500">Background Color</label>
                                 <input type="color" id="hero-bg-color" value="#FFF0E6" class="w-full h-10 cursor-pointer rounded border">
                             </div>
-                            <div class="w-1/2">
-                                <label class="text-xs font-bold text-gray-500">Image Position (PC)</label>
+                            <div class="w-full md:w-1/2">
+                                <label class="text-xs font-bold text-gray-500">Image Position</label>
                                 <select id="hero-layout" class="w-full h-10 px-2 rounded border bg-gray-50">
-                                    <option value="right">Image on Right</option>
-                                    <option value="left">Image on Left</option>
+                                    <option value="right">Right</option>
+                                    <option value="left">Left</option>
                                 </select>
                             </div>
                         </div>
@@ -130,14 +148,14 @@
                         <button id="save-hero-btn" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold">Save Hero Data</button>
                     </div>
                     
-                    <div class="bg-white p-6 rounded-3xl shadow-sm border">
+                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border">
                         <h3 class="font-bold mb-4 border-b pb-2">Welcome Popup</h3>
-                        <input type="text" id="popup-title" placeholder="Title (e.g. আসসালামু আলাইকুম)" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                        <input type="text" id="popup-title" placeholder="Title" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
                         <textarea id="popup-desc" placeholder="Message" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="3"></textarea>
                         <input type="file" id="popup-image" class="w-full mb-4 text-sm file:bg-purple-50 file:text-purple-700 file:border-0 file:px-4 file:py-2 file:rounded-full">
                         <button id="save-popup-btn" class="w-full bg-purple-600 text-white py-3 rounded-lg font-bold mt-4">Save Popup</button>
 
-                        <h3 class="font-bold mt-8 mb-4 border-b pb-2">Update Social Links</h3>
+                        <h3 class="font-bold mt-8 mb-4 border-b pb-2">Social Links</h3>
                         <input type="text" id="contact-phone" placeholder="WhatsApp Number" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
                         <input type="text" id="contact-fb" placeholder="Facebook URL" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
                         <input type="text" id="contact-linkedin" placeholder="LinkedIn URL" class="w-full mb-4 px-4 py-2 rounded border bg-gray-50">
@@ -148,13 +166,13 @@
 
             <!-- TAB 4: Services -->
             <div id="tab-services" class="tab-content">
-                <h2 class="text-2xl font-bold mb-6 text-gray-800">Services Manager</h2>
-                <div class="bg-white p-6 rounded-3xl shadow-sm border mb-8">
+                <h2 class="text-xl md:text-2xl font-bold mb-6 text-gray-800">Services Manager</h2>
+                <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border mb-8">
                     <h3 class="font-bold mb-4">Add New Service</h3>
                     <input type="text" id="srv-title" placeholder="Service Name" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
                     <textarea id="srv-desc" placeholder="Details" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="3"></textarea>
                     <label class="flex items-center gap-2 mb-4 cursor-pointer font-bold text-gray-600">
-                        <input type="checkbox" id="srv-visible" checked class="w-5 h-5 rounded text-orange-600"> Show this service publicly
+                        <input type="checkbox" id="srv-visible" checked class="w-5 h-5 rounded text-orange-600"> Show publicly
                     </label>
                     <button id="add-srv-btn" class="w-full bg-green-500 text-white py-3 rounded-lg font-bold">Add Service</button>
                 </div>
@@ -163,54 +181,47 @@
 
             <!-- TAB 5: SEO -->
             <div id="tab-seo" class="tab-content">
-                <h2 class="text-2xl font-bold mb-6 text-gray-800">SEO Meta Controller</h2>
-                <div class="bg-white p-8 rounded-3xl shadow-sm border">
+                <h2 class="text-xl md:text-2xl font-bold mb-6 text-gray-800">SEO Controller</h2>
+                <div class="bg-white p-5 md:p-8 rounded-2xl shadow-sm border">
                     <label class="font-bold text-gray-700">Website Title</label>
                     <input type="text" id="seo-title" class="w-full mb-4 px-4 py-3 rounded border bg-gray-50">
                     <label class="font-bold text-gray-700">Meta Description</label>
                     <textarea id="seo-desc" class="w-full mb-4 px-4 py-3 rounded border bg-gray-50" rows="3"></textarea>
                     <label class="font-bold text-gray-700">Keywords (Comma separated)</label>
                     <textarea id="seo-keywords" class="w-full mb-6 px-4 py-3 rounded border bg-gray-50" rows="2"></textarea>
-                    <button id="save-seo-btn" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-bold">Update SEO Data</button>
+                    <button id="save-seo-btn" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-bold">Update SEO</button>
                 </div>
             </div>
 
             <!-- TAB 6: Advanced Tools -->
             <div id="tab-tools" class="tab-content">
-                <h2 class="text-3xl font-extrabold mb-6 text-gray-800 border-b-4 border-orange-500 inline-block pb-2">Advanced Agency Tools</h2>
-                <div class="grid md:grid-cols-2 gap-8">
+                <h2 class="text-2xl md:text-3xl font-extrabold mb-6 text-gray-800 border-b-4 border-orange-500 inline-block pb-2">Advanced Tools</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                     
-                    <!-- TOOL 1: AI Content Writer -->
-                    <div class="bg-white p-6 rounded-3xl shadow-lg border border-gray-100 relative overflow-hidden">
+                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-lg border relative overflow-hidden">
                         <div class="absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">Active</div>
-                        <h3 class="font-bold text-xl mb-4 flex items-center gap-2">🤖 AI Content Writer</h3>
-                        <p class="text-sm text-gray-500 mb-4">Let the system write professional service descriptions for you.</p>
-                        <input type="text" id="ai-topic" placeholder="Topic (e.g., Facebook Ads, Web Design)" class="w-full mb-3 px-4 py-2 rounded-xl border bg-gray-50 focus:border-blue-500 outline-none">
-                        <button id="ai-generate-btn" class="w-full bg-blue-600 text-white py-2 rounded-xl font-bold mb-4 hover:bg-blue-700 transition shadow-md">Generate Content ✨</button>
-                        <textarea id="ai-output" placeholder="AI generated text will appear here..." class="w-full px-4 py-2 rounded-xl border bg-gray-50 text-gray-700 font-medium" rows="4"></textarea>
+                        <h3 class="font-bold text-lg md:text-xl mb-4">🤖 AI Writer</h3>
+                        <input type="text" id="ai-topic" placeholder="Topic" class="w-full mb-3 px-4 py-2 rounded-xl border bg-gray-50">
+                        <button id="ai-generate-btn" class="w-full bg-blue-600 text-white py-2 rounded-xl font-bold mb-4">Generate ✨</button>
+                        <textarea id="ai-output" class="w-full px-4 py-2 rounded-xl border bg-gray-50 text-gray-700" rows="4"></textarea>
                     </div>
 
-                    <!-- TOOL 2: Invoice Generator -->
-                    <div class="bg-white p-6 rounded-3xl shadow-lg border border-gray-100 relative overflow-hidden">
+                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-lg border relative overflow-hidden">
                         <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">Active</div>
-                        <h3 class="font-bold text-xl mb-4 flex items-center gap-2">🧾 Invoice & Bill Generator</h3>
-                        <p class="text-sm text-gray-500 mb-4">Create a quick payment bill message for your clients.</p>
-                        <div class="flex gap-2 mb-3">
-                            <input type="text" id="inv-client" placeholder="Client Name" class="w-1/2 px-4 py-2 rounded-xl border bg-gray-50 outline-none">
-                            <input type="number" id="inv-amount" placeholder="Amount (৳)" class="w-1/2 px-4 py-2 rounded-xl border bg-gray-50 outline-none">
+                        <h3 class="font-bold text-lg md:text-xl mb-4">🧾 Invoice</h3>
+                        <div class="flex flex-col md:flex-row gap-2 mb-3">
+                            <input type="text" id="inv-client" placeholder="Client Name" class="w-full md:w-1/2 px-4 py-2 rounded-xl border bg-gray-50">
+                            <input type="number" id="inv-amount" placeholder="Amount (৳)" class="w-full md:w-1/2 px-4 py-2 rounded-xl border bg-gray-50">
                         </div>
-                        <input type="text" id="inv-service" placeholder="Service Name (e.g., eCommerce Website)" class="w-full mb-3 px-4 py-2 rounded-xl border bg-gray-50 outline-none">
-                        <button id="generate-invoice-btn" class="w-full bg-green-600 text-white py-2 rounded-xl font-bold mb-4 hover:bg-green-700 transition shadow-md">Create Bill Link</button>
-                        <textarea id="inv-output" placeholder="Copy this message and send to client..." class="w-full px-4 py-2 rounded-xl border bg-gray-50 text-gray-700 text-sm font-mono" rows="4"></textarea>
+                        <input type="text" id="inv-service" placeholder="Service Name" class="w-full mb-3 px-4 py-2 rounded-xl border bg-gray-50">
+                        <button id="generate-invoice-btn" class="w-full bg-green-600 text-white py-2 rounded-xl font-bold mb-4">Create Link</button>
+                        <textarea id="inv-output" class="w-full px-4 py-2 rounded-xl border bg-gray-50 text-gray-700 text-sm" rows="4"></textarea>
                     </div>
 
-                    <!-- TOOL 3: 1-Click Backup -->
-                    <div class="bg-white p-6 rounded-3xl shadow-lg border border-gray-100 relative overflow-hidden md:col-span-2 flex flex-col items-center text-center">
-                        <div class="absolute top-0 right-0 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">Active</div>
-                        <span class="text-5xl mb-4">📁</span>
-                        <h3 class="font-bold text-2xl mb-2 text-gray-800">1-Click Database Backup</h3>
-                        <p class="text-sm text-gray-500 mb-6 max-w-md">Download a secure copy of your entire website's database.</p>
-                        <button id="backup-btn" class="bg-gray-900 text-white px-10 py-4 rounded-full font-bold hover:bg-black transition shadow-2xl flex items-center gap-2 text-lg">
+                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-lg border md:col-span-2 text-center">
+                        <span class="text-4xl md:text-5xl mb-4 block">📁</span>
+                        <h3 class="font-bold text-xl md:text-2xl mb-2">Database Backup</h3>
+                        <button id="backup-btn" class="w-full md:w-auto bg-gray-900 text-white px-8 py-3 rounded-full font-bold mx-auto flex items-center justify-center gap-2">
                             ⬇️ Download Full Backup
                         </button>
                     </div>
@@ -223,13 +234,28 @@
 
     <script type="module" src="js/admin.js"></script>
     <script>
+        // Tab switching
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('bg-gray-800', 'border-l-4', 'border-orange-500'));
                 btn.classList.add('bg-gray-800', 'border-l-4', 'border-orange-500');
                 document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
                 document.getElementById(btn.dataset.target).classList.add('active');
+                
+                // Auto close sidebar on mobile after clicking a tab
+                if(window.innerWidth < 768) {
+                    document.getElementById('admin-sidebar').classList.add('-translate-x-full');
+                }
             });
+        });
+
+        // Mobile Sidebar Toggle
+        const sidebar = document.getElementById('admin-sidebar');
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            sidebar.classList.remove('-translate-x-full');
+        });
+        document.getElementById('close-sidebar-btn').addEventListener('click', () => {
+            sidebar.classList.add('-translate-x-full');
         });
     </script>
 </body>
