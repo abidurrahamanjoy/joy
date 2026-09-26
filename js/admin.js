@@ -6,24 +6,41 @@ const ADMIN_UID = "Ncb6CS4XZ3TDoc0IF9x6CkwMFJn2";
 let adminChatUnsubscribe = null;
 let activeClientId = null;
 
+// Auth State Monitor
 onAuthStateChanged(auth, (user) => {
     if (user && user.uid === ADMIN_UID) {
-        document.getElementById("login-section").classList.add("hidden");
-        document.getElementById("dashboard-section").classList.remove("hidden");
+        document.getElementById("login-section")?.classList.add("hidden");
+        document.getElementById("dashboard-section")?.classList.remove("hidden");
         loadAdminData();
     } else {
-        document.getElementById("login-section").classList.remove("hidden");
-        document.getElementById("dashboard-section").classList.add("hidden");
+        document.getElementById("login-section")?.classList.remove("hidden");
+        document.getElementById("dashboard-section")?.classList.add("hidden");
     }
 });
 
-document.getElementById("login-btn").addEventListener("click", async () => {
+// Login Button Click Handler
+document.getElementById("login-btn")?.addEventListener("click", async () => {
+    const email = document.getElementById("admin-email").value.trim();
+    const password = document.getElementById("admin-password").value.trim();
+    
+    if(!email || !password) {
+        alert("দয়া করে ইমেইল এবং পাসওয়ার্ড দিন!");
+        return;
+    }
+
     try {
-        const userCredential = await signInWithEmailAndPassword(auth, document.getElementById("admin-email").value, document.getElementById("admin-password").value);
-        if (userCredential.user.uid !== ADMIN_UID) await signOut(auth);
-    } catch { alert("লগইন ফেইলড! ইমেইল বা পাসওয়ার্ড ভুল।"); }
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        if (userCredential.user.uid !== ADMIN_UID) {
+            alert("⚠️ আপনার অ্যাকাউন্টটি সুপার এডমিন নয়!");
+            await signOut(auth);
+        }
+    } catch (error) {
+        console.error("Login Error:", error.code, error.message);
+        alert("লগইন ব্যর্থ হয়েছে! ইমেইল বা পাসওয়ার্ড ভুল অথবা ফায়ারবেস কনফিগারেশনে সমস্যা আছে। (Error: " + error.code + ")");
+    }
 });
-document.getElementById("logout-btn").addEventListener("click", () => signOut(auth));
+
+document.getElementById("logout-btn")?.addEventListener("click", () => signOut(auth));
 
 async function uploadImg(file) {
     try {
@@ -34,13 +51,12 @@ async function uploadImg(file) {
     } catch(err) { return null; }
 }
 
-// 100% SECURE SAVE LOGIC (Prevents overwriting with blank data)
+// SECURE SAVE LOGIC (Prevents Blank Data Overwrite)
 document.getElementById("save-hero-btn")?.addEventListener("click", async (e) => {
     e.target.innerText = "Saving...";
     const file = document.getElementById("hero-image")?.files[0];
     const data = {};
     
-    // Only save text if the input boxes are NOT empty
     const badge = document.getElementById("hero-badge").value.trim();
     const name = document.getElementById("hero-name").value.trim();
     const desc = document.getElementById("hero-desc").value.trim();
@@ -173,21 +189,14 @@ async function loadAdminData() {
         });
         if(document.getElementById("admin-srv-list")) document.getElementById("admin-srv-list").innerHTML = html;
 
-        // BULLETPROOF ADMIN INBOX
-        // ... (Keep the upper part of loadAdminData same) ...
-
-        // BULLETPROOF ADMIN INBOX (Mobile Responsive UI)
+        // BULLETPROOF ADMIN INBOX (Mobile Responsive)
         const inboxContainer = document.getElementById("inbox-messages");
         if(inboxContainer) {
             inboxContainer.innerHTML = `
                 <div class="flex flex-col md:flex-row h-[70vh] md:h-[50vh] gap-4 w-full">
-                    
-                    <!-- User List (Stacks on top for mobile, left side on PC) -->
                     <div id="admin-user-list" class="w-full md:w-1/3 bg-white/60 rounded-xl overflow-y-auto border border-white space-y-2 p-2 h-1/3 md:h-full flex-shrink-0 shadow-inner">
                         <p class="text-sm text-center text-gray-600 p-2">Loading clients...</p>
                     </div>
-                    
-                    <!-- Chat Box (Bottom on mobile, right side on PC) -->
                     <div class="w-full md:w-2/3 bg-white/90 rounded-xl border border-white flex flex-col relative h-2/3 md:h-full shadow-lg">
                         <div id="admin-chat-header" class="p-3 border-b bg-gray-50 rounded-t-xl font-bold text-gray-800 text-center">
                             Select a client to chat
@@ -243,18 +252,14 @@ async function loadAdminData() {
                     allMessages.filter(m => m.clientId === activeClientId).forEach(m => {
                         const isClient = m.sender === 'client';
                         const div = document.createElement("div");
-                        // Mobile friendly chat bubbles
                         div.className = `max-w-[85%] p-3 rounded-2xl text-sm ${isClient ? 'bg-gray-200 text-gray-800 self-start rounded-bl-none' : 'bg-orange-500 text-white self-end rounded-br-none shadow-sm'}`;
                         div.innerText = m.text;
                         chatBox.appendChild(div);
                     });
                     chatBox.scrollTop = chatBox.scrollHeight;
                 }
-            }, (error) => {
-                console.error(error);
             });
 
-            // Instant Admin Reply Fix
             const adminSendBtn = document.getElementById("admin-chat-send");
             const newAdminSendBtn = adminSendBtn.cloneNode(true);
             adminSendBtn.parentNode.replaceChild(newAdminSendBtn, adminSendBtn);
@@ -286,6 +291,44 @@ async function loadAdminData() {
             newAdminSendBtn.addEventListener("click", sendReply);
             document.getElementById("admin-chat-input").addEventListener("keypress", (e) => { if(e.key === 'Enter') sendReply(); });
         }
+    } catch(err) { console.error("Admin Load Error:", err); }
+}
 
-// ... (Keep Advanced tools Logic below as it was) ...
-       
+// ADVANCED TOOLS
+document.getElementById("ai-generate-btn")?.addEventListener("click", () => {
+    const topic = document.getElementById("ai-topic").value.trim();
+    if(!topic) return alert("Please enter a topic first!");
+    const templates = [
+        `Are you looking for professional ${topic} services? I provide top-tier, high-converting solutions tailored to grow your business rapidly.`,
+        `Stop wasting money on poor strategies. As an expert in ${topic}, I apply data-driven methods to ensure maximum ROI for your brand.`
+    ];
+    document.getElementById("ai-output").value = templates[Math.floor(Math.random() * templates.length)];
+});
+
+document.getElementById("generate-invoice-btn")?.addEventListener("click", () => {
+    const cName = document.getElementById("inv-client").value.trim();
+    const srv = document.getElementById("inv-service").value.trim();
+    const amt = document.getElementById("inv-amount").value.trim();
+    if(!cName || !srv || !amt) return alert("Please fill all invoice fields!");
+    document.getElementById("inv-output").value = `*INVOICE*\nHello ${cName},\n*Service:* ${srv}\n*Amount:* ৳${amt}\n*Bkash:* 01786689656\n- Abidur Rahman Joy`;
+});
+
+document.getElementById("backup-btn")?.addEventListener("click", async (e) => {
+    e.target.innerText = "⏳ Preparing...";
+    try {
+        const backupData = { siteData: {}, services: [], backupDate: new Date().toISOString() };
+        const siteDataSnap = await getDocs(collection(db, "siteData"));
+        siteDataSnap.forEach(doc => { backupData.siteData[doc.id] = doc.data(); });
+        const srvSnap = await getDocs(collection(db, "services"));
+        srvSnap.forEach(doc => { backupData.services.push({ id: doc.id, ...doc.data() }); });
+
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
+        const dlAnchorElem = document.createElement('a');
+        dlAnchorElem.setAttribute("href", dataStr);
+        dlAnchorElem.setAttribute("download", `Joy_Portfolio_Backup.json`);
+        document.body.appendChild(dlAnchorElem); dlAnchorElem.click(); dlAnchorElem.remove();
+        
+        e.target.innerText = "✅ Downloaded!";
+        setTimeout(() => e.target.innerHTML = "⬇️ Download Full Backup", 3000);
+    } catch(error) { alert("Backup failed!"); }
+});
