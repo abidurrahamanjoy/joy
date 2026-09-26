@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Admin | Joy Portfolio</title>
+    <title>Admin Dashboard | Joy Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/theme.css">
 </head>
@@ -24,61 +24,54 @@
             <button id="logout-btn" class="bg-red-500 text-white px-6 py-2 rounded-lg font-bold shadow-md">Logout</button>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-6">
-            
-            <!-- Granular Hero Editor (Like Page Builder) -->
-            <div class="bg-white p-6 rounded-3xl shadow-sm border col-span-1 md:col-span-2">
-                <h3 class="text-xl font-bold mb-4 border-b pb-2 text-gray-700">🎨 Advanced Hero Editor</h3>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="text-xs font-bold text-gray-500">Badge/Tag Text</label>
-                        <input type="text" id="hero-badge" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
-                        
-                        <label class="text-xs font-bold text-gray-500">Greeting Text</label>
-                        <input type="text" id="hero-greeting" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
-                        
-                        <label class="text-xs font-bold text-gray-500">Your Name</label>
-                        <input type="text" id="hero-name" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
-                        
-                        <label class="text-xs font-bold text-gray-500">Main Profession Title</label>
-                        <input type="text" id="hero-title" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
-                    </div>
-                    <div>
-                        <label class="text-xs font-bold text-gray-500">Short Subtitle (For Mobile)</label>
-                        <textarea id="hero-desc" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="3"></textarea>
-                        
-                        <div class="flex gap-4 mb-3">
-                            <div class="w-1/2">
-                                <label class="text-xs font-bold text-gray-500">Background Color</label>
-                                <input type="color" id="hero-bg-color" value="#FFF0E6" class="w-full h-10 cursor-pointer rounded border">
-                            </div>
-                            <div class="w-1/2">
-                                <label class="text-xs font-bold text-gray-500">Image Position (PC)</label>
-                                <select id="hero-layout" class="w-full h-10 px-2 rounded border bg-gray-50">
-                                    <option value="right">Image on Right</option>
-                                    <option value="left">Image on Left</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <label class="text-xs font-bold text-gray-500">Profile Image</label>
-                        <input type="file" id="hero-image" class="w-full mb-4 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-orange-50 file:text-orange-700">
-                        
-                        <button id="save-hero-btn" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold shadow-lg hover:bg-blue-700">💾 Save Hero Design</button>
-                    </div>
+        <!-- NEW: Analytics Dashboard -->
+        <div class="bg-gradient-to-r from-gray-900 to-gray-800 p-8 rounded-3xl shadow-xl mb-8 text-white">
+            <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">📊 Live Analytics Tracker</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="bg-white/10 p-4 rounded-2xl">
+                    <p class="text-sm text-gray-300">Total Views</p>
+                    <p id="stat-views" class="text-3xl font-black text-orange-400">0</p>
+                </div>
+                <div class="bg-white/10 p-4 rounded-2xl">
+                    <p class="text-sm text-gray-300">Avg. Time Spent</p>
+                    <p id="stat-time" class="text-3xl font-black text-blue-400">0s</p>
+                </div>
+                <div class="bg-white/10 p-4 rounded-2xl">
+                    <p class="text-sm text-gray-300">WhatsApp Clicks</p>
+                    <p id="stat-wa" class="text-3xl font-black text-green-400">0</p>
+                </div>
+                <div class="bg-white/10 p-4 rounded-2xl">
+                    <p class="text-sm text-gray-300">Facebook Clicks</p>
+                    <p id="stat-fb" class="text-3xl font-black text-blue-500">0</p>
                 </div>
             </div>
+        </div>
 
-            <!-- Education & Services stays same but cleaner UI -->
+        <div class="grid md:grid-cols-2 gap-6">
+            
+            <!-- NEW: Popup Editor -->
             <div class="bg-white p-6 rounded-3xl shadow-sm border">
-                <h3 class="text-xl font-bold mb-4 border-b pb-2 text-gray-700">Add Service Card</h3>
-                <input type="text" id="srv-title" placeholder="Service Name" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
-                <textarea id="srv-desc" placeholder="Service Details" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="3"></textarea>
-                <button id="add-srv-btn" class="w-full bg-green-500 text-white py-2 rounded font-bold mb-4 shadow">Add Service</button>
-                <div id="admin-srv-list" class="space-y-2 max-h-40 overflow-y-auto text-sm"></div>
+                <h3 class="text-xl font-bold mb-4 border-b pb-2 text-gray-700">✨ Update Welcome Popup</h3>
+                <input type="text" id="popup-title" placeholder="Title (e.g., আসসালামু আলাইকুম)" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                <textarea id="popup-desc" placeholder="Welcome Message..." class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="3"></textarea>
+                <label class="text-xs font-bold text-gray-500">3D Peeking Character Image (Transparent PNG best)</label>
+                <input type="file" id="popup-image" class="w-full mb-4 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-orange-50 file:text-orange-700">
+                <button id="save-popup-btn" class="w-full bg-purple-600 text-white py-3 rounded-lg font-bold shadow-lg hover:bg-purple-700">💾 Save Popup Design</button>
             </div>
 
+            <!-- Existing Hero Editor -->
             <div class="bg-white p-6 rounded-3xl shadow-sm border">
+                <h3 class="text-xl font-bold mb-4 border-b pb-2 text-gray-700">🎨 Update Hero Section</h3>
+                <input type="text" id="hero-badge" placeholder="Badge Text" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                <input type="text" id="hero-name" placeholder="Your Name" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                <textarea id="hero-desc" placeholder="Subtitle" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="2"></textarea>
+                <label class="text-xs font-bold text-gray-500">Profile Image</label>
+                <input type="file" id="hero-image" class="w-full mb-4 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-orange-50 file:text-orange-700">
+                <button id="save-hero-btn" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold shadow-lg hover:bg-blue-700">💾 Save Hero Design</button>
+            </div>
+            
+            <!-- Education, Services, Contact Editors (Keep your existing HTML for these sections here to save space in the message) -->
+             <div class="bg-white p-6 rounded-3xl shadow-sm border">
                 <h3 class="text-xl font-bold mb-4 border-b pb-2 text-gray-700">Update Social Links</h3>
                 <input type="text" id="contact-phone" placeholder="WhatsApp Number" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
                 <input type="text" id="contact-fb" placeholder="Facebook URL" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
