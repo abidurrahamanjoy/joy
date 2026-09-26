@@ -5,7 +5,8 @@ let currentClientData = null;
 let chatUnsubscribe = null;
 
 async function renderWebsiteData() {
-    // 1. Core Render Functions (Maintenance, Analytics, Hero, Services, Contacts, Popup)
+    
+    // 1. Core Functions (Maintenance, Promo, SEO)
     try {
         const setSnap = await getDoc(doc(db, "siteData", "settings"));
         if(setSnap.exists()) {
@@ -17,8 +18,10 @@ async function renderWebsiteData() {
         if(seoSnap.exists()) { const seo = seoSnap.data(); if(seo.title) document.title = seo.title; }
     } catch(e){}
 
+    // Analytics Tracking
     try { await setDoc(doc(db, "analytics", "stats"), { views: increment(1) }, { merge: true }); } catch(e){}
 
+    // Render Hero
     try {
         const heroSnap = await getDoc(doc(db, "siteData", "hero"));
         if (heroSnap.exists()) {
@@ -32,6 +35,7 @@ async function renderWebsiteData() {
         }
     } catch(e){}
 
+    // Render Services
     try {
         const srvSnap = await getDocs(query(collection(db, "services"), orderBy("timestamp", "asc")));
         if(!srvSnap.empty) {
@@ -41,6 +45,7 @@ async function renderWebsiteData() {
         }
     } catch(e){}
 
+    // Render Contacts
     try {
         const contactSnap = await getDoc(doc(db, "siteData", "contact"));
         if (contactSnap.exists()) {
@@ -52,6 +57,7 @@ async function renderWebsiteData() {
         }
     } catch(e){}
 
+    // Welcome Popup 
     setTimeout(async () => {
         const lastSeen = localStorage.getItem('joy_popup_seen');
         if (!lastSeen || Date.now() - lastSeen > 86400000) {
@@ -69,10 +75,9 @@ async function renderWebsiteData() {
     }, 1500);
 
     // ==========================================
-    // FLOATING UI & SMART CHAT LOGIC
+    // BULLETPROOF FLOATING UI & SMART CHAT 
     // ==========================================
     
-    // Toggle Menu
     document.getElementById("fab-menu")?.addEventListener("click", () => {
         const m = document.getElementById("glass-menu");
         if(m.classList.contains("hidden")) {
@@ -87,13 +92,12 @@ async function renderWebsiteData() {
         document.getElementById("glass-menu").classList.add("opacity-0", "translate-y-4"); setTimeout(() => document.getElementById("glass-menu").classList.add("hidden"), 300);
     }));
 
-    // Toggle Chat
     const toggleChat = () => {
         const c = document.getElementById("glass-chat");
         if(c.classList.contains("hidden")) {
             c.classList.remove("hidden"); setTimeout(() => { c.classList.remove("opacity-0", "translate-y-4"); }, 10);
             document.getElementById("glass-menu").classList.add("hidden", "opacity-0", "translate-y-4");
-            checkChatSession(); // Check if user already logged in before
+            checkChatSession(); 
         } else {
             c.classList.add("opacity-0", "translate-y-4"); setTimeout(() => c.classList.add("hidden"), 300);
         }
@@ -101,7 +105,6 @@ async function renderWebsiteData() {
     document.getElementById("fab-chat")?.addEventListener("click", toggleChat);
     document.getElementById("close-chat-btn")?.addEventListener("click", toggleChat);
 
-    // Smart LocalStorage Session Logic
     function checkChatSession() {
         const savedSession = localStorage.getItem("joy_chat_session");
         if(savedSession) {
@@ -120,36 +123,62 @@ async function renderWebsiteData() {
         const errBox = document.getElementById("chat-auth-err");
         if(!name) { errBox.innerText = "Please enter your name!"; errBox.classList.remove("hidden"); return; }
         
-        // Generate a random unique ID for this device
         const uniqueId = "client_" + Math.random().toString(36).substr(2, 9) + "_" + Date.now();
-        
         currentClientData = { uid: uniqueId, name: name };
-        localStorage.setItem("joy_chat_session", JSON.stringify(currentClientData)); // Save to memory
+        localStorage.setItem("joy_chat_session", JSON.stringify(currentClientData)); 
         
         document.getElementById("chat-auth-screen").classList.add("hidden");
         document.getElementById("chat-box-screen").classList.remove("hidden");
         loadRealtimeMessages();
     });
 
-    // Send Message
+    // INSTANT SEND LOGIC (WhatsApp Style)
     const sendMsg = async () => {
         const input = document.getElementById("chat-input");
+        const btn = document.getElementById("chat-send-btn");
         const text = input.value.trim();
         if(!text || !currentClientData) return;
-        input.value = "";
         
-        await addDoc(collection(db, "messages"), {
-            clientId: currentClientData.uid,
-            clientName: currentClientData.name,
-            sender: 'client',
-            text: text,
-            timestamp: Date.now()
-        });
+        // 1. Show instantly on screen
+        const chatBox = document.getElementById("chat-messages");
+        const instantDiv = document.createElement("div");
+        instantDiv.className = "max-w-[85%] p-3 rounded-2xl text-sm bg-orange-400 text-white self-end rounded-br-none shadow-sm opacity-70"; 
+        instantDiv.innerText = text;
+        
+        const emptyText = chatBox.querySelector("p.text-gray-500");
+        if (emptyText) emptyText.remove();
+        
+        chatBox.appendChild(instantDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        input.value = "";
+        btn.innerText = "⏳";
+        
+        // 2. Send to Firebase
+        try {
+            await addDoc(collection(db, "messages"), {
+                clientId: currentClientData.uid,
+                clientName: currentClientData.name,
+                sender: 'client',
+                text: text,
+                timestamp: Date.now()
+            });
+            btn.innerText = "➤";
+            instantDiv.classList.remove("opacity-70", "bg-orange-400");
+            instantDiv.classList.add("bg-orange-500");
+        } catch(error) {
+            console.error(error);
+            alert("⚠️ Message failed to send! Please check your Firebase Firestore Rules (allow read, write: if true;)");
+            btn.innerText = "➤";
+            instantDiv.innerText = "❌ Failed to send";
+            instantDiv.classList.add("bg-red-500");
+            input.value = text;
+        }
     };
     document.getElementById("chat-send-btn")?.addEventListener("click", sendMsg);
     document.getElementById("chat-input")?.addEventListener("keypress", (e) => { if(e.key === 'Enter') sendMsg(); });
 
-    // Load Realtime Messages
+    // REALTIME LISTENER WITH ERROR HANDLING
     function loadRealtimeMessages() {
         if(chatUnsubscribe) chatUnsubscribe();
         const q = query(collection(db, "messages"), orderBy("timestamp", "asc"));
@@ -171,10 +200,11 @@ async function renderWebsiteData() {
                 }
             });
             
-            if(!hasMessages) {
-                chatBox.innerHTML = `<p class="text-center text-gray-500 text-sm mt-10">Say hi to Abidur Rahman Joy! 👋</p>`;
-            }
+            if(!hasMessages) chatBox.innerHTML = `<p class="text-center text-gray-500 text-sm mt-10">Say hi to Abidur Rahman Joy! 👋</p>`;
             chatBox.scrollTop = chatBox.scrollHeight;
+        }, (error) => {
+            console.error("onSnapshot Failed:", error);
+            document.getElementById("chat-messages").innerHTML = `<p class="text-center text-red-500 text-sm mt-10 p-4 font-bold border border-red-200 bg-red-50 rounded-xl">⚠️ Database blocked!<br>Make sure your Firebase Firestore Rules allow read and write.</p>`;
         });
     }
 }
