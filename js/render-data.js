@@ -90,17 +90,14 @@ async function renderWebsiteData() {
     setupFloatingUI();
 }
 
-// 100% Safe DOM Loader (Wait for HTML components to load before injecting data)
-const checkDOMReady = setInterval(() => {
-    // Checking if contact section is loaded by loader.js
-    if (document.getElementById("dyn-fb") || document.getElementById("dynamic-hero-name")) {
-        clearInterval(checkDOMReady);
+// 100% Safe DOM Loader (Waits for exactly 1.2 seconds to ensure HTML is ready)
+setTimeout(() => {
+    if(typeof loadComponent === 'function') {
+        loadComponent('popup-container', 'components/popup.html').then(() => renderWebsiteData());
+    } else {
         renderWebsiteData();
     }
-}, 200);
-
-// Stop checking after 10 seconds to prevent infinite loop if components fail
-setTimeout(() => clearInterval(checkDOMReady), 10000);
+}, 1200);
 
 
 // ==========================================
