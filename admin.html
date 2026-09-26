@@ -3,70 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | Joy Portfolio</title>
+    <title>Advanced Admin | Joy Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/theme.css">
 </head>
-<body class="bg-theme text-gray-800">
+<body class="bg-gray-100 text-gray-800">
 
-    <!-- Login Section -->
     <div id="login-section" class="flex items-center justify-center min-h-screen">
-        <div class="glass-effect p-10 rounded-3xl w-full max-w-md text-center shadow-xl">
+        <div class="bg-white p-10 rounded-3xl w-full max-w-md text-center shadow-xl border-t-4 border-orange-500">
             <h2 class="text-3xl font-bold mb-6 text-orange-500">Admin Login</h2>
-            <input type="email" id="admin-email" placeholder="Email" class="w-full mb-4 px-4 py-3 rounded-lg border outline-none">
-            <input type="password" id="admin-password" placeholder="Password" class="w-full mb-6 px-4 py-3 rounded-lg border outline-none">
-            <button id="login-btn" class="w-full bg-orange-500 text-white font-bold py-3 rounded-lg hover:bg-orange-600 transition">Login</button>
-            <p id="login-error" class="text-red-500 text-sm mt-3 hidden">Access Denied! Unauthorized User.</p>
+            <input type="email" id="admin-email" placeholder="Email" class="w-full mb-4 px-4 py-3 rounded-lg border outline-none bg-gray-50">
+            <input type="password" id="admin-password" placeholder="Password" class="w-full mb-6 px-4 py-3 rounded-lg border outline-none bg-gray-50">
+            <button id="login-btn" class="w-full bg-orange-600 text-white font-bold py-3 rounded-lg hover:bg-orange-700 transition shadow-lg">Secure Login</button>
         </div>
     </div>
 
-    <!-- Dashboard Section -->
-    <div id="dashboard-section" class="hidden max-w-6xl mx-auto p-6 mt-10">
-        <div class="flex justify-between items-center mb-10 glass-effect p-6 rounded-2xl">
-            <h2 class="text-3xl font-extrabold text-orange-500">Portfolio Dashboard</h2>
+    <div id="dashboard-section" class="hidden max-w-7xl mx-auto p-4 md:p-8">
+        <div class="flex justify-between items-center mb-8 bg-white p-6 rounded-2xl shadow-sm border">
+            <h2 class="text-2xl md:text-3xl font-extrabold text-orange-600">Control Panel</h2>
             <button id="logout-btn" class="bg-red-500 text-white px-6 py-2 rounded-lg font-bold shadow-md">Logout</button>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-8">
-            <!-- Hero Update -->
-            <div class="glass-effect p-6 rounded-3xl">
-                <h3 class="text-xl font-bold mb-4 border-b pb-2">Update Hero & Profile</h3>
-                <input type="text" id="hero-title" placeholder="Main Title (e.g., Hi, I'm Joy)" class="w-full mb-3 px-4 py-2 rounded border">
-                <textarea id="hero-desc" placeholder="Short Description..." class="w-full mb-3 px-4 py-2 rounded border" rows="3"></textarea>
-                <label class="block text-sm font-semibold mb-1">Profile Image (Cloudinary)</label>
-                <input type="file" id="hero-image" class="w-full mb-4 text-sm">
-                <button id="save-hero-btn" class="w-full bg-blue-500 text-white py-2 rounded font-bold">Save Hero Info</button>
+        <div class="grid md:grid-cols-2 gap-6">
+            
+            <!-- Granular Hero Editor (Like Page Builder) -->
+            <div class="bg-white p-6 rounded-3xl shadow-sm border col-span-1 md:col-span-2">
+                <h3 class="text-xl font-bold mb-4 border-b pb-2 text-gray-700">🎨 Advanced Hero Editor</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="text-xs font-bold text-gray-500">Badge/Tag Text</label>
+                        <input type="text" id="hero-badge" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                        
+                        <label class="text-xs font-bold text-gray-500">Greeting Text</label>
+                        <input type="text" id="hero-greeting" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                        
+                        <label class="text-xs font-bold text-gray-500">Your Name</label>
+                        <input type="text" id="hero-name" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                        
+                        <label class="text-xs font-bold text-gray-500">Main Profession Title</label>
+                        <input type="text" id="hero-title" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-500">Short Subtitle (For Mobile)</label>
+                        <textarea id="hero-desc" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="3"></textarea>
+                        
+                        <div class="flex gap-4 mb-3">
+                            <div class="w-1/2">
+                                <label class="text-xs font-bold text-gray-500">Background Color</label>
+                                <input type="color" id="hero-bg-color" value="#FFF0E6" class="w-full h-10 cursor-pointer rounded border">
+                            </div>
+                            <div class="w-1/2">
+                                <label class="text-xs font-bold text-gray-500">Image Position (PC)</label>
+                                <select id="hero-layout" class="w-full h-10 px-2 rounded border bg-gray-50">
+                                    <option value="right">Image on Right</option>
+                                    <option value="left">Image on Left</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <label class="text-xs font-bold text-gray-500">Profile Image</label>
+                        <input type="file" id="hero-image" class="w-full mb-4 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-orange-50 file:text-orange-700">
+                        
+                        <button id="save-hero-btn" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold shadow-lg hover:bg-blue-700">💾 Save Hero Design</button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Contact Update -->
-            <div class="glass-effect p-6 rounded-3xl">
-                <h3 class="text-xl font-bold mb-4 border-b pb-2">Update Contact Links</h3>
-                <input type="text" id="contact-phone" placeholder="WhatsApp Number" class="w-full mb-3 px-4 py-2 rounded border">
-                <input type="text" id="contact-fb" placeholder="Facebook Link" class="w-full mb-3 px-4 py-2 rounded border">
-                <input type="text" id="contact-linkedin" placeholder="LinkedIn Link" class="w-full mb-4 px-4 py-2 rounded border">
-                <button id="save-contact-btn" class="w-full bg-blue-500 text-white py-2 rounded font-bold">Save Contacts</button>
-            </div>
-
-            <!-- Add Education -->
-            <div class="glass-effect p-6 rounded-3xl">
-                <h3 class="text-xl font-bold mb-4 border-b pb-2">Add New Education</h3>
-                <input type="text" id="edu-title" placeholder="Degree Name (e.g., BAgEd)" class="w-full mb-3 px-4 py-2 rounded border">
-                <textarea id="edu-desc" placeholder="Details (e.g., 4th Semester)" class="w-full mb-3 px-4 py-2 rounded border"></textarea>
-                <button id="add-edu-btn" class="w-full bg-green-500 text-white py-2 rounded font-bold mb-4">Add Education</button>
-                <div id="admin-edu-list" class="space-y-2 max-h-40 overflow-y-auto text-sm"></div>
-            </div>
-
-            <!-- Add Service -->
-            <div class="glass-effect p-6 rounded-3xl">
-                <h3 class="text-xl font-bold mb-4 border-b pb-2">Add New Service</h3>
-                <input type="text" id="srv-title" placeholder="Service Name (e.g., Best Facebook Ad)" class="w-full mb-3 px-4 py-2 rounded border">
-                <textarea id="srv-desc" placeholder="Service Details" class="w-full mb-3 px-4 py-2 rounded border"></textarea>
-                <button id="add-srv-btn" class="w-full bg-green-500 text-white py-2 rounded font-bold mb-4">Add Service</button>
+            <!-- Education & Services stays same but cleaner UI -->
+            <div class="bg-white p-6 rounded-3xl shadow-sm border">
+                <h3 class="text-xl font-bold mb-4 border-b pb-2 text-gray-700">Add Service Card</h3>
+                <input type="text" id="srv-title" placeholder="Service Name" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                <textarea id="srv-desc" placeholder="Service Details" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="3"></textarea>
+                <button id="add-srv-btn" class="w-full bg-green-500 text-white py-2 rounded font-bold mb-4 shadow">Add Service</button>
                 <div id="admin-srv-list" class="space-y-2 max-h-40 overflow-y-auto text-sm"></div>
+            </div>
+
+            <div class="bg-white p-6 rounded-3xl shadow-sm border">
+                <h3 class="text-xl font-bold mb-4 border-b pb-2 text-gray-700">Update Social Links</h3>
+                <input type="text" id="contact-phone" placeholder="WhatsApp Number" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                <input type="text" id="contact-fb" placeholder="Facebook URL" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                <input type="text" id="contact-linkedin" placeholder="LinkedIn URL" class="w-full mb-4 px-4 py-2 rounded border bg-gray-50">
+                <button id="save-contact-btn" class="w-full bg-blue-500 text-white py-2 rounded font-bold shadow">Save Links</button>
             </div>
         </div>
     </div>
-
     <script type="module" src="js/admin.js"></script>
 </body>
 </html>
