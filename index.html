@@ -1,174 +1,177 @@
 <!DOCTYPE html>
-<html lang="bn" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abidur Rahman Joy | Best Web Site Builder & Digital Marketing Expert</title>
-    
-    <!-- AI & SEO Tags -->
-    <meta name="title" content="Abidur Rahman Joy | Best Web Site Builder & Digital Marketing Expert in Bangladesh">
-    <meta name="description" content="Looking for the best web site builder, app developer, or top digital marketing expert in Bangladesh? Abidur Rahman Joy provides high-ROI Facebook boosting, custom eCommerce websites, and graphic design.">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Abidur Rahman Joy | Top Web Developer & Digital Marketer">
-    <meta id="dynamic-og-image" property="og:image" content="">
-
+    <title>Abidur Rahman Joy | Digital Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="css/theme.css">
-    
-    <!-- Marquee Animation -->
     <style>
         @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
         .animate-marquee { display: inline-flex; animation: marquee 20s linear infinite; min-width: 200%; }
+        .organic-shape { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+        .wave-bottom { clip-path: polygon(0 0, 100% 0, 100% 85%, 75% 100%, 50% 85%, 25% 100%, 0 85%); }
     </style>
 </head>
-<body class="antialiased overflow-x-hidden text-gray-800 relative bg-[#fff7f0]">
+<body class="antialiased overflow-x-hidden text-gray-800 bg-white">
 
-    <!-- Header Section Load -->
-    <div id="header-container"></div>
-    <div id="hero-container" class="hidden"></div> <!-- To prevent loader conflict -->
-
-    <!-- ================= HERO SECTION (কম গ্যাপ ও স্কয়ার ছবি) ================= -->
-    <section id="custom-hero-section" class="relative pt-12 md:pt-28 pb-32 z-10 bg-[#fff7f0]">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-10 relative z-20">
-            
-            <!-- Image (মোবাইলে প্রথমে, রাউন্ডেড স্কয়ার শেপ) -->
-            <div class="w-full md:w-1/2 flex justify-center order-1 md:order-2">
-                <div class="relative w-64 h-64 md:w-[420px] md:h-[420px]">
-                    <!-- Background Shadow -->
-                    <div class="absolute inset-0 bg-orange-300 mix-blend-multiply opacity-50 filter blur-2xl rounded-[2.5rem] translate-x-3 translate-y-3"></div>
-                    <!-- The Rounded Square Image -->
-                    <img id="dynamic-hero-img" src="" alt="Hero" class="relative w-full h-full object-cover border-[6px] border-white shadow-2xl z-10 transition-transform hover:scale-105 rounded-[2.5rem]">
-                </div>
+    <!-- 1. Top Bar (Teal) & Navbar -->
+    <div class="bg-[#3e878b] text-white py-2 text-sm z-50 relative">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <div class="flex gap-4">
+                <span class="dynamic-phone-text">📞 +880...</span>
+                <span class="hidden md:inline">✉️ contact@yourdomain.com</span>
             </div>
-            
-            <!-- Text Content -->
-            <div class="w-full md:w-1/2 order-2 md:order-1 text-center md:text-left mt-2 md:mt-0">
-                <span id="dynamic-hero-badge" class="inline-block px-5 py-2 bg-white text-orange-500 rounded-full font-bold text-sm mb-6 shadow-sm border border-orange-100"></span>
-                <h1 class="text-4xl md:text-6xl font-extrabold text-gray-800 mb-4 leading-tight">
-                    Welcome to <br><span id="dynamic-hero-name" class="text-orange-500"></span>
-                </h1>
-                <p id="dynamic-hero-desc" class="text-gray-600 text-lg md:text-xl mb-8 font-medium"></p>
-                <div class="flex gap-4 justify-center md:justify-start">
-                    <a href="#custom-services-section" class="bg-orange-500 text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-orange-500/40 hover:bg-orange-600 transition hover:-translate-y-1 block md:inline-block">Explore More</a>
-                </div>
+            <div class="flex gap-3">
+                <a id="dyn-fb" href="#" class="hover:text-orange-200">FB</a>
+                <a id="dyn-linkedin" href="#" class="hover:text-orange-200">IN</a>
             </div>
         </div>
+    </div>
+    <nav class="bg-white shadow-sm sticky top-0 z-40 py-4">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <div class="font-extrabold text-2xl text-gray-800 flex items-center gap-2">
+                <span class="text-orange-500 text-3xl">❖</span> <span id="dynamic-hero-name">Abidur Rahman Joy</span>
+            </div>
+            <div class="hidden md:flex gap-8 font-semibold text-gray-600">
+                <a href="#hero-section" class="hover:text-orange-500">Home</a>
+                <a href="#about-section" class="hover:text-orange-500">About</a>
+                <a href="#services-container" class="hover:text-orange-500">Services</a>
+            </div>
+            <a href="tel:" class="dynamic-phone-link bg-orange-500 text-white px-6 py-2 rounded-full font-bold shadow-md hover:bg-orange-600">Contact Me</a>
+        </div>
+    </nav>
 
-        <!-- Hero Bottom Wave -->
-        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-10 translate-y-[99%]">
-            <svg class="relative block w-full h-[50px] md:h-[120px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="#ffffff"></path>
+    <!-- 2. Hero Section (Peach Background) -->
+    <section id="hero-section" class="relative bg-[#fff7f0] pt-16 pb-32 overflow-hidden z-10">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-12 relative z-20">
+            <!-- Text (Left on PC, Top on Mobile) -->
+            <div class="w-full md:w-1/2 text-center md:text-left z-20">
+                <span id="dynamic-hero-badge" class="inline-block px-4 py-1 bg-white text-orange-500 rounded-full text-sm font-bold shadow-sm mb-4"></span>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight mb-6">
+                    Professional <br><span class="text-orange-500">Digital Solutions</span> <br>For Your Business.
+                </h1>
+                <p id="dynamic-hero-desc" class="text-gray-600 text-lg mb-8"></p>
+                <a href="#services-container" class="bg-orange-500 text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-orange-500/30 hover:scale-105 transition-transform inline-block">Explore More</a>
+            </div>
+            <!-- Image (Right on PC, Bottom on Mobile) -->
+            <div class="w-full md:w-1/2 flex justify-center relative">
+                <div class="absolute inset-0 bg-orange-200 blur-3xl opacity-50 rounded-full translate-y-10"></div>
+                <!-- Dynamic Image with Wavy bottom cut -->
+                <img id="dynamic-hero-img" src="" alt="Hero" class="w-[85%] md:w-[70%] object-cover wave-bottom shadow-xl relative z-10 bg-white border-[10px] border-white rounded-t-[3rem]">
+            </div>
+        </div>
+        <!-- Bottom Wave -->
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-10 translate-y-[98%]">
+            <svg class="w-full h-[60px] md:h-[120px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="#ffffff"></path>
             </svg>
         </div>
     </section>
 
-    <!-- Education Section Load -->
-    <div id="education-container"></div>
-
-    <!-- ================= RUNNING TEXT (MARQUEE) ================= -->
-    <div class="bg-white py-6 overflow-hidden z-20 relative">
-        <div class="whitespace-nowrap animate-marquee flex gap-10 items-center text-orange-400 font-extrabold text-lg md:text-2xl">
-            <span>✱ 2024 Top Developer</span>
-            <span>✱ Most Impactful Strategies</span>
-            <span>✱ Award Winning Services</span>
-            <span>✱ Certified Freelancer</span>
-            <span>✱ 2024 Top Developer</span>
-            <span>✱ Most Impactful Strategies</span>
-            <span>✱ Award Winning Services</span>
+    <!-- 3. About / Welcome Section (Organic Image) -->
+    <section id="about-section" class="py-24 bg-white relative z-0 mt-10">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
+            <div class="w-full md:w-1/2 flex justify-center relative">
+                <div class="w-72 h-72 md:w-[400px] md:h-[400px] bg-orange-100 organic-shape absolute -z-10 translate-x-4 translate-y-4"></div>
+                <!-- You can bind a secondary image here from Firebase if needed -->
+                <img src="https://via.placeholder.com/400" alt="About" class="w-72 h-72 md:w-[400px] md:h-[400px] object-cover organic-shape shadow-lg border-4 border-white">
+            </div>
+            <div class="w-full md:w-1/2 text-center md:text-left">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-800 mb-4">Welcome To Best Services For Your Business</h2>
+                <p class="text-gray-500 mb-8 leading-relaxed">I provide tailored digital strategies and web development to help you achieve your business goals efficiently.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="bg-[#fff7f0] p-4 rounded-2xl flex items-center gap-4">
+                        <div class="bg-orange-500 text-white p-3 rounded-full">🏆</div>
+                        <div class="text-left"><h4 class="font-bold">Certified</h4><p class="text-xs text-gray-500">Govt. Approved</p></div>
+                    </div>
+                    <div class="bg-[#fff7f0] p-4 rounded-2xl flex items-center gap-4">
+                        <div class="bg-teal-500 text-white p-3 rounded-full">🚀</div>
+                        <div class="text-left"><h4 class="font-bold">High ROI</h4><p class="text-xs text-gray-500">Guaranteed</p></div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Services Section Load -->
-    <div id="services-container" class="hidden"></div> <!-- To prevent loader conflict -->
-
-    <!-- ================= NEW SERVICES SECTION ================= -->
-    <section id="custom-services-section" class="relative bg-[#f9a826] py-24 md:py-32 z-0 mt-8">
+    <!-- 4. Services Section (Orange Wave Background) -->
+    <section id="services-section" class="relative bg-[#f9a826] py-32 mt-16 z-0">
         <!-- Top Wave -->
-        <div class="absolute top-0 left-0 w-full overflow-hidden leading-none z-10 -translate-y-[99%] rotate-180">
-            <svg class="relative block w-full h-[50px] md:h-[120px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="#f9a826"></path>
+        <div class="absolute top-0 left-0 w-full overflow-hidden leading-none z-10 -translate-y-[98%] rotate-180">
+            <svg class="w-full h-[60px] md:h-[120px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="#f9a826"></path>
             </svg>
         </div>
         
         <div class="max-w-7xl mx-auto px-6 relative z-20">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-4">Explore My Services</h2>
-                <p class="text-orange-100 text-lg font-medium">Providing top-tier digital solutions for your business</p>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-4">We Meet Clients At Their Level</h2>
+                <p class="text-orange-100 text-lg">Regardless Of Their Requirements</p>
             </div>
             
-            <div id="dynamic-srv-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- JS will inject cards here -->
-            </div>
+            <!-- Dynamic Services injected here -->
+            <div id="dynamic-srv-container" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
         </div>
 
         <!-- Bottom Wave -->
-        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-10 translate-y-[99%]">
-            <svg class="relative block w-full h-[50px] md:h-[120px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="#ffffff"></path>
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-10 translate-y-[98%]">
+            <svg class="w-full h-[60px] md:h-[120px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="#ffffff"></path>
             </svg>
         </div>
     </section>
 
-    <!-- Contact & Footer Load -->
-    <div id="contact-container"></div>
-    <div id="footer-container"></div>
-
-    <!-- ================= WELCOME POPUP ================= -->
-    <div id="welcome-popup-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-md z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-500">
-        <div class="relative w-11/12 max-w-sm mt-16">
-            <button id="close-popup-btn" class="absolute -top-4 -right-4 bg-white text-gray-800 rounded-full w-10 h-10 flex items-center justify-center shadow-lg font-bold hover:bg-red-100 hover:text-red-600 transition z-50">✕</button>
-            <div class="absolute -top-24 left-1/2 transform -translate-x-1/2 z-20 w-40 h-40">
-                <img id="popup-img" src="" alt="Welcome" class="w-full h-full object-contain drop-shadow-2xl">
-            </div>
-            <div class="bg-white/70 backdrop-blur-xl border border-white/50 p-8 pt-20 rounded-[2.5rem] shadow-2xl text-center relative z-10">
-                <h3 id="popup-title" class="text-2xl font-extrabold text-orange-600 mb-2">Welcome!</h3>
-                <p id="popup-desc" class="text-gray-700 font-medium text-sm leading-relaxed mb-6">Thanks for visiting my portfolio.</p>
-                <button id="popup-action-btn" class="w-full bg-gradient-to-r from-orange-500 to-orange-400 text-white font-bold py-3 rounded-full shadow-lg hover:shadow-orange-500/50 hover:scale-105 transition-transform">Thank You!</button>
-            </div>
+    <!-- 5. Marquee Text -->
+    <div class="bg-white py-12 overflow-hidden z-20 relative">
+        <div class="whitespace-nowrap animate-marquee flex gap-12 items-center text-orange-400 font-extrabold text-xl md:text-2xl">
+            <span>✱ 2024 Social Media</span>
+            <span>✱ Most Impact</span>
+            <span>✱ Award Winning</span>
+            <span>✱ Certified Freelancer</span>
+            <span>✱ 2024 Social Media</span>
+            <span>✱ Most Impact</span>
+            <span>✱ Award Winning</span>
         </div>
     </div>
 
-    <!-- ================= FLOATING ACTION BUTTONS & MENUS ================= -->
-    <div class="fixed bottom-6 right-6 z-[90] flex flex-col gap-4">
-        <button id="fab-menu" class="w-14 h-14 bg-white/80 backdrop-blur-md border border-gray-200 text-gray-800 rounded-full shadow-2xl flex items-center justify-center text-3xl hover:bg-white hover:text-orange-600 transition transform hover:scale-105">⊞</button>
-        <button id="fab-chat" class="w-14 h-14 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-full shadow-2xl flex items-center justify-center text-2xl hover:shadow-orange-500/50 transition transform hover:scale-105">💬</button>
-    </div>
-
-    <div id="glass-menu" class="fixed bottom-24 right-6 w-48 bg-white/70 backdrop-blur-xl border border-white/70 shadow-2xl rounded-3xl p-4 z-[90] hidden opacity-0 transition-all duration-300 transform translate-y-4">
-        <ul class="space-y-2 text-center font-bold text-gray-700">
-            <li><a href="#custom-hero-section" class="block py-2 hover:bg-white/80 rounded-xl menu-link">🏠 Home</a></li>
-            <li><a href="#education-container" class="block py-2 hover:bg-white/80 rounded-xl menu-link">🎓 Education</a></li>
-            <li><a href="#custom-services-section" class="block py-2 hover:bg-white/80 rounded-xl menu-link">💼 Services</a></li>
-            <li><a href="#contact-container" class="block py-2 hover:bg-white/80 rounded-xl menu-link">📞 Contact</a></li>
-        </ul>
-    </div>
-
-    <div id="glass-chat" class="fixed bottom-24 right-6 w-80 sm:w-96 bg-white/80 backdrop-blur-xl border border-white/70 shadow-2xl rounded-[2rem] overflow-hidden z-[90] hidden opacity-0 transition-all duration-300 transform translate-y-4 flex flex-col h-[500px] max-h-[70vh]">
-        <div class="bg-gradient-to-r from-orange-600 to-orange-500 p-4 text-white flex justify-between items-center shadow-md z-10">
-            <div>
-                <h3 class="font-extrabold text-lg">Live Support</h3>
-                <p class="text-xs text-orange-100">Reply time: Usually within minutes</p>
+    <!-- 6. Pricing / Multicolor Review Placeholder -->
+    <section class="py-20 bg-[#fff7f0] relative">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Review 1 -->
+            <div class="bg-[#1f2937] text-white p-8 rounded-[2rem] shadow-lg rounded-bl-none">
+                <p class="mb-4 text-sm">"Incredible service and amazing designs. Highly recommended for any business looking to grow online."</p>
+                <h4 class="font-bold">- Client A</h4>
             </div>
-            <button id="close-chat-btn" class="text-white hover:text-gray-200 font-bold text-xl">✕</button>
-        </div>
-        <div id="chat-auth-screen" class="flex-1 p-6 flex flex-col justify-center items-center text-center overflow-y-auto">
-            <span class="text-5xl mb-4">👋</span>
-            <h4 class="font-bold text-gray-800 text-lg mb-2">Welcome!</h4>
-            <p class="text-sm text-gray-600 mb-6">Enter your name to start chatting.</p>
-            <input type="text" id="chat-name" placeholder="Your Name (e.g. Rahim)" class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white mb-4 outline-none focus:border-orange-500 font-medium">
-            <button id="chat-login-btn" class="w-full bg-gray-900 text-white font-bold py-3 rounded-xl hover:bg-black shadow-lg transition">Start Chat 🚀</button>
-            <p id="chat-auth-err" class="text-red-500 text-xs font-bold mt-3 hidden"></p>
-        </div>
-        <div id="chat-box-screen" class="flex-1 flex flex-col hidden bg-white/50">
-            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3 flex flex-col"></div>
-            <div class="p-3 bg-white border-t border-gray-200 flex gap-2 items-center shadow-inner">
-                <input type="text" id="chat-input" placeholder="Type a message..." class="flex-1 px-4 py-3 rounded-full border border-gray-200 bg-gray-50 outline-none focus:border-orange-300">
-                <button id="chat-send-btn" class="bg-orange-500 text-white w-12 h-12 rounded-full font-bold flex items-center justify-center hover:bg-orange-600 shadow-md text-xl">➤</button>
+            <!-- Review 2 (Teal) -->
+            <div class="bg-[#3e878b] text-white p-8 rounded-[2rem] shadow-lg rounded-bl-none">
+                <p class="mb-4 text-sm">"The web development process was smooth and the ROI on ads was fantastic."</p>
+                <h4 class="font-bold">- Client B</h4>
+            </div>
+            <!-- Review 3 (Orange) -->
+            <div class="bg-[#f9a826] text-white p-8 rounded-[2rem] shadow-lg rounded-bl-none">
+                <p class="mb-4 text-sm">"A true professional who understands digital marketing inside and out."</p>
+                <h4 class="font-bold">- Client C</h4>
             </div>
         </div>
-    </div>
+    </section>
 
-    <script src="js/loader.js"></script>
+    <!-- Footer -->
+    <footer class="bg-gray-50 pt-16 pb-8 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="text-center md:text-left">
+                <h3 class="font-extrabold text-2xl text-gray-800 mb-2">Ready to Grow?</h3>
+                <p class="text-gray-500 mb-4 text-sm">Subscribe for digital marketing tips.</p>
+                <div class="flex">
+                    <input type="email" placeholder="Email Address" class="px-4 py-2 rounded-l-full border border-gray-300 outline-none w-full md:w-64">
+                    <button class="bg-orange-500 text-white px-6 py-2 rounded-r-full font-bold">Join</button>
+                </div>
+            </div>
+            <div class="text-gray-500 text-sm font-medium">
+                © 2024 Abidur Rahman Joy. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Scripts -->
     <script type="module" src="js/firebase-config.js"></script>
     <script type="module" src="js/render-data.js"></script>
 </body>
