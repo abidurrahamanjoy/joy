@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abidur Rahman Joy | Best Web Site Builder, App Builder & Facebook Ads Expert</title>
+    <title>Abidur Rahman Joy | Best Web Site Builder & Facebook Ads Expert</title>
     <meta name="description" content="Looking for the best web site builder, app developer, or top digital marketing expert in Bangladesh?">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/theme.css">
@@ -16,11 +16,32 @@
     <div id="services-container"></div>
     <div id="contact-container"></div>
     <div id="footer-container"></div>
-    <div id="popup-container"></div>
+    
+    <!-- ========================================== -->
+    <!-- WELCOME POPUP (DIRECTLY INJECTED FOR 100% RELIABILITY) -->
+    <!-- ========================================== -->
+    <div id="welcome-popup-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-md z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-500">
+        <div class="relative w-11/12 max-w-sm mt-16">
+            <!-- Close Button -->
+            <button id="close-popup-btn" class="absolute -top-4 -right-4 bg-white text-gray-800 rounded-full w-10 h-10 flex items-center justify-center shadow-lg font-bold hover:bg-red-100 hover:text-red-600 transition z-50">✕</button>
+            
+            <!-- Popup Image -->
+            <div class="absolute -top-24 left-1/2 transform -translate-x-1/2 z-20 w-40 h-40">
+                <img id="popup-img" src="" alt="Welcome" class="w-full h-full object-contain drop-shadow-2xl">
+            </div>
+            
+            <!-- Popup Content Box -->
+            <div class="bg-white/70 backdrop-blur-xl border border-white/50 p-8 pt-20 rounded-[2.5rem] shadow-2xl text-center relative z-10">
+                <h3 id="popup-title" class="text-2xl font-extrabold text-orange-600 mb-2">Welcome!</h3>
+                <p id="popup-desc" class="text-gray-700 font-medium text-sm leading-relaxed mb-6">Thanks for visiting my portfolio.</p>
+                <button id="popup-action-btn" class="w-full bg-gradient-to-r from-orange-500 to-orange-400 text-white font-bold py-3 rounded-full shadow-lg hover:shadow-orange-500/50 hover:scale-105 transition-transform">Thank You!</button>
+            </div>
+        </div>
+    </div>
 
-    <!-- FLOATING ACTION BUTTONS (Updated Menu Icon) -->
+
+    <!-- FLOATING ACTION BUTTONS -->
     <div class="fixed bottom-6 right-6 z-[90] flex flex-col gap-4">
-        <!-- New Modern Menu Icon -->
         <button id="fab-menu" class="w-14 h-14 bg-white/80 backdrop-blur-md border border-gray-200 text-gray-800 rounded-full shadow-2xl flex items-center justify-center text-3xl hover:bg-white hover:text-orange-600 transition transform hover:scale-105">⊞</button>
         <button id="fab-chat" class="w-14 h-14 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-full shadow-2xl flex items-center justify-center text-2xl hover:shadow-orange-500/50 transition transform hover:scale-105">💬</button>
     </div>
@@ -46,7 +67,6 @@
             <button id="close-chat-btn" class="text-white hover:text-gray-200 font-bold text-xl">✕</button>
         </div>
 
-        <!-- Smart Auth Screen (No Password Needed) -->
         <div id="chat-auth-screen" class="flex-1 p-6 flex flex-col justify-center items-center text-center overflow-y-auto">
             <span class="text-5xl mb-4">👋</span>
             <h4 class="font-bold text-gray-800 text-lg mb-2">Welcome!</h4>
@@ -56,10 +76,8 @@
             <p id="chat-auth-err" class="text-red-500 text-xs font-bold mt-3 hidden"></p>
         </div>
 
-        <!-- Realtime Chat Screen -->
         <div id="chat-box-screen" class="flex-1 flex flex-col hidden bg-white/50">
             <div id="chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3 flex flex-col">
-                <!-- Messages load here -->
             </div>
             <div class="p-3 bg-white border-t border-gray-200 flex gap-2 items-center shadow-inner">
                 <input type="text" id="chat-input" placeholder="Type a message..." class="flex-1 px-4 py-3 rounded-full border border-gray-200 bg-gray-50 outline-none focus:border-orange-300">
