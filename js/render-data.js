@@ -1,13 +1,11 @@
 import { db } from "./firebase-config.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-import { doc, getDoc, collection, getDocs, orderBy, query, setDoc, increment, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { doc, getDoc, collection, getDocs, orderBy, query, setDoc, increment, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-const auth = getAuth();
 let currentClientData = null;
 let chatUnsubscribe = null;
 
 async function renderWebsiteData() {
-    // 1. Maintenance, Promo, SEO, Analytics, Hero, Services, Contacts (Same as before)
+    // 1. Core Render Functions (Maintenance, Analytics, Hero, Services, Contacts, Popup)
     try {
         const setSnap = await getDoc(doc(db, "siteData", "settings"));
         if(setSnap.exists()) {
@@ -38,7 +36,7 @@ async function renderWebsiteData() {
         const srvSnap = await getDocs(query(collection(db, "services"), orderBy("timestamp", "asc")));
         if(!srvSnap.empty) {
             let srvHtml = '';
-            srvSnap.forEach(doc => { if(doc.data().isVisible) srvHtml += `<div class="glass-effect p-8 rounded-3xl shadow-md border-t-4 border-orange-500 bg-white/60"><h4 class="font-bold text-lg text-orange-700 mb-3">${doc.data().title}</h4><p class="text-sm">${doc.data().desc}</p></div>`; });
+            srvSnap.forEach(doc => { if(doc.data().isVisible) srvHtml += `<div class="glass-effect p-8 rounded-3xl shadow-md border-t-4 border-orange-500 bg-white/60"><h4 class="font-bold text-lg text-orange-700 mb-3">${doc.data().title}</h4><p class="text-sm text-gray-800 font-medium">${doc.data().desc}</p></div>`; });
             if(document.getElementById("dynamic-srv-container")) document.getElementById("dynamic-srv-container").innerHTML = srvHtml;
         }
     } catch(e){}
@@ -54,7 +52,6 @@ async function renderWebsiteData() {
         }
     } catch(e){}
 
-    // Welcome Popup
     setTimeout(async () => {
         const lastSeen = localStorage.getItem('joy_popup_seen');
         if (!lastSeen || Date.now() - lastSeen > 86400000) {
@@ -72,7 +69,7 @@ async function renderWebsiteData() {
     }, 1500);
 
     // ==========================================
-    // FLOATING UI & REALTIME CHAT LOGIC
+    // FLOATING UI & SMART CHAT LOGIC
     // ==========================================
     
     // Toggle Menu
@@ -96,6 +93,7 @@ async function renderWebsiteData() {
         if(c.classList.contains("hidden")) {
             c.classList.remove("hidden"); setTimeout(() => { c.classList.remove("opacity-0", "translate-y-4"); }, 10);
             document.getElementById("glass-menu").classList.add("hidden", "opacity-0", "translate-y-4");
+            checkChatSession(); // Check if user already logged in before
         } else {
             c.classList.add("opacity-0", "translate-y-4"); setTimeout(() => c.classList.add("hidden"), 300);
         }
@@ -103,42 +101,34 @@ async function renderWebsiteData() {
     document.getElementById("fab-chat")?.addEventListener("click", toggleChat);
     document.getElementById("close-chat-btn")?.addEventListener("click", toggleChat);
 
-    // Chat Auth Logic (Name + Password trick)
-    onAuthStateChanged(auth, (user) => {
-        if (user && user.uid !== "Ncb6CS4XZ3TDoc0IF9x6CkwMFJn2") { // Not admin
+    // Smart LocalStorage Session Logic
+    function checkChatSession() {
+        const savedSession = localStorage.getItem("joy_chat_session");
+        if(savedSession) {
+            currentClientData = JSON.parse(savedSession);
             document.getElementById("chat-auth-screen").classList.add("hidden");
             document.getElementById("chat-box-screen").classList.remove("hidden");
-            currentClientData = { uid: user.uid, name: user.displayName || "Client" };
             loadRealtimeMessages();
         } else {
             document.getElementById("chat-auth-screen").classList.remove("hidden");
             document.getElementById("chat-box-screen").classList.add("hidden");
         }
-    });
+    }
 
-    document.getElementById("chat-login-btn")?.addEventListener("click", async (e) => {
-        const btn = e.target;
+    document.getElementById("chat-login-btn")?.addEventListener("click", () => {
         const name = document.getElementById("chat-name").value.trim();
-        const pass = document.getElementById("chat-pass").value.trim();
         const errBox = document.getElementById("chat-auth-err");
-        if(!name || pass.length < 6) { errBox.innerText = "Name required & Password min 6 chars!"; errBox.classList.remove("hidden"); return; }
+        if(!name) { errBox.innerText = "Please enter your name!"; errBox.classList.remove("hidden"); return; }
         
-        btn.innerText = "Loading..."; errBox.classList.add("hidden");
-        const fakeEmail = name.toLowerCase().replace(/[^a-z0-9]/g, '') + "@joyclient.com";
-
-        try {
-            // Try to login first
-            await signInWithEmailAndPassword(auth, fakeEmail, pass);
-        } catch (err) {
-            // If account doesn't exist, create it seamlessly
-            try {
-                const res = await createUserWithEmailAndPassword(auth, fakeEmail, pass);
-                await setDoc(doc(db, "clients", res.user.uid), { name: name, email: fakeEmail });
-            } catch(e) {
-                errBox.innerText = "Wrong Password or Account Error!"; errBox.classList.remove("hidden");
-            }
-        }
-        btn.innerText = "Start Chat 🚀";
+        // Generate a random unique ID for this device
+        const uniqueId = "client_" + Math.random().toString(36).substr(2, 9) + "_" + Date.now();
+        
+        currentClientData = { uid: uniqueId, name: name };
+        localStorage.setItem("joy_chat_session", JSON.stringify(currentClientData)); // Save to memory
+        
+        document.getElementById("chat-auth-screen").classList.add("hidden");
+        document.getElementById("chat-box-screen").classList.remove("hidden");
+        loadRealtimeMessages();
     });
 
     // Send Message
@@ -159,7 +149,7 @@ async function renderWebsiteData() {
     document.getElementById("chat-send-btn")?.addEventListener("click", sendMsg);
     document.getElementById("chat-input")?.addEventListener("keypress", (e) => { if(e.key === 'Enter') sendMsg(); });
 
-    // Load Realtime Client Messages
+    // Load Realtime Messages
     function loadRealtimeMessages() {
         if(chatUnsubscribe) chatUnsubscribe();
         const q = query(collection(db, "messages"), orderBy("timestamp", "asc"));
@@ -167,16 +157,23 @@ async function renderWebsiteData() {
         chatUnsubscribe = onSnapshot(q, (snapshot) => {
             const chatBox = document.getElementById("chat-messages");
             chatBox.innerHTML = "";
+            let hasMessages = false;
+            
             snapshot.forEach(docSnap => {
                 const data = docSnap.data();
                 if(data.clientId === currentClientData.uid) {
+                    hasMessages = true;
                     const isClient = data.sender === 'client';
                     const div = document.createElement("div");
-                    div.className = `max-w-[80%] p-3 rounded-2xl text-sm ${isClient ? 'bg-orange-500 text-white self-end rounded-br-none' : 'bg-white text-gray-800 self-start rounded-bl-none shadow-sm border border-gray-100'}`;
+                    div.className = `max-w-[85%] p-3 rounded-2xl text-sm ${isClient ? 'bg-orange-500 text-white self-end rounded-br-none shadow-sm' : 'bg-white text-gray-800 self-start rounded-bl-none shadow-md border border-gray-100 font-medium'}`;
                     div.innerText = data.text;
                     chatBox.appendChild(div);
                 }
             });
+            
+            if(!hasMessages) {
+                chatBox.innerHTML = `<p class="text-center text-gray-500 text-sm mt-10">Say hi to Abidur Rahman Joy! 👋</p>`;
+            }
             chatBox.scrollTop = chatBox.scrollHeight;
         });
     }
