@@ -3,44 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | Abidur Rahman Joy</title>
+    <title>Admin Dashboard | Joy Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/theme.css">
 </head>
-<body class="bg-theme flex items-center justify-center min-h-screen">
+<body class="bg-theme text-gray-800">
 
     <!-- Login Section -->
-    <div id="login-section" class="glass-effect p-10 rounded-3xl w-full max-w-md text-center">
-        <h2 class="text-3xl font-bold text-gray-800 mb-6">Admin Login</h2>
-        <input type="email" id="admin-email" placeholder="Email" class="w-full mb-4 px-4 py-2 rounded-lg border outline-none">
-        <input type="password" id="admin-password" placeholder="Password" class="w-full mb-6 px-4 py-2 rounded-lg border outline-none">
-        <button id="login-btn" class="w-full bg-orange-500 text-white font-bold py-2 rounded-lg hover:bg-orange-600 transition">Login</button>
-        <p id="login-error" class="text-red-500 text-sm mt-3 hidden">Invalid credentials or not authorized!</p>
+    <div id="login-section" class="flex items-center justify-center min-h-screen">
+        <div class="glass-effect p-10 rounded-3xl w-full max-w-md text-center shadow-xl">
+            <h2 class="text-3xl font-bold mb-6 text-orange-500">Admin Login</h2>
+            <input type="email" id="admin-email" placeholder="Email" class="w-full mb-4 px-4 py-3 rounded-lg border outline-none">
+            <input type="password" id="admin-password" placeholder="Password" class="w-full mb-6 px-4 py-3 rounded-lg border outline-none">
+            <button id="login-btn" class="w-full bg-orange-500 text-white font-bold py-3 rounded-lg hover:bg-orange-600 transition">Login</button>
+            <p id="login-error" class="text-red-500 text-sm mt-3 hidden">Access Denied! Unauthorized User.</p>
+        </div>
     </div>
 
-    <!-- Dashboard Section (Hidden by default) -->
-    <div id="dashboard-section" class="hidden w-full max-w-4xl p-6">
-        <div class="glass-effect p-8 rounded-3xl">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-bold text-gray-800">Dashboard</h2>
-                <button id="logout-btn" class="bg-red-500 text-white px-4 py-2 rounded-lg font-bold">Logout</button>
-            </div>
-            
-            <!-- Update Hero Section -->
-            <div class="bg-white p-6 rounded-2xl shadow-sm border mb-6">
-                <h3 class="text-xl font-bold text-orange-500 mb-4">Update Hero Section</h3>
-                
-                <label class="block text-sm font-semibold mb-1">Hero Title</label>
-                <input type="text" id="hero-title" class="w-full mb-4 px-4 py-2 border rounded-lg" placeholder="Hi, I'm Abidur Rahman Joy">
-                
-                <label class="block text-sm font-semibold mb-1">Hero Description</label>
-                <textarea id="hero-desc" class="w-full mb-4 px-4 py-2 border rounded-lg" rows="3"></textarea>
-                
+    <!-- Dashboard Section -->
+    <div id="dashboard-section" class="hidden max-w-6xl mx-auto p-6 mt-10">
+        <div class="flex justify-between items-center mb-10 glass-effect p-6 rounded-2xl">
+            <h2 class="text-3xl font-extrabold text-orange-500">Portfolio Dashboard</h2>
+            <button id="logout-btn" class="bg-red-500 text-white px-6 py-2 rounded-lg font-bold shadow-md">Logout</button>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- Hero Update -->
+            <div class="glass-effect p-6 rounded-3xl">
+                <h3 class="text-xl font-bold mb-4 border-b pb-2">Update Hero & Profile</h3>
+                <input type="text" id="hero-title" placeholder="Main Title (e.g., Hi, I'm Joy)" class="w-full mb-3 px-4 py-2 rounded border">
+                <textarea id="hero-desc" placeholder="Short Description..." class="w-full mb-3 px-4 py-2 rounded border" rows="3"></textarea>
                 <label class="block text-sm font-semibold mb-1">Profile Image (Cloudinary)</label>
-                <input type="file" id="hero-image" class="w-full mb-6" accept="image/*">
-                
-                <button id="save-hero-btn" class="bg-green-500 text-white px-6 py-2 rounded-lg font-bold hover:bg-green-600">Save Changes</button>
-                <p id="save-msg" class="text-green-600 font-bold mt-3 hidden">Successfully Updated!</p>
+                <input type="file" id="hero-image" class="w-full mb-4 text-sm">
+                <button id="save-hero-btn" class="w-full bg-blue-500 text-white py-2 rounded font-bold">Save Hero Info</button>
+            </div>
+
+            <!-- Contact Update -->
+            <div class="glass-effect p-6 rounded-3xl">
+                <h3 class="text-xl font-bold mb-4 border-b pb-2">Update Contact Links</h3>
+                <input type="text" id="contact-phone" placeholder="WhatsApp Number" class="w-full mb-3 px-4 py-2 rounded border">
+                <input type="text" id="contact-fb" placeholder="Facebook Link" class="w-full mb-3 px-4 py-2 rounded border">
+                <input type="text" id="contact-linkedin" placeholder="LinkedIn Link" class="w-full mb-4 px-4 py-2 rounded border">
+                <button id="save-contact-btn" class="w-full bg-blue-500 text-white py-2 rounded font-bold">Save Contacts</button>
+            </div>
+
+            <!-- Add Education -->
+            <div class="glass-effect p-6 rounded-3xl">
+                <h3 class="text-xl font-bold mb-4 border-b pb-2">Add New Education</h3>
+                <input type="text" id="edu-title" placeholder="Degree Name (e.g., BAgEd)" class="w-full mb-3 px-4 py-2 rounded border">
+                <textarea id="edu-desc" placeholder="Details (e.g., 4th Semester)" class="w-full mb-3 px-4 py-2 rounded border"></textarea>
+                <button id="add-edu-btn" class="w-full bg-green-500 text-white py-2 rounded font-bold mb-4">Add Education</button>
+                <div id="admin-edu-list" class="space-y-2 max-h-40 overflow-y-auto text-sm"></div>
+            </div>
+
+            <!-- Add Service -->
+            <div class="glass-effect p-6 rounded-3xl">
+                <h3 class="text-xl font-bold mb-4 border-b pb-2">Add New Service</h3>
+                <input type="text" id="srv-title" placeholder="Service Name (e.g., Best Facebook Ad)" class="w-full mb-3 px-4 py-2 rounded border">
+                <textarea id="srv-desc" placeholder="Service Details" class="w-full mb-3 px-4 py-2 rounded border"></textarea>
+                <button id="add-srv-btn" class="w-full bg-green-500 text-white py-2 rounded font-bold mb-4">Add Service</button>
+                <div id="admin-srv-list" class="space-y-2 max-h-40 overflow-y-auto text-sm"></div>
             </div>
         </div>
     </div>
