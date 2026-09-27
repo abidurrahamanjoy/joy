@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /admin.html
-
-Sitemap: https://abidurrahamanjoy.github.io/joy/sitemap.xml
