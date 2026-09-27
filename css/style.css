@@ -21,3 +21,11 @@
     mask-repeat: repeat-x;
     mask-position: bottom;
 }
+
+.hero-image-blend {
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 25%);
+    mask-image: linear-gradient(to right, transparent 0%, black 25%);
+}
+
+.hide-scroll::-webkit-scrollbar { display: none; }
+.hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
