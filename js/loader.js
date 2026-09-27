@@ -14,8 +14,11 @@ async function loadAllComponents() {
     await Promise.all([
         loadComponent('header-container', 'components/header.html'),
         loadComponent('hero-container', 'components/hero.html'),
+        loadComponent('about-container', 'components/about.html'),
         loadComponent('education-container', 'components/education.html'),
         loadComponent('services-container', 'components/services.html'),
+        loadComponent('portfolio-container', 'components/portfolio.html'),
+        loadComponent('certificate-container', 'components/certificate.html'),
         loadComponent('contact-container', 'components/contact.html'),
         loadComponent('footer-container', 'components/footer.html'),
     ]);
