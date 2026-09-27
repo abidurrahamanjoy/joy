@@ -156,6 +156,26 @@ document.getElementById("add-cust-btn")?.addEventListener("click", async (e) => 
     loadAdminData();
 });
 
+document.getElementById("add-work-btn")?.addEventListener("click", async (e) => {
+    const btn = e.target;
+    btn.innerText = "Saving...";
+    const file = document.getElementById("work-image")?.files[0];
+    let imgUrl = "";
+    if (file) { const up = await uploadImg(file); if (up) imgUrl = up; }
+
+    await addDoc(collection(db, "experience"), {
+        title: document.getElementById("work-title").value.trim(),
+        desc: document.getElementById("work-desc").value.trim(),
+        img: imgUrl,
+        isVisible: document.getElementById("work-visible").checked,
+        timestamp: Date.now()
+    });
+    document.getElementById("work-title").value = '';
+    document.getElementById("work-desc").value = '';
+    btn.innerText = "Add Work Sample";
+    loadAdminData();
+});
+
 window.toggleVisibility = async (colName, id, currentState) => { await updateDoc(doc(db, colName, id), { isVisible: !currentState }); loadAdminData(); };
 window.deleteItem = async (colName, id) => { if(confirm("Delete this?")) { await deleteDoc(doc(db, colName, id)); loadAdminData(); } };
 
@@ -252,6 +272,21 @@ async function loadAdminData() {
         });
         if(document.getElementById("admin-cust-list")) document.getElementById("admin-cust-list").innerHTML = custHtml;
 
+        const workSnap = await getDocs(collection(db, "experience"));
+let workHtml = '';
+workSnap.forEach(doc => {
+    const data = doc.data();
+    const visColor = data.isVisible ? "bg-green-100 text-green-700" : "bg-gray-200 text-gray-500";
+    workHtml += `<div class="flex justify-between items-center bg-white p-4 rounded-xl shadow border mb-2">
+                <div><span class="font-bold">${data.title}</span><span class="ml-2 text-xs px-2 py-1 rounded-full ${visColor}">${data.isVisible ? "Public" : "Hidden"}</span></div>
+                <div class="flex gap-2">
+                    <button onclick="toggleVisibility('experience', '${doc.id}', ${data.isVisible})" class="bg-blue-100 text-blue-700 px-3 py-1 rounded font-bold text-sm">Toggle</button>
+                    <button onclick="deleteItem('experience', '${doc.id}')" class="bg-red-100 text-red-600 px-3 py-1 rounded font-bold text-sm">Delete</button>
+                </div>
+            </div>`;
+});
+if(document.getElementById("admin-work-list")) document.getElementById("admin-work-list").innerHTML = workHtml;
+        
         const inboxContainer = document.getElementById("inbox-messages");
         if(inboxContainer) {
             inboxContainer.innerHTML = `
