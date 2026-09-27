@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Abidur Rahman Joy | Web Developer & Digital Marketer in Bangladesh</title>
+
+    <meta id="meta-description" name="description" content="Abidur Rahman Joy — professional web & app developer and Facebook Ads / digital marketing expert based in Sylhet & Habiganj, Bangladesh.">
+    <meta id="meta-keywords" name="keywords" content="web developer bangladesh, website builder sylhet, app developer habiganj, facebook ads expert bd, digital marketer bangladesh, abidur rahman joy">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://abidurrahamanjoy.github.io/joy/">
+
+    <meta id="og-title" property="og:title" content="Abidur Rahman Joy | Web Developer & Digital Marketer">
+    <meta id="og-description" property="og:description" content="Professional websites, apps, and Facebook Ads services in Bangladesh.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://abidurrahamanjoy.github.io/joy/">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Abidur Rahman Joy",
+      "jobTitle": "Web Developer & Digital Marketer",
+      "url": "https://abidurrahamanjoy.github.io/joy/",
+      "email": "abidurrahmanjoy56@gmail.com",
+      "address": { "@type": "PostalAddress", "addressRegion": "Sylhet & Habiganj", "addressCountry": "BD" }
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Nunito', 'sans-serif'] },
+                    colors: {
+                        teal: { DEFAULT: '#0e9490', light: '#14b3ad', dark: '#0a6b68' },
+                        orange: { DEFAULT: '#f48220', light: '#fff7f0', hover: '#e07015' },
+                        navy: { DEFAULT: '#1c325b' }
+                    },
+                    boxShadow: {
+                        soft: '0 10px 40px -10px rgba(0,0,0,0.08)',
+                        glow: '0 10px 25px -5px rgba(244,130,32,0.4)'
+                    }
+                }
+            }
+        };
+    </script>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/theme.css">
+</head>
+<body class="font-sans text-gray-600 antialiased overflow-x-hidden bg-white">
+
+    <div id="header-container"></div>
+    <div id="hero-container"></div>
+    <div id="about-container"></div>
+    <div id="education-container"></div>
+    <div id="services-container"></div>
+    <div id="custom-sections-container"></div>
+    <div id="portfolio-container"></div>
+    <div id="certificate-container"></div>
+    <div id="contact-container"></div>
+    <div id="footer-container"></div>
+
+    <!-- Welcome popup: kept directly here (not fetched) so it's always ready -->
+    <div id="welcome-popup-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center hidden opacity-0 transition-all duration-500">
+        <div class="relative w-11/12 max-w-sm mt-16 transform scale-95 transition-transform duration-500" id="popup-content-box">
+            <button id="close-popup-btn" class="absolute -top-4 -right-4 bg-white text-gray-800 rounded-full w-10 h-10 flex items-center justify-center shadow-lg font-bold hover:bg-gray-100 hover:text-red-500 transition-colors z-30">✖</button>
+            <div class="absolute -top-24 left-1/2 transform -translate-x-1/2 z-20 w-40 h-40">
+                <img id="popup-img" src="https://via.placeholder.com/150" alt="Welcome" class="w-full h-full object-contain drop-shadow-2xl">
+            </div>
+            <div class="bg-white/95 backdrop-blur-xl border border-white p-8 pt-20 rounded-[2.5rem] shadow-2xl text-center relative z-10">
+                <h3 id="popup-title" class="text-2xl font-extrabold text-[#f48220] mb-3">আসসালামু আলাইকুম</h3>
+                <p id="popup-desc" class="text-gray-600 font-medium text-sm leading-relaxed mb-6">
+                    আমার পোর্টফোলিওতে আপনাকে স্বাগতম! আমি আবিদুর রহমান জয়।
+                </p>
+                <button id="popup-action-btn" class="w-full bg-[#f48220] text-white font-bold py-3 rounded-full shadow-lg hover:-translate-y-1 transition-all">Thank You!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating inbox / chat widget: kept directly here so it's always ready -->
+    <button id="fab-chat" aria-label="Chat" class="fixed bottom-6 right-6 z-40 w-16 h-16 rounded-full bg-orange text-white text-2xl shadow-2xl hover:scale-110 transition flex items-center justify-center">💬</button>
+
+    <div id="glass-chat" class="hidden opacity-0 transition-opacity duration-300 fixed bottom-24 right-6 z-40 w-[90vw] max-w-sm h-[70vh] max-h-[520px] bg-white/95 backdrop-blur-xl rounded-3xl flex flex-col overflow-hidden shadow-2xl border border-gray-100">
+        <div class="flex items-center justify-between p-4 bg-orange text-white">
+            <span class="font-bold">Message Abidur Joy</span>
+            <button id="close-chat-btn" class="text-white text-xl leading-none">✖</button>
+        </div>
+
+        <div id="chat-auth-screen" class="flex-1 flex flex-col justify-center p-6 gap-3">
+            <p class="text-sm text-gray-600 font-medium">চ্যাট শুরু করতে আপনার নাম লিখুন:</p>
+            <input id="chat-name" type="text" placeholder="আপনার নাম" class="px-4 py-2 rounded-full border outline-none">
+            <p id="chat-auth-err" class="text-red-500 text-xs hidden"></p>
+            <button id="chat-login-btn" class="bg-orange text-white font-bold py-2 rounded-full">চ্যাট শুরু করুন</button>
+        </div>
+
+        <div id="chat-box-screen" class="hidden flex-1 flex-col">
+            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto flex flex-col gap-2">
+                <p class="text-center text-gray-500 text-sm mt-10">Say hi! 👋</p>
+            </div>
+            <div class="p-3 bg-white flex gap-2 border-t">
+                <input id="chat-input" type="text" placeholder="লিখুন..." class="flex-1 px-4 py-2 rounded-full border outline-none">
+                <button id="chat-send-btn" class="bg-orange text-white w-10 h-10 rounded-full flex items-center justify-center">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/loader.js"></script>
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/popup.js"></script>
+    <script type="module" src="js/render-data.js"></script>
+
+</body>
+</html>

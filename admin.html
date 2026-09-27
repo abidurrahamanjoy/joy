@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agency Dashboard | Abidur Rahman Joy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/theme.css">
+    <style>
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .glass-inbox { background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); }
+        .toggle-checkbox:checked { right: 0; border-color: #f97316; }
+        .toggle-checkbox:checked + .toggle-label { background-color: #f97316; }
+        
+        /* Mobile Sidebar Animation */
+        #admin-sidebar { transition: transform 0.3s ease-in-out; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <!-- Login -->
+    <div id="login-section" class="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+        <div class="bg-white p-8 md:p-10 rounded-3xl w-full max-w-md text-center shadow-2xl border-t-4 border-orange-500">
+            <h2 class="text-3xl font-extrabold mb-6 text-orange-500">Admin Login</h2>
+            <input type="email" id="admin-email" placeholder="Email" class="w-full mb-4 px-4 py-3 rounded-lg border outline-none bg-gray-50">
+            <input type="password" id="admin-password" placeholder="Password" class="w-full mb-6 px-4 py-3 rounded-lg border outline-none bg-gray-50">
+            <button id="login-btn" class="w-full bg-orange-600 text-white font-bold py-3 rounded-lg hover:bg-orange-700 transition shadow-lg">Secure Login</button>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard-section" class="hidden flex h-screen overflow-hidden relative">
+        
+        <!-- Mobile Top Bar (Visible only on mobile) -->
+        <div class="md:hidden fixed top-0 left-0 w-full bg-gray-900 text-white p-4 flex justify-between items-center z-50 shadow-md">
+            <h2 class="text-xl font-black text-orange-500">Agency Panel</h2>
+            <button id="mobile-menu-btn" class="text-2xl">☰</button>
+        </div>
+
+        <!-- Sidebar (Hidden on mobile by default, toggled via JS) -->
+        <aside id="admin-sidebar" class="w-64 bg-gray-900 text-white flex flex-col h-full shadow-2xl fixed md:relative z-40 transform -translate-x-full md:translate-x-0">
+            <div class="p-6 text-center border-b border-gray-700 hidden md:block">
+                <h2 class="text-2xl font-black text-orange-500">Agency Panel</h2>
+                <p class="text-xs text-gray-400 mt-1">Super Admin Mode</p>
+            </div>
+            <!-- Mobile Close Button -->
+            <div class="md:hidden p-4 text-right border-b border-gray-700 mt-14">
+                <button id="close-sidebar-btn" class="text-white font-bold bg-gray-800 px-3 py-1 rounded">✕ Close</button>
+            </div>
+            
+            <nav class="flex-1 overflow-y-auto py-4 space-y-1">
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn active font-medium" data-target="tab-analytics">📊 Analytics</button>
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-inbox">💬 Inbox (Glass)</button>
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-branding">🏷️ Branding / Logo</button>
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-content">📝 Page Content</button>
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-hero">🎨 Hero & Popup</button>
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-services">💼 Services</button>
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-education">🎓 Education</button>
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-certificates">📜 Certificates</button>
+<button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-custom">➕ Custom Sections</button>
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-work">📁 My Work</button>
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-seo">🔍 SEO & Promo</button>
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-tools">🚀 Adv. Tools</button>
+            </nav>
+            <div class="p-4 border-t border-gray-700">
+                <button id="logout-btn" class="w-full bg-red-600 text-white py-2 rounded-lg font-bold hover:bg-red-700">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area (Adjusted padding for mobile) -->
+        <main class="flex-1 h-full overflow-y-auto bg-gray-50 p-4 pt-20 md:pt-8 md:p-8 w-full">
+            
+            <!-- TAB 1: Analytics -->
+            <div id="tab-analytics" class="tab-content active">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-800">Live Analytics</h2>
+                    <div class="flex items-center gap-4 bg-white px-4 py-2 rounded-lg shadow-sm border">
+                        <span class="font-bold text-gray-600 text-sm">Maintenance:</span>
+                        <div class="relative inline-block w-12 align-middle select-none transition duration-200 ease-in">
+                            <input type="checkbox" id="maintenance-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                            <label for="maintenance-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 text-center mb-8">
+                    <div class="bg-white p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-sm border-t-4 border-orange-500">
+                        <p class="text-xs md:text-sm text-gray-500">Views</p>
+                        <p id="stat-views" class="text-2xl md:text-4xl font-black text-gray-800 mt-1">0</p>
+                    </div>
+                    <div class="bg-white p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-sm border-t-4 border-blue-500">
+                        <p class="text-xs md:text-sm text-gray-500">Time</p>
+                        <p id="stat-time" class="text-2xl md:text-4xl font-black text-gray-800 mt-1">0s</p>
+                    </div>
+                    <div class="bg-white p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-sm border-t-4 border-green-500">
+                        <p class="text-xs md:text-sm text-gray-500">WhatsApp</p>
+                        <p id="stat-wa" class="text-2xl md:text-4xl font-black text-gray-800 mt-1">0</p>
+                    </div>
+                    <div class="bg-white p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-sm border-t-4 border-purple-500">
+                        <p class="text-xs md:text-sm text-gray-500">FB Clicks</p>
+                        <p id="stat-fb" class="text-2xl md:text-4xl font-black text-gray-800 mt-1">0</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 md:p-8 rounded-2xl md:rounded-3xl shadow-sm border">
+                    <h3 class="text-lg md:text-xl font-bold mb-4 border-b pb-2">🎉 Promo Bar</h3>
+                    <input type="text" id="promo-text" placeholder="e.g., Eid Offer: 20% Off!" class="w-full mb-4 px-4 py-3 rounded-lg border bg-gray-50">
+                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                        <label class="flex items-center gap-2 cursor-pointer font-bold text-gray-600">
+                            <input type="checkbox" id="promo-show" class="w-5 h-5 rounded text-orange-600"> Show Promo
+                        </label>
+                        <button id="save-promo-btn" class="w-full md:w-auto bg-green-600 text-white px-8 py-3 rounded-lg font-bold shadow-lg hover:bg-green-700">Save Promo</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: INBOX -->
+            <div id="tab-inbox" class="tab-content relative rounded-2xl md:rounded-3xl overflow-hidden p-4 md:p-8" style="background: url('https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=2000') center/cover;">
+                <div class="absolute inset-0 bg-black/40"></div>
+                <div class="relative z-10 glass-inbox p-4 md:p-8 rounded-2xl md:rounded-[2.5rem]">
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-4 drop-shadow-md">Client Inbox</h2>
+                    <div id="inbox-messages" class="w-full">
+                        <!-- Messages Load Here via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: Branding / Logo -->
+            <div id="tab-branding" class="tab-content">
+                <h2 class="text-xl md:text-2xl font-bold mb-6 text-gray-800">Site Branding / Logo</h2>
+                <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border max-w-xl">
+                    <h3 class="font-bold mb-4 border-b pb-2">Logo & Site Name</h3>
+                    <input type="text" id="brand-name" placeholder="Site / Brand Name (e.g. Abidur Rahman Joy)" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                    <label class="text-xs font-bold text-gray-500">Logo Image (optional — leave empty to keep the sun icon)</label>
+                    <input type="file" id="brand-logo" class="w-full mb-4 mt-1 text-sm file:bg-orange-50 file:text-orange-700 file:border-0 file:px-4 file:py-2 file:rounded-full">
+                    <button id="save-branding-btn" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold">Save Branding</button>
+                    <p class="text-xs text-gray-400 mt-3">এখানে লোগো ছবি আপলোড করলে হেডার ও ফুটারের সূর্য আইকনের বদলে সেই লোগো দেখাবে। নাম পরিবর্তন করলে দুই জায়গায়ই নাম বদলে যাবে।</p>
+                </div>
+            </div>
+
+            <!-- TAB: Page Content (header topbar, about, section headings, contact cta, footer) -->
+            <div id="tab-content" class="tab-content">
+                <h2 class="text-xl md:text-2xl font-bold mb-6 text-gray-800">Page Content</h2>
+                <p class="text-xs text-gray-400 mb-6">সাইটের প্রায় সব স্ট্যাটিক টেক্সট এখান থেকে বদলানো যাবে — কোনো টেক্সটবক্স খালি রাখলে আগের টেক্সটই থেকে যাবে।</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <!-- Header Topbar -->
+                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border">
+                        <h3 class="font-bold mb-4 border-b pb-2">Header Top Bar</h3>
+                        <label class="text-xs font-bold text-gray-500">Location text</label>
+                        <input type="text" id="adm-topbar-location" placeholder="Sylhet & Habiganj, Bangladesh" class="w-full mb-3 mt-1 px-4 py-2 rounded border bg-gray-50">
+                        <label class="text-xs font-bold text-gray-500">Email (display only, top bar)</label>
+                        <input type="text" id="adm-topbar-email" placeholder="you@email.com" class="w-full mb-4 mt-1 px-4 py-2 rounded border bg-gray-50">
+                        <button id="save-header-btn" class="w-full bg-blue-600 text-white py-2.5 rounded-lg font-bold">Save Header</button>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border">
+                        <h3 class="font-bold mb-4 border-b pb-2">Footer</h3>
+                        <label class="text-xs font-bold text-gray-500">Copyright line</label>
+                        <input type="text" id="adm-footer-copyright" placeholder="© 2026 Abidur Rahman Joy. All rights reserved." class="w-full mb-4 mt-1 px-4 py-2 rounded border bg-gray-50">
+                        <button id="save-footer-btn" class="w-full bg-blue-600 text-white py-2.5 rounded-lg font-bold">Save Footer</button>
+                    </div>
+
+                    <!-- Contact CTA -->
+                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border">
+                        <h3 class="font-bold mb-4 border-b pb-2">Contact CTA Bar</h3>
+                        <label class="text-xs font-bold text-gray-500">Title</label>
+                        <input type="text" id="adm-contact-cta-title" placeholder="Ready To Start Your Project?" class="w-full mb-3 mt-1 px-4 py-2 rounded border bg-gray-50">
+                        <label class="text-xs font-bold text-gray-500">Subtitle</label>
+                        <input type="text" id="adm-contact-cta-subtitle" placeholder="Message me directly..." class="w-full mb-4 mt-1 px-4 py-2 rounded border bg-gray-50">
+                        <button id="save-contact-cta-btn" class="w-full bg-blue-600 text-white py-2.5 rounded-lg font-bold">Save Contact CTA</button>
+                    </div>
+
+                    <!-- Section Headings -->
+                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border">
+                        <h3 class="font-bold mb-4 border-b pb-2">Section Titles</h3>
+                        <label class="text-xs font-bold text-gray-500">Services — small label</label>
+                        <input type="text" id="adm-services-eyebrow" placeholder="— My Services —" class="w-full mb-3 mt-1 px-4 py-2 rounded border bg-gray-50">
+                        <label class="text-xs font-bold text-gray-500">Services — heading</label>
+                        <input type="text" id="adm-services-title" placeholder="I Deliver Solutions At Every Level" class="w-full mb-3 mt-1 px-4 py-2 rounded border bg-gray-50">
+                        <label class="text-xs font-bold text-gray-500">Education — small label</label>
+                        <input type="text" id="adm-edu-eyebrow" placeholder="— Education & Training —" class="w-full mb-3 mt-1 px-4 py-2 rounded border bg-gray-50">
+                        <label class="text-xs font-bold text-gray-500">Education — heading</label>
+                        <input type="text" id="adm-edu-title" placeholder="My Learning Journey So Far" class="w-full mb-3 mt-1 px-4 py-2 rounded border bg-gray-50">
+                        <label class="text-xs font-bold text-gray-500">Certificates — heading</label>
+                        <input type="text" id="adm-cert-title" placeholder="Skills Certificates From Abidur Joy" class="w-full mb-3 mt-1 px-4 py-2 rounded border bg-gray-50">
+                        <label class="text-xs font-bold text-gray-500">Certificates — description</label>
+                        <input type="text" id="adm-cert-desc" placeholder="Trained & certified in..." class="w-full mb-3 mt-1 px-4 py-2 rounded border bg-gray-50">
+                        <label class="text-xs font-bold text-gray-500">Portfolio — heading</label>
+                        <input type="text" id="adm-portfolio-title" placeholder="My Recent Work" class="w-full mb-4 mt-1 px-4 py-2 rounded border bg-gray-50">
+                        <button id="save-sections-btn" class="w-full bg-blue-600 text-white py-2.5 rounded-lg font-bold">Save Section Titles</button>
+                    </div>
+
+                    <!-- About Section -->
+                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border md:col-span-2">
+                        <h3 class="font-bold mb-4 border-b pb-2">About Section</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-xs font-bold text-gray-500">Small label</label>
+                                <input type="text" id="adm-about-eyebrow" placeholder="About Me" class="w-full mb-3 mt-1 px-4 py-2 rounded border bg-gray-50">
+                                <label class="text-xs font-bold text-gray-500">Heading</label>
+                                <input type="text" id="adm-about-title" placeholder="Building Digital Success, One Project At A Time" class="w-full mb-3 mt-1 px-4 py-2 rounded border bg-gray-50">
+                                <label class="text-xs font-bold text-gray-500">Paragraph</label>
+                                <textarea id="adm-about-paragraph" rows="4" class="w-full mb-3 mt-1 px-4 py-2 rounded border bg-gray-50"></textarea>
+                                <label class="text-xs font-bold text-gray-500">Photo badge title / subtitle</label>
+                                <div class="flex gap-2 mb-3 mt-1">
+                                    <input type="text" id="adm-about-badge-title" placeholder="Youth Dept." class="w-1/2 px-4 py-2 rounded border bg-gray-50">
+                                    <input type="text" id="adm-about-badge-desc" placeholder="Trained Professional" class="w-1/2 px-4 py-2 rounded border bg-gray-50">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-gray-500">Feature 1 title / desc</label>
+                                <div class="flex gap-2 mb-3 mt-1">
+                                    <input type="text" id="adm-about-feat1-title" placeholder="Quality First" class="w-1/2 px-4 py-2 rounded border bg-gray-50">
+                                    <input type="text" id="adm-about-feat1-desc" placeholder="Premium, reliable work" class="w-1/2 px-4 py-2 rounded border bg-gray-50">
+                                </div>
+                                <label class="text-xs font-bold text-gray-500">Feature 2 title / desc</label>
+                                <div class="flex gap-2 mb-3 mt-1">
+                                    <input type="text" id="adm-about-feat2-title" placeholder="My Mission" class="w-1/2 px-4 py-2 rounded border bg-gray-50">
+                                    <input type="text" id="adm-about-feat2-desc" placeholder="Grow your brand online" class="w-1/2 px-4 py-2 rounded border bg-gray-50">
+                                </div>
+                                <label class="text-xs font-bold text-gray-500">Feature 3 title / desc</label>
+                                <div class="flex gap-2 mb-3 mt-1">
+                                    <input type="text" id="adm-about-feat3-title" placeholder="Trained & Skilled" class="w-1/2 px-4 py-2 rounded border bg-gray-50">
+                                    <input type="text" id="adm-about-feat3-desc" placeholder="Certified professional" class="w-1/2 px-4 py-2 rounded border bg-gray-50">
+                                </div>
+                                <label class="text-xs font-bold text-gray-500">Feature 4 title <span class="normal-case font-normal">(subtitle is always your WhatsApp number)</span></label>
+                                <input type="text" id="adm-about-feat4-title" placeholder="Get In Touch" class="w-full mb-3 mt-1 px-4 py-2 rounded border bg-gray-50">
+                            </div>
+                        </div>
+                        <button id="save-about-btn" class="w-full bg-blue-600 text-white py-2.5 rounded-lg font-bold mt-2">Save About Section</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- TAB 3: Hero & Popup -->
+            <div id="tab-hero" class="tab-content">
+                <h2 class="text-xl md:text-2xl font-bold mb-6 text-gray-800">Visual Settings</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Same forms, just using grid-cols-1 on mobile -->
+                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border">
+                        <h3 class="font-bold mb-4 border-b pb-2">Hero Section</h3>
+                        <input type="text" id="hero-badge" placeholder="Badge Text" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                        <input type="text" id="hero-name" placeholder="Name" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                        <textarea id="hero-desc" placeholder="Description" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="3"></textarea>
+                        
+                        <div class="flex flex-col md:flex-row gap-4 mb-3">
+                            <div class="w-full md:w-1/2">
+                                <label class="text-xs font-bold text-gray-500">Background Color</label>
+                                <input type="color" id="hero-bg-color" value="#FFF0E6" class="w-full h-10 cursor-pointer rounded border">
+                            </div>
+                            <div class="w-full md:w-1/2">
+                                <label class="text-xs font-bold text-gray-500">Image Position</label>
+                                <select id="hero-layout" class="w-full h-10 px-2 rounded border bg-gray-50">
+                                    <option value="right">Right</option>
+                                    <option value="left">Left</option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="file" id="hero-image" class="w-full mb-4 text-sm file:bg-orange-50 file:text-orange-700 file:border-0 file:px-4 file:py-2 file:rounded-full">
+                        <button id="save-hero-btn" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold">Save Hero Data</button>
+                    </div>
+                    
+                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border">
+                        <h3 class="font-bold mb-4 border-b pb-2">Welcome Popup</h3>
+                        <input type="text" id="popup-title" placeholder="Title" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                        <textarea id="popup-desc" placeholder="Message" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="3"></textarea>
+                        <input type="file" id="popup-image" class="w-full mb-4 text-sm file:bg-purple-50 file:text-purple-700 file:border-0 file:px-4 file:py-2 file:rounded-full">
+                        <button id="save-popup-btn" class="w-full bg-purple-600 text-white py-3 rounded-lg font-bold mt-4">Save Popup</button>
+
+                        <h3 class="font-bold mt-8 mb-4 border-b pb-2">Social Links</h3>
+                        <input type="text" id="contact-phone" placeholder="WhatsApp Number" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                        <input type="text" id="contact-fb" placeholder="Facebook URL" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                        <input type="text" id="contact-linkedin" placeholder="LinkedIn URL" class="w-full mb-4 px-4 py-2 rounded border bg-gray-50">
+                        <button id="save-contact-btn" class="w-full bg-blue-500 text-white py-2 rounded font-bold shadow">Save Links</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: Services -->
+            <div id="tab-services" class="tab-content">
+                <h2 class="text-xl md:text-2xl font-bold mb-6 text-gray-800">Services Manager</h2>
+                <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border mb-8">
+                    <h3 class="font-bold mb-4">Add New Service</h3>
+                    <input type="text" id="srv-title" placeholder="Service Name" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                    <textarea id="srv-desc" placeholder="Details" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="3"></textarea>
+                    <label class="flex items-center gap-2 mb-4 cursor-pointer font-bold text-gray-600">
+                        <input type="checkbox" id="srv-visible" checked class="w-5 h-5 rounded text-orange-600"> Show publicly
+                    </label>
+                    <button id="add-srv-btn" class="w-full bg-green-500 text-white py-3 rounded-lg font-bold">Add Service</button>
+                </div>
+                <div id="admin-srv-list" class="space-y-3"></div>
+            </div>
+
+            <!-- TAB 4B: Education -->
+<div id="tab-education" class="tab-content">
+    <h2 class="text-xl md:text-2xl font-bold mb-6 text-gray-800">Education Manager</h2>
+    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border mb-8">
+        <h3 class="font-bold mb-4">Add New Education/Training Item</h3>
+        <input type="text" id="edu-icon" placeholder="Icon (emoji, e.g. 🎓)" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+        <input type="text" id="edu-title" placeholder="Title" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+        <textarea id="edu-desc" placeholder="Details" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="3"></textarea>
+        <label class="flex items-center gap-2 mb-4 cursor-pointer font-bold text-gray-600">
+            <input type="checkbox" id="edu-visible" checked class="w-5 h-5 rounded text-orange-600"> Show publicly
+        </label>
+        <button id="add-edu-btn" class="w-full bg-green-500 text-white py-3 rounded-lg font-bold">Add Item</button>
+    </div>
+    <p class="text-xs text-gray-400 mb-3">যদি এখানে কিছু যোগ না করেন, সাইটে আগের ৩টা ডিফল্ট কার্ড দেখাতে থাকবে। একটা যোগ করলেই সেগুলোর বদলে এখানকার তালিকা দেখানো শুরু হবে।</p>
+    <div id="admin-edu-list" class="space-y-3"></div>
+</div>
+
+<!-- TAB 4C: Custom Sections -->
+<div id="tab-custom" class="tab-content">
+    <h2 class="text-xl md:text-2xl font-bold mb-6 text-gray-800">Custom Sections</h2>
+    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border mb-8">
+        <h3 class="font-bold mb-4">Add New Section</h3>
+        <input type="text" id="cust-title" placeholder="Section Title" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+        <textarea id="cust-desc" placeholder="Section Text/Description" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="4"></textarea>
+        <input type="file" id="cust-image" class="w-full mb-3 text-sm file:bg-orange-50 file:text-orange-700 file:border-0 file:px-4 file:py-2 file:rounded-full">
+        <label class="font-bold text-gray-700 text-sm">Order (ছোট নম্বর আগে দেখাবে)</label>
+        <input type="number" id="cust-order" placeholder="e.g. 1" value="1" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+        <label class="flex items-center gap-2 mb-4 cursor-pointer font-bold text-gray-600">
+            <input type="checkbox" id="cust-visible" checked class="w-5 h-5 rounded text-orange-600"> Show publicly
+        </label>
+        <button id="add-cust-btn" class="w-full bg-green-500 text-white py-3 rounded-lg font-bold">Add Section</button>
+    </div>
+    <p class="text-xs text-gray-400 mb-3">এখানে যোগ করা প্রতিটা সেকশন Services আর Contact-এর মাঝখানে ক্রম অনুযায়ী দেখাবে — কোনো কোড ছাড়াই।</p>
+    <div id="admin-cust-list" class="space-y-3"></div>
+</div>
+
+            <div id="tab-work" class="tab-content">
+    <h2 class="text-xl md:text-2xl font-bold mb-6 text-gray-800">Work / Portfolio Manager</h2>
+    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border mb-8">
+        <h3 class="font-bold mb-4">Add New Work Sample</h3>
+        <input type="text" id="work-title" placeholder="Project Title" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+        <textarea id="work-desc" placeholder="Short Description" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="3"></textarea>
+        <input type="file" id="work-image" class="w-full mb-3 text-sm file:bg-orange-50 file:text-orange-700 file:border-0 file:px-4 file:py-2 file:rounded-full">
+        <label class="flex items-center gap-2 mb-4 cursor-pointer font-bold text-gray-600">
+            <input type="checkbox" id="work-visible" checked class="w-5 h-5 rounded text-orange-600"> Show publicly
+        </label>
+        <button id="add-work-btn" class="w-full bg-green-500 text-white py-3 rounded-lg font-bold">Add Work Sample</button>
+    </div>
+    <div id="admin-work-list" class="space-y-3"></div>
+</div>
+
+            <!-- TAB: Certificates -->
+            <div id="tab-certificates" class="tab-content">
+                <h2 class="text-xl md:text-2xl font-bold mb-6 text-gray-800">Certificates Manager</h2>
+                <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border mb-8">
+                    <h3 class="font-bold mb-4">Add New Certificate</h3>
+                    <input type="text" id="cert-title" placeholder="Certificate Title" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                    <input type="text" id="cert-subtitle" placeholder="Subtitle (e.g. Digital Marketing)" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                    <select id="cert-category" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+                        <option value="dev">Web & App Dev</option>
+                        <option value="marketing">Digital Marketing</option>
+                    </select>
+                    <input type="file" id="cert-image" class="w-full mb-3 text-sm file:bg-orange-50 file:text-orange-700 file:border-0 file:px-4 file:py-2 file:rounded-full">
+                    <label class="flex items-center gap-2 mb-4 cursor-pointer font-bold text-gray-600">
+                        <input type="checkbox" id="cert-visible" checked class="w-5 h-5 rounded text-orange-600"> Show publicly
+                    </label>
+                    <button id="add-cert-btn" class="w-full bg-green-500 text-white py-3 rounded-lg font-bold">Add Certificate</button>
+                </div>
+                <p class="text-xs text-gray-400 mb-3">যদি এখানে কিছু যোগ না করেন, সাইটে আগের ৩টা ডিফল্ট সার্টিফিকেট কার্ড দেখাতে থাকবে। একটা যোগ করলেই সেগুলোর বদলে এখানকার তালিকা দেখানো শুরু হবে।</p>
+                <div id="admin-cert-list" class="space-y-3"></div>
+            </div>
+
+            <!-- TAB 5: SEO -->
+            <div id="tab-seo" class="tab-content">
+                <h2 class="text-xl md:text-2xl font-bold mb-6 text-gray-800">SEO Controller</h2>
+                <div class="bg-white p-5 md:p-8 rounded-2xl shadow-sm border">
+                    <label class="font-bold text-gray-700">Website Title</label>
+                    <input type="text" id="seo-title" class="w-full mb-4 px-4 py-3 rounded border bg-gray-50">
+                    <label class="font-bold text-gray-700">Meta Description</label>
+                    <textarea id="seo-desc" class="w-full mb-4 px-4 py-3 rounded border bg-gray-50" rows="3"></textarea>
+                    <label class="font-bold text-gray-700">Keywords (Comma separated)</label>
+                    <textarea id="seo-keywords" class="w-full mb-6 px-4 py-3 rounded border bg-gray-50" rows="2"></textarea>
+                    <button id="save-seo-btn" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-bold">Update SEO</button>
+                </div>
+            </div>
+
+            <!-- TAB 6: Advanced Tools -->
+            <div id="tab-tools" class="tab-content">
+                <h2 class="text-2xl md:text-3xl font-extrabold mb-6 text-gray-800 border-b-4 border-orange-500 inline-block pb-2">Advanced Tools</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                    
+                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-lg border relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">Active</div>
+                        <h3 class="font-bold text-lg md:text-xl mb-4">🤖 AI Writer</h3>
+                        <input type="text" id="ai-topic" placeholder="Topic" class="w-full mb-3 px-4 py-2 rounded-xl border bg-gray-50">
+                        <button id="ai-generate-btn" class="w-full bg-blue-600 text-white py-2 rounded-xl font-bold mb-4">Generate ✨</button>
+                        <textarea id="ai-output" class="w-full px-4 py-2 rounded-xl border bg-gray-50 text-gray-700" rows="4"></textarea>
+                    </div>
+
+                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-lg border relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">Active</div>
+                        <h3 class="font-bold text-lg md:text-xl mb-4">🧾 Invoice</h3>
+                        <div class="flex flex-col md:flex-row gap-2 mb-3">
+                            <input type="text" id="inv-client" placeholder="Client Name" class="w-full md:w-1/2 px-4 py-2 rounded-xl border bg-gray-50">
+                            <input type="number" id="inv-amount" placeholder="Amount (৳)" class="w-full md:w-1/2 px-4 py-2 rounded-xl border bg-gray-50">
+                        </div>
+                        <input type="text" id="inv-service" placeholder="Service Name" class="w-full mb-3 px-4 py-2 rounded-xl border bg-gray-50">
+                        <button id="generate-invoice-btn" class="w-full bg-green-600 text-white py-2 rounded-xl font-bold mb-4">Create Link</button>
+                        <textarea id="inv-output" class="w-full px-4 py-2 rounded-xl border bg-gray-50 text-gray-700 text-sm" rows="4"></textarea>
+                    </div>
+
+                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-lg border md:col-span-2 text-center">
+                        <span class="text-4xl md:text-5xl mb-4 block">📁</span>
+                        <h3 class="font-bold text-xl md:text-2xl mb-2">Database Backup</h3>
+                        <button id="backup-btn" class="w-full md:w-auto bg-gray-900 text-white px-8 py-3 rounded-full font-bold mx-auto flex items-center justify-center gap-2">
+                            ⬇️ Download Full Backup
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script type="module" src="js/admin.js"></script>
+    <script>
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('bg-gray-800', 'border-l-4', 'border-orange-500'));
+                btn.classList.add('bg-gray-800', 'border-l-4', 'border-orange-500');
+                document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+                document.getElementById(btn.dataset.target).classList.add('active');
+                
+                // Auto close sidebar on mobile after clicking a tab
+                if(window.innerWidth < 768) {
+                    document.getElementById('admin-sidebar').classList.add('-translate-x-full');
+                }
+            });
+        });
+
+        // Mobile Sidebar Toggle
+        const sidebar = document.getElementById('admin-sidebar');
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            sidebar.classList.remove('-translate-x-full');
+        });
+        document.getElementById('close-sidebar-btn').addEventListener('click', () => {
+            sidebar.classList.add('-translate-x-full');
+        });
+    </script>
+</body>
+</html>
