@@ -295,3 +295,8 @@ document.addEventListener("componentsLoaded", () => {
     setupFloatingUI();
     renderWebsiteData();
 });
+// Fallback if componentsLoaded doesn't fire naturally
+setTimeout(() => {
+    setupFloatingUI();
+    renderWebsiteData();
+}, 500);
