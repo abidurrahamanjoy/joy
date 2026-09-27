@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">Abidur Rahman Joy | Web Developer & Digital Marketer in Bangladesh</title>
-    
+
     <meta id="meta-description" name="description" content="Abidur Rahman Joy — professional web & app developer and Facebook Ads / digital marketing expert based in Sylhet & Habiganj, Bangladesh. Fast, affordable, high-converting websites, apps, and ad campaigns.">
     <meta id="meta-keywords" name="keywords" content="web developer bangladesh, website builder sylhet, app developer habiganj, facebook ads expert bd, digital marketer bangladesh, abidur rahman joy">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://abidurrahamanjoy.github.io/joy/">
-    
+
     <meta id="og-title" property="og:title" content="Abidur Rahman Joy | Web Developer & Digital Marketer">
     <meta id="og-description" property="og:description" content="Professional websites, apps, and Facebook Ads services in Bangladesh.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://abidurrahamanjoy.github.io/joy/">
-    
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -26,159 +26,29 @@
       "address": { "@type": "PostalAddress", "addressRegion": "Sylhet & Habiganj", "addressCountry": "BD" }
     }
     </script>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Nunito', 'sans-serif'] },
-                    colors: {
-                        primary: '#f48220',
-                        secondary: '#1c325b',
-                        themebg: '#FAFAFA'
-                    }
-                }
-            }
-        };
+        tailwind.config = { theme: { extend: { fontFamily: { sans: ['Nunito', 'sans-serif'] } } } };
     </script>
-    
+
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/theme.css">
 </head>
-<body class="font-sans text-gray-700 antialiased bg-themebg overflow-x-hidden">
+<body class="font-sans text-gray-700 antialiased bg-theme overflow-x-hidden">
 
-    <!-- Header Section -->
-    <header class="w-full py-4 px-6 md:px-12 flex justify-between items-center bg-white shadow-sm sticky top-0 z-50">
-        <div class="text-3xl font-extrabold text-secondary flex items-center gap-2">
-            <span class="text-primary text-4xl"><i class="fas fa-child"></i></span> Joy.
-        </div>
-        <nav class="hidden md:flex gap-6 font-bold text-secondary">
-            <a href="#" class="hover:text-primary transition">Home</a>
-            <a href="#about" class="hover:text-primary transition">About</a>
-            <a href="#services" class="hover:text-primary transition">Services</a>
-            <a href="#contact" class="hover:text-primary transition">Contact</a>
-        </nav>
-        <button id="mobile-menu-btn" class="md:hidden text-2xl text-secondary">☰</button>
-    </header>
-
-    <!-- Mobile Menu -->
-    <div id="mobile-menu-dropdown" class="hidden flex-col bg-white shadow-md absolute w-full z-40 p-4 font-bold text-secondary">
-        <a href="#" class="block py-2 hover:text-primary">Home</a>
-        <a href="#about" class="block py-2 hover:text-primary">About</a>
-        <a href="#services" class="block py-2 hover:text-primary">Services</a>
-    </div>
-
-    <!-- Hero Section (Kidsa UI) -->
-    <section class="wave-shape-bg pt-16 pb-32 px-6 lg:px-20 flex flex-col md:flex-row items-center justify-between">
-        <div class="md:w-1/2 space-y-6">
-            <span id="dynamic-hero-badge" class="text-primary font-bold bg-white px-4 py-1 rounded-full shadow-sm">Welcome to My Portfolio</span>
-            <h1 class="text-5xl lg:text-6xl font-extrabold text-secondary leading-tight">
-                <span id="dynamic-hero-name">Web & App Developer</span> <br> 
-                <span class="text-primary">On First Day.</span>
-            </h1>
-            <p id="dynamic-hero-desc" class="text-gray-600 font-medium max-w-md text-lg">
-                Experience premium digital marketing and web development services. See the difference in your brand's growth!
-            </p>
-            <div class="flex gap-4 pt-4">
-                <button class="bg-primary text-white px-8 py-3 rounded-full font-bold shadow-lg hover:shadow-xl hover:-translate-y-1 transition">Get Started →</button>
-                <button class="bg-white border-2 border-primary text-primary px-8 py-3 rounded-full font-bold shadow-lg hover:bg-primary hover:text-white transition">Watch Video ▶</button>
-            </div>
-        </div>
-        <div class="md:w-1/2 mt-12 md:mt-0 relative flex justify-center">
-            <img id="dynamic-hero-img" src="https://via.placeholder.com/600x500" alt="Joy" class="organic-shape shadow-2xl w-full max-w-md border-8 border-white z-10">
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="py-20 px-6 lg:px-20 max-w-7xl mx-auto flex flex-col md:flex-row gap-12 items-center">
-        <div class="md:w-1/2 relative">
-            <div class="absolute inset-0 bg-orange-100 rounded-[3rem] transform -rotate-3 scale-105 z-0"></div>
-            <img id="dynamic-about-img" src="https://via.placeholder.com/500x500" alt="About Me" class="relative z-10 rounded-[3rem] shadow-xl scalloped-image-mask">
-        </div>
-        <div class="md:w-1/2">
-            <h4 class="text-primary font-bold mb-2">About Us</h4>
-            <h2 class="text-4xl font-extrabold text-secondary mb-6">Welcome To Best Digital Services For Your Business</h2>
-            <p class="text-gray-600 mb-8 font-medium leading-relaxed">
-                I provide safe, innovative, and stimulating solutions for your brand's growth and development. My goal is to build confidence, creativity, and a bright future for you.
-            </p>
-            <div class="grid grid-cols-2 gap-6">
-                <div class="flex items-start gap-4">
-                    <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-primary text-2xl"><i class="fas fa-shield-alt"></i></div>
-                    <div><h4 class="font-bold text-secondary">Safe & Secure</h4><p class="text-sm text-gray-500">Your data is our priority.</p></div>
-                </div>
-                <div class="flex items-start gap-4">
-                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-secondary text-2xl"><i class="fas fa-user-graduate"></i></div>
-                    <div><h4 class="font-bold text-secondary">Govt. Certified</h4><p class="text-sm text-gray-500">Experienced freelancer.</p></div>
-                </div>
-                <div class="flex items-start gap-4">
-                    <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-primary text-2xl"><i class="fas fa-bullseye"></i></div>
-                    <div><h4 class="font-bold text-secondary">Our Mission</h4><p class="text-sm text-gray-500">To nurture successful brands.</p></div>
-                </div>
-                <div class="flex items-start gap-4">
-                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-secondary text-2xl"><i class="fas fa-phone-alt"></i></div>
-                    <div><h4 class="font-bold text-secondary">Get In Touch</h4><p class="text-sm text-gray-500 dynamic-phone-text">+880 123 456 789</p></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services (Kidsa Classes Style) -->
-    <section id="services" class="py-20 bg-primary px-6 lg:px-20 text-center">
-        <h4 class="text-white font-bold mb-2">Our Services</h4>
-        <h2 class="text-4xl font-extrabold text-white mb-12">We Meet Clients At Their Level<br>Regardless Of Their Needs</h2>
-        
-        <!-- Dynamic Firebase Container (It will inject your HTML from JS) -->
-        <div id="dynamic-srv-container" class="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            <!-- Fallback Static Content -->
-            <div class="bg-white rounded-[2rem] overflow-hidden shadow-xl flex flex-col w-full relative group transform transition hover:-translate-y-2 text-left border border-gray-100">
-                <div class="relative h-56 bg-gray-100 rounded-t-[2rem] overflow-hidden">
-                    <img src="https://via.placeholder.com/400x300" class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-105 transition duration-500" alt="Service">
-                </div>
-                <div class="px-8 pt-6 pb-6 flex-1 flex flex-col">
-                    <h4 class="font-extrabold text-[#1c325b] text-xl mb-3">Web Development</h4>
-                    <p class="text-sm text-gray-500 font-medium mb-6">Build the foundation for a lifetime of digital presence.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Education / Certification Section -->
-    <section class="py-20 px-6 max-w-7xl mx-auto text-center fade-in-up">
-        <h2 class="text-3xl font-extrabold text-secondary mb-12">Certifications & Education</h2>
-        <div id="dynamic-edu-container" class="grid md:grid-cols-3 gap-6">
-            <div class="bg-white p-8 rounded-3xl shadow-lg border border-orange-100 hover:-translate-y-2 transition duration-300">
-                <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-primary mx-auto mb-6 text-xl">🎓</div>
-                <h3 class="text-xl font-bold text-secondary mb-2">BAgEd</h3>
-                <p class="text-gray-600">Bachelor of Agricultural Education (4th Semester)</p>
-            </div>
-            <div class="bg-white p-8 rounded-3xl shadow-lg border border-orange-100 hover:-translate-y-2 transition duration-300">
-                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-secondary mx-auto mb-6 text-xl">📜</div>
-                <h3 class="text-xl font-bold text-secondary mb-2">Freelancer</h3>
-                <p class="text-gray-600">Certified by the Government of Bangladesh</p>
-            </div>
-            <div class="bg-white p-8 rounded-3xl shadow-lg border border-orange-100 hover:-translate-y-2 transition duration-300">
-                <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-primary mx-auto mb-6 text-xl">🌐</div>
-                <h3 class="text-xl font-bold text-secondary mb-2">IELTS</h3>
-                <p class="text-gray-600">Band Score 5 (Preparing for Band 9)</p>
-            </div>
-        </div>
-    </section>
-
+    <div id="header-container"></div>
+    <div id="hero-container"></div>
+    <div id="education-container"></div>
+    <div id="services-container"></div>
     <div id="custom-sections-container"></div>
-    <div id="dynamic-faq-container" class="max-w-4xl mx-auto px-6 pb-20 space-y-4"></div>
     <div id="contact-container"></div>
+    <div id="footer-container"></div>
 
-    <footer id="footer-container" class="bg-secondary text-white py-10 text-center">
-        <p class="font-bold">&copy; 2026 Abidur Rahman Joy. All rights reserved.</p>
-    </footer>
-
-    <!-- Welcome Popup Overlay -->
     <div id="welcome-popup-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center hidden opacity-0 transition-all duration-500">
         <div class="relative w-11/12 max-w-sm mt-16 transform scale-95 transition-transform duration-500" id="popup-content-box">
             <button id="close-popup-btn" class="absolute -top-4 -right-4 bg-white text-gray-800 rounded-full w-10 h-10 flex items-center justify-center shadow-lg font-bold hover:bg-gray-100 hover:text-red-500 transition-colors z-30">✖</button>
@@ -195,32 +65,32 @@
         </div>
     </div>
 
-    <!-- Chat Widget -->
-    <button id="fab-chat" aria-label="Chat" class="fixed bottom-6 right-6 z-40 w-16 h-16 rounded-full bg-primary text-white text-2xl shadow-2xl hover:scale-110 transition flex items-center justify-center">💬</button>
+    <button id="fab-chat" aria-label="Chat" class="fixed bottom-6 right-6 z-40 w-16 h-16 rounded-full bg-orange-500 text-white text-2xl shadow-2xl hover:scale-110 transition flex items-center justify-center">💬</button>
 
     <div id="glass-chat" class="hidden opacity-0 transition-opacity duration-300 fixed bottom-24 right-6 z-40 w-[90vw] max-w-sm h-[70vh] max-h-[520px] bg-white/95 backdrop-blur-xl rounded-3xl flex flex-col overflow-hidden shadow-2xl border border-gray-100">
-        <div class="flex items-center justify-between p-4 bg-primary text-white">
+        <div class="flex items-center justify-between p-4 bg-orange-500 text-white">
             <span class="font-bold">Message Abidur Joy</span>
             <button id="close-chat-btn" class="text-white text-xl leading-none">✖</button>
         </div>
+
         <div id="chat-auth-screen" class="flex-1 flex flex-col justify-center p-6 gap-3">
             <p class="text-sm text-gray-600 font-medium">চ্যাট শুরু করতে আপনার নাম লিখুন:</p>
             <input id="chat-name" type="text" placeholder="আপনার নাম" class="px-4 py-2 rounded-full border outline-none">
             <p id="chat-auth-err" class="text-red-500 text-xs hidden"></p>
-            <button id="chat-login-btn" class="bg-primary text-white font-bold py-2 rounded-full">চ্যাট শুরু করুন</button>
+            <button id="chat-login-btn" class="bg-orange-500 text-white font-bold py-2 rounded-full">চ্যাট শুরু করুন</button>
         </div>
+
         <div id="chat-box-screen" class="hidden flex-1 flex-col">
             <div id="chat-messages" class="flex-1 p-4 overflow-y-auto flex flex-col gap-2">
                 <p class="text-center text-gray-500 text-sm mt-10">Say hi! 👋</p>
             </div>
             <div class="p-3 bg-white flex gap-2 border-t">
                 <input id="chat-input" type="text" placeholder="লিখুন..." class="flex-1 px-4 py-2 rounded-full border outline-none">
-                <button id="chat-send-btn" class="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center">➤</button>
+                <button id="chat-send-btn" class="bg-orange-500 text-white w-10 h-10 rounded-full flex items-center justify-center">➤</button>
             </div>
         </div>
     </div>
 
-    <!-- Scripts -->
     <script src="js/loader.js"></script>
     <script type="module" src="js/firebase-config.js"></script>
     <script type="module" src="js/popup.js"></script>
