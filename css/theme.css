@@ -1,0 +1,30 @@
+/* Base Theme matching the soft design */
+.bg-theme {
+    background-color: #FAFAFA;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Glassmorphism Effect */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* Soft Orange Wave Background */
+.bg-soft-orange {
+    background: linear-gradient(135deg, #FFF0E6 0%, #FFD6C2 100%);
+}
+
+/* Animations */
+.fade-in-up {
+    animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+@keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+}
