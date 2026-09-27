@@ -125,7 +125,8 @@ async function renderWebsiteData() {
         if(!expSnap.empty && document.getElementById("dynamic-exp-container")) {
             let expHtml = '';
             expSnap.forEach(doc => { 
-                expHtml += `
+    if(doc.data().isVisible === false) return;
+    expHtml += `
                     <div class="bg-white rounded-3xl p-5 shadow-lg border border-gray-100 group cursor-pointer flex flex-col w-full">
                         <div class="overflow-hidden rounded-2xl mb-4 h-48 w-full">
                             <img src="${doc.data().img || 'https://via.placeholder.com/300x200'}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Work">
@@ -165,8 +166,12 @@ async function renderWebsiteData() {
                     document.querySelectorAll('.dynamic-phone-link').forEach(link => { link.href = waLink; });
                     document.querySelectorAll('.dynamic-phone-text').forEach(text => { text.innerText = cData.phone; });
                 }
-                if(cData.fb && document.getElementById("dyn-fb")) document.getElementById("dyn-fb").href = cData.fb;
-                if(cData.linkedin && document.getElementById("dyn-linkedin")) document.getElementById("dyn-linkedin").href = cData.linkedin;
+               if(cData.fb) {
+    document.querySelectorAll('#dyn-fb, #top-fb, #foot-fb').forEach(a => a.href = cData.fb);
+}
+if(cData.linkedin) {
+    document.querySelectorAll('#dyn-linkedin, #top-linkedin, #foot-linkedin').forEach(a => a.href = cData.linkedin);
+}
             }, 500);
         }
     } catch(e) {}
@@ -291,7 +296,143 @@ function setupFloatingUI() {
     }
 }
 
+function setupCertificateCarousel() {
+    const track = document.getElementById("cert-track");
+    const prevBtn = document.getElementById("cert-prev");
+    const nextBtn = document.getElementById("cert-next");
+    const filterBtns = document.querySelectorAll(".cert-filter-btn");
+    if(!track) return;
+
+    prevBtn?.addEventListener("click", () => track.scrollBy({ left: -300, behavior: "smooth" }));
+    nextBtn?.addEventListener("click", () => track.scrollBy({ left: 300, behavior: "smooth" }));
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            filterBtns.forEach(b => {
+                b.classList.remove("active", "bg-white", "text-orange");
+                b.classList.add("bg-white/20", "text-white");
+            });
+            btn.classList.add("active", "bg-white", "text-orange");
+            btn.classList.remove("bg-white/20", "text-white");
+
+            const filter = btn.dataset.filter;
+            document.querySelectorAll(".cert-card").forEach(card => {
+                card.style.display = (filter === "all" || card.dataset.cat === filter) ? "" : "none";
+            });
+        });
+    });
+}
+
+function setupCertificateCarousel() {
+    const track = document.getElementById("cert-track");
+    const prevBtn = document.getElementById("cert-prev");
+    const nextBtn = document.getElementById("cert-next");
+    const filterBtns = document.querySelectorAll(".cert-filter-btn");
+    if(!track) return;
+
+    prevBtn?.addEventListener("click", () => track.scrollBy({ left: -300, behavior: "smooth" }));
+    nextBtn?.addEventListener("click", () => track.scrollBy({ left: 300, behavior: "smooth" }));
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            filterBtns.forEach(b => {
+                b.classList.remove("active", "bg-white", "text-orange");
+                b.classList.add("bg-white/20", "text-white");
+            });
+            btn.classList.add("active", "bg-white", "text-orange");
+            btn.classList.remove("bg-white/20", "text-white");
+
+            const filter = btn.dataset.filter;
+            document.querySelectorAll(".cert-card").forEach(card => {
+                card.style.display = (filter === "all" || card.dataset.cat === filter) ? "" : "none";
+            });
+        });
+    });
+}
+
+function setupCertificateCarousel() {
+    const track = document.getElementById("cert-track");
+    const prevBtn = document.getElementById("cert-prev");
+    const nextBtn = document.getElementById("cert-next");
+    const filterBtns = document.querySelectorAll(".cert-filter-btn");
+    if(!track) return;
+
+    prevBtn?.addEventListener("click", () => track.scrollBy({ left: -300, behavior: "smooth" }));
+    nextBtn?.addEventListener("click", () => track.scrollBy({ left: 300, behavior: "smooth" }));
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            filterBtns.forEach(b => {
+                b.classList.remove("active", "bg-white", "text-orange");
+                b.classList.add("bg-white/20", "text-white");
+            });
+            btn.classList.add("active", "bg-white", "text-orange");
+            btn.classList.remove("bg-white/20", "text-white");
+
+            const filter = btn.dataset.filter;
+            document.querySelectorAll(".cert-card").forEach(card => {
+                card.style.display = (filter === "all" || card.dataset.cat === filter) ? "" : "none";
+            });
+        });
+    });
+}
+
+function setupCertificateCarousel() {
+    const track = document.getElementById("cert-track");
+    const prevBtn = document.getElementById("cert-prev");
+    const nextBtn = document.getElementById("cert-next");
+    const filterBtns = document.querySelectorAll(".cert-filter-btn");
+    if(!track) return;
+
+    prevBtn?.addEventListener("click", () => track.scrollBy({ left: -300, behavior: "smooth" }));
+    nextBtn?.addEventListener("click", () => track.scrollBy({ left: 300, behavior: "smooth" }));
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            filterBtns.forEach(b => {
+                b.classList.remove("active", "bg-white", "text-orange");
+                b.classList.add("bg-white/20", "text-white");
+            });
+            btn.classList.add("active", "bg-white", "text-orange");
+            btn.classList.remove("bg-white/20", "text-white");
+
+            const filter = btn.dataset.filter;
+            document.querySelectorAll(".cert-card").forEach(card => {
+                card.style.display = (filter === "all" || card.dataset.cat === filter) ? "" : "none";
+            });
+        });
+    });
+}
+
+function setupCertificateCarousel() {
+    const track = document.getElementById("cert-track");
+    const prevBtn = document.getElementById("cert-prev");
+    const nextBtn = document.getElementById("cert-next");
+    const filterBtns = document.querySelectorAll(".cert-filter-btn");
+    if(!track) return;
+
+    prevBtn?.addEventListener("click", () => track.scrollBy({ left: -300, behavior: "smooth" }));
+    nextBtn?.addEventListener("click", () => track.scrollBy({ left: 300, behavior: "smooth" }));
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            filterBtns.forEach(b => {
+                b.classList.remove("active", "bg-white", "text-orange");
+                b.classList.add("bg-white/20", "text-white");
+            });
+            btn.classList.add("active", "bg-white", "text-orange");
+            btn.classList.remove("bg-white/20", "text-white");
+
+            const filter = btn.dataset.filter;
+            document.querySelectorAll(".cert-card").forEach(card => {
+                card.style.display = (filter === "all" || card.dataset.cat === filter) ? "" : "none";
+            });
+        });
+    });
+}
+
 document.addEventListener("componentsLoaded", () => {
     setupFloatingUI();
+    setupCertificateCarousel();
     renderWebsiteData();
 });
