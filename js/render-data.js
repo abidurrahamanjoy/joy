@@ -4,8 +4,29 @@ import { doc, getDoc, collection, getDocs, orderBy, query, addDoc, onSnapshot } 
 let currentClientData = null;
 let chatUnsubscribe = null;
 
+async function applySEO() {
+    try {
+        const seoSnap = await getDoc(doc(db, "siteData", "seo"));
+        if (seoSnap.exists()) {
+            const seo = seoSnap.data();
+            if (seo.title) {
+                document.title = seo.title;
+                document.getElementById("og-title")?.setAttribute("content", seo.title);
+            }
+            if (seo.desc) {
+                document.getElementById("meta-description")?.setAttribute("content", seo.desc);
+                document.getElementById("og-description")?.setAttribute("content", seo.desc);
+            }
+            if (seo.keywords) {
+                document.getElementById("meta-keywords")?.setAttribute("content", seo.keywords);
+            }
+        }
+    } catch (e) { console.log("SEO Error:", e); }
+}
+
 async function renderWebsiteData() {
-    // 1. Settings & Hero Data
+    await applySEO();
+
     try {
         const setSnap = await getDoc(doc(db, "siteData", "settings"));
         if(setSnap.exists() && setSnap.data().maintenanceMode) { 
@@ -20,20 +41,17 @@ async function renderWebsiteData() {
             if(document.getElementById("dynamic-hero-name") && data.name) document.getElementById("dynamic-hero-name").innerText = data.name;
             if(document.getElementById("dynamic-hero-desc") && data.desc) document.getElementById("dynamic-hero-desc").innerText = data.desc;
             
-            // Hero Image & About Image
             if(document.getElementById("dynamic-hero-img") && data.imageUrl) document.getElementById("dynamic-hero-img").src = data.imageUrl;
             if(document.getElementById("dynamic-about-img") && data.imageUrl) document.getElementById("dynamic-about-img").src = data.imageUrl;
         }
     } catch(e) { console.log("Hero Error:", e); }
 
-    // 2. Render Services 
     try {
         const srvSnap = await getDocs(query(collection(db, "services"), orderBy("timestamp", "asc")));
         if(!srvSnap.empty && document.getElementById("dynamic-srv-container")) {
             let srvHtml = '';
             srvSnap.forEach(doc => { 
                 if(doc.data().isVisible !== false) {
-                    // Update: Added dynamic image support here
                     const imgSrc = doc.data().img || 'https://via.placeholder.com/400x300';
                     srvHtml += `
                         <div class="bg-white rounded-[2rem] overflow-hidden shadow-xl flex flex-col w-full relative group transform transition hover:-translate-y-2 text-left border border-gray-100">
@@ -60,7 +78,48 @@ async function renderWebsiteData() {
         }
     } catch(e) { console.log("Services Error:", e); }
 
-    // 3. Render Experience
+    try {
+        const eduSnap = await getDocs(query(collection(db, "education"), orderBy("timestamp", "asc")));
+        if(!eduSnap.empty && document.getElementById("dynamic-edu-container")) {
+            let eduHtml = '';
+            eduSnap.forEach(doc => {
+                const d = doc.data();
+                if(d.isVisible !== false) {
+                    eduHtml += `
+                        <div class="bg-white p-8 rounded-3xl shadow-lg border border-orange-100 hover:-translate-y-2 transition duration-300">
+                            <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 mb-6 text-xl">${d.icon || '🎓'}</div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">${d.title}</h3>
+                            <p class="text-gray-600">${d.desc}</p>
+                        </div>`;
+                }
+            });
+            if(eduHtml) document.getElementById("dynamic-edu-container").innerHTML = eduHtml;
+        }
+    } catch(e) { console.log("Education Error:", e); }
+
+    try {
+        const custSnap = await getDocs(query(collection(db, "customSections"), orderBy("order", "asc")));
+        if(!custSnap.empty && document.getElementById("custom-sections-container")) {
+            let custHtml = '';
+            custSnap.forEach(doc => {
+                const d = doc.data();
+                if(d.isVisible !== false) {
+                    custHtml += `
+                        <section class="max-w-6xl mx-auto px-6 py-16 fade-in-up">
+                            <div class="bg-white rounded-[2rem] shadow-lg border border-gray-100 overflow-hidden md:flex items-center">
+                                ${d.img ? `<div class="md:w-1/2 h-64 md:h-80"><img src="${d.img}" class="w-full h-full object-cover" alt="${d.title}"></div>` : ''}
+                                <div class="p-8 md:p-10 ${d.img ? 'md:w-1/2' : 'w-full'}">
+                                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-4">${d.title}</h2>
+                                    <p class="text-gray-600 leading-relaxed whitespace-pre-line">${d.desc}</p>
+                                </div>
+                            </div>
+                        </section>`;
+                }
+            });
+            document.getElementById("custom-sections-container").innerHTML = custHtml;
+        }
+    } catch(e) { console.log("Custom Sections Error:", e); }
+
     try {
         const expSnap = await getDocs(query(collection(db, "experience"), orderBy("timestamp", "asc")));
         if(!expSnap.empty && document.getElementById("dynamic-exp-container")) {
@@ -79,7 +138,6 @@ async function renderWebsiteData() {
         }
     } catch(e) { console.log("Exp Error:", e); }
 
-    // 4. Render FAQ
     try {
         const faqSnap = await getDocs(query(collection(db, "faq"), orderBy("timestamp", "asc")));
         if(!faqSnap.empty && document.getElementById("dynamic-faq-container")) {
@@ -97,7 +155,6 @@ async function renderWebsiteData() {
         }
     } catch(e) { console.log("FAQ Error:", e); }
 
-    // 5. Contacts Setup
     try {
         const contactSnap = await getDoc(doc(db, "siteData", "contact"));
         if (contactSnap.exists()) {
@@ -110,12 +167,11 @@ async function renderWebsiteData() {
                 }
                 if(cData.fb && document.getElementById("dyn-fb")) document.getElementById("dyn-fb").href = cData.fb;
                 if(cData.linkedin && document.getElementById("dyn-linkedin")) document.getElementById("dyn-linkedin").href = cData.linkedin;
-            }, 500); // Reduced timeout for better UX
+            }, 500);
         }
     } catch(e) {}
 }
 
-// FLOATING UI & CHAT LOGIC
 function setupFloatingUI() {
     document.getElementById("mobile-menu-btn")?.addEventListener("click", () => {
         const mMenu = document.getElementById("mobile-menu-dropdown");
@@ -194,10 +250,10 @@ function setupFloatingUI() {
                 text: text,
                 timestamp: Date.now()
             });
-            btn.innerHTML = "<i class='fas fa-paper-plane'></i>";
+            btn.innerHTML = "➤";
             instantDiv.classList.remove("opacity-70");
         } catch(error) {
-            btn.innerHTML = "<i class='fas fa-paper-plane'></i>";
+            btn.innerHTML = "➤";
             instantDiv.innerText = "❌ Failed to send";
             instantDiv.classList.add("bg-red-500");
             input.value = text;
@@ -235,11 +291,7 @@ function setupFloatingUI() {
     }
 }
 
-// Update: Clean DOM Load Strategy replacing setInterval
-document.addEventListener("DOMContentLoaded", () => {
-    // 1. Initialize UI first (mobile menu, chat button) so they work immediately
+document.addEventListener("componentsLoaded", () => {
     setupFloatingUI();
-    
-    // 2. Fetch data from Firebase in the background
     renderWebsiteData();
 });
