@@ -1,0 +1,51 @@
+<section class="relative bg-orange py-16 md:py-20 z-0 overflow-hidden">
+    <div class="absolute top-[-1px] left-0 w-full overflow-hidden leading-none z-10">
+        <svg class="w-full h-[40px] md:h-[80px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path fill="#ffffff" fill-opacity="1" d="M0,64L80,80C160,96,320,128,480,122.7C640,117,800,75,960,64C1120,53,1280,75,1360,85.3L1440,96L1440,0L0,0Z"></path>
+        </svg>
+    </div>
+
+    <div class="max-w-[1300px] mx-auto px-6 relative z-20">
+        <div class="flex flex-col lg:flex-row items-center justify-between gap-10 mb-10">
+            <div class="text-white flex flex-col md:flex-row items-center md:items-start gap-6 text-center md:text-left">
+                <div class="w-20 h-20 md:w-24 md:h-24 bg-white/20 rounded-[1.2rem] flex items-center justify-center text-4xl md:text-5xl shrink-0 border-2 border-white/30">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                <div class="pt-2">
+                    <h2 class="text-2xl md:text-3xl font-black mb-2">Skills Certificates From Abidur Joy</h2>
+                    <p class="text-white/85 font-medium max-w-md">Trained & certified in web development, app building, and digital marketing.</p>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <button class="cert-filter-btn active bg-white text-orange px-6 py-2.5 rounded-full text-sm font-bold shadow-md" data-filter="dev">Web & App Dev</button>
+                <button class="cert-filter-btn bg-white/20 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-white/30 transition" data-filter="marketing">Digital Marketing</button>
+            </div>
+        </div>
+
+        <div class="relative">
+            <div id="cert-track" class="flex gap-5 overflow-x-auto hide-scroll scroll-smooth pb-2">
+                <div class="cert-card shrink-0 w-64 md:w-72 bg-white rounded-2xl shadow-lg overflow-hidden" data-cat="dev">
+                    <img src="https://via.placeholder.com/400x260?text=Certificate+1" class="w-full h-40 object-cover" alt="Certificate">
+                    <div class="p-4"><p class="font-bold text-navy text-sm">Youth Development Dept.</p><p class="text-xs text-gray-500">IT & Freelancing Training</p></div>
+                </div>
+                <div class="cert-card shrink-0 w-64 md:w-72 bg-white rounded-2xl shadow-lg overflow-hidden" data-cat="marketing">
+                    <img src="https://via.placeholder.com/400x260?text=Certificate+2" class="w-full h-40 object-cover" alt="Certificate">
+                    <div class="p-4"><p class="font-bold text-navy text-sm">Facebook Ads Mastery</p><p class="text-xs text-gray-500">Digital Marketing</p></div>
+                </div>
+                <div class="cert-card shrink-0 w-64 md:w-72 bg-white rounded-2xl shadow-lg overflow-hidden" data-cat="dev">
+                    <img src="https://via.placeholder.com/400x260?text=Certificate+3" class="w-full h-40 object-cover" alt="Certificate">
+                    <div class="p-4"><p class="font-bold text-navy text-sm">E-Learning & Earning Ltd</p><p class="text-xs text-gray-500">Admission Test Examiner</p></div>
+                </div>
+            </div>
+            <button id="cert-prev" class="hidden md:flex absolute left-[-20px] top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white text-orange items-center justify-center shadow-lg">‹</button>
+            <button id="cert-next" class="hidden md:flex absolute right-[-20px] top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white text-orange items-center justify-center shadow-lg">›</button>
+        </div>
+        <p class="text-white/70 text-xs mt-4">এই সার্টিফিকেটগুলো এখনো স্ট্যাটিক (এই ফাইলে সরাসরি বদলাতে হবে) — চাইলে এটাও অ্যাডমিন প্যানেল থেকে এডিটযোগ্য বানিয়ে দিতে পারি।</p>
+    </div>
+
+    <div class="absolute bottom-[-1px] left-0 w-full overflow-hidden leading-none z-10">
+        <svg class="w-full h-[40px] md:h-[80px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path fill="#fff7f0" fill-opacity="1" d="M0,256L80,240C160,224,320,192,480,186.7C640,181,800,203,960,213.3C1120,224,1280,224,1360,224L1440,224L1440,320L0,320Z"></path>
+        </svg>
+    </div>
+</section>
