@@ -54,6 +54,8 @@
                 <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-inbox">💬 Inbox (Glass)</button>
                 <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-hero">🎨 Hero & Popup</button>
                 <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-services">💼 Services</button>
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-education">🎓 Education</button>
+<button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-custom">➕ Custom Sections</button>
                 <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-seo">🔍 SEO & Promo</button>
                 <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-tools">🚀 Adv. Tools</button>
             </nav>
@@ -178,6 +180,42 @@
                 </div>
                 <div id="admin-srv-list" class="space-y-3"></div>
             </div>
+
+            <!-- TAB 4B: Education -->
+<div id="tab-education" class="tab-content">
+    <h2 class="text-xl md:text-2xl font-bold mb-6 text-gray-800">Education Manager</h2>
+    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border mb-8">
+        <h3 class="font-bold mb-4">Add New Education/Training Item</h3>
+        <input type="text" id="edu-icon" placeholder="Icon (emoji, e.g. 🎓)" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+        <input type="text" id="edu-title" placeholder="Title" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+        <textarea id="edu-desc" placeholder="Details" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="3"></textarea>
+        <label class="flex items-center gap-2 mb-4 cursor-pointer font-bold text-gray-600">
+            <input type="checkbox" id="edu-visible" checked class="w-5 h-5 rounded text-orange-600"> Show publicly
+        </label>
+        <button id="add-edu-btn" class="w-full bg-green-500 text-white py-3 rounded-lg font-bold">Add Item</button>
+    </div>
+    <p class="text-xs text-gray-400 mb-3">যদি এখানে কিছু যোগ না করেন, সাইটে আগের ৩টা ডিফল্ট কার্ড দেখাতে থাকবে। একটা যোগ করলেই সেগুলোর বদলে এখানকার তালিকা দেখানো শুরু হবে।</p>
+    <div id="admin-edu-list" class="space-y-3"></div>
+</div>
+
+<!-- TAB 4C: Custom Sections -->
+<div id="tab-custom" class="tab-content">
+    <h2 class="text-xl md:text-2xl font-bold mb-6 text-gray-800">Custom Sections</h2>
+    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border mb-8">
+        <h3 class="font-bold mb-4">Add New Section</h3>
+        <input type="text" id="cust-title" placeholder="Section Title" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+        <textarea id="cust-desc" placeholder="Section Text/Description" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="4"></textarea>
+        <input type="file" id="cust-image" class="w-full mb-3 text-sm file:bg-orange-50 file:text-orange-700 file:border-0 file:px-4 file:py-2 file:rounded-full">
+        <label class="font-bold text-gray-700 text-sm">Order (ছোট নম্বর আগে দেখাবে)</label>
+        <input type="number" id="cust-order" placeholder="e.g. 1" value="1" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+        <label class="flex items-center gap-2 mb-4 cursor-pointer font-bold text-gray-600">
+            <input type="checkbox" id="cust-visible" checked class="w-5 h-5 rounded text-orange-600"> Show publicly
+        </label>
+        <button id="add-cust-btn" class="w-full bg-green-500 text-white py-3 rounded-lg font-bold">Add Section</button>
+    </div>
+    <p class="text-xs text-gray-400 mb-3">এখানে যোগ করা প্রতিটা সেকশন Services আর Contact-এর মাঝখানে ক্রম অনুযায়ী দেখাবে — কোনো কোড ছাড়াই।</p>
+    <div id="admin-cust-list" class="space-y-3"></div>
+</div>
 
             <!-- TAB 5: SEO -->
             <div id="tab-seo" class="tab-content">
