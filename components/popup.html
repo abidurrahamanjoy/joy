@@ -1,23 +1,27 @@
-<div id="welcome-popup-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-md z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-500">
-    
-    <div class="relative w-11/12 max-w-sm mt-16">
+<div id="welcome-popup-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center hidden opacity-0 transition-all duration-500">
+    <div class="relative w-11/12 max-w-sm mt-16 transform scale-95 transition-transform duration-500" id="popup-content-box">
+        
         <!-- Close Button -->
-        <button id="close-popup-btn" class="absolute -top-4 -right-4 bg-white text-gray-800 rounded-full w-10 h-10 flex items-center justify-center shadow-lg font-bold hover:bg-red-100 hover:text-red-600 transition z-50">✕</button>
+        <button id="close-popup-btn" class="absolute -top-4 -right-4 bg-white text-gray-800 rounded-full w-10 h-10 flex items-center justify-center shadow-lg font-bold hover:bg-gray-100 hover:text-red-500 transition-colors z-30">
+            ✖
+        </button>
 
         <!-- 3D Peeking Character Image -->
         <div class="absolute -top-24 left-1/2 transform -translate-x-1/2 z-20 w-40 h-40">
-            <img id="popup-img" src="image_96a923.jpg" alt="Welcome Character" class="w-full h-full object-contain drop-shadow-2xl">
+            <!-- অ্যাডমিন প্যানেল থেকে ছবি না আসা পর্যন্ত এই ডামি ছবিটি থাকবে -->
+            <img id="popup-img" src="https://via.placeholder.com/150" alt="Welcome Character" class="w-full h-full object-contain drop-shadow-2xl">
         </div>
 
         <!-- Glass Effect Card -->
-        <div class="bg-white/70 backdrop-blur-xl border border-white/50 p-8 pt-20 rounded-[2.5rem] shadow-2xl text-center relative z-10">
-            <h3 id="popup-title" class="text-2xl font-extrabold text-orange-600 mb-2">আসসালামু আলাইকুম</h3>
-            <p id="popup-desc" class="text-gray-700 font-medium text-sm leading-relaxed mb-6">
+        <div class="bg-white/95 backdrop-blur-xl border border-white p-8 pt-20 rounded-[2.5rem] shadow-2xl text-center relative z-10">
+            <h3 id="popup-title" class="text-2xl font-extrabold text-[#f48220] mb-3">আসসালামু আলাইকুম</h3>
+            <p id="popup-desc" class="text-gray-600 font-medium text-sm leading-relaxed mb-6">
                 আমার পোর্টফোলিওতে আপনাকে স্বাগতম! আমি আবিদুর রহমান জয়। আপনার বিজনেসকে ডিজিটাল দুনিয়ায় সবার সেরা করতে আমি প্রস্তুত। চলুন, দারুণ কিছু তৈরি করি!
             </p>
-            <button id="popup-action-btn" class="w-full bg-gradient-to-r from-orange-500 to-orange-400 text-white font-bold py-3 rounded-full shadow-lg hover:shadow-orange-500/50 hover:scale-105 transition-transform">
+            <button id="popup-action-btn" class="w-full bg-[#f48220] text-white font-bold py-3 rounded-full shadow-lg hover:shadow-[0_10px_20px_rgba(244,130,32,0.4)] hover:-translate-y-1 transition-all">
                 Thank You!
             </button>
         </div>
+
     </div>
 </div>
