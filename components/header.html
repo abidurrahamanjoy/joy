@@ -1,20 +1,55 @@
-<header class="glass-effect sticky top-4 z-50 w-full max-w-6xl mx-auto px-6 py-4 rounded-full flex justify-between items-center shadow-sm fade-in-up relative">
-    <div class="text-2xl font-extrabold text-orange-500">Joy.</div>
-    <nav class="hidden md:flex space-x-8 font-medium text-gray-700">
-        <a href="#hero-container" class="hover:text-orange-500 transition">About</a>
-        <a href="#education-container" class="hover:text-orange-500 transition">Education</a>
-        <a href="#services-container" class="hover:text-orange-500 transition">Services</a>
-        <a href="#contact-container" class="hover:text-orange-500 transition">Contact</a>
-    </nav>
-    <div class="flex items-center gap-3">
-        <a href="https://wa.me/8801786689656" target="_blank" class="bg-orange-500 text-white px-6 py-2 rounded-full font-semibold shadow-md hover:bg-orange-600 transition">Hire Me</a>
-        <button id="mobile-menu-btn" class="md:hidden text-2xl text-orange-500">☰</button>
+<div class="bg-teal text-white py-2 text-xs md:text-sm z-40 relative hidden md:block">
+    <div class="max-w-[1300px] mx-auto px-6 flex justify-between items-center">
+        <div class="flex gap-6 font-semibold">
+            <span class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-orange"></i> Sylhet & Habiganj, Bangladesh</span>
+            <span class="flex items-center gap-2"><i class="fas fa-envelope text-white text-opacity-80"></i> abidurrahmanjoy56@gmail.com</span>
+        </div>
+        <div class="flex gap-4">
+            <a href="#" id="top-fb" class="hover:text-orange transition"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" id="top-linkedin" class="hover:text-orange transition"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+    </div>
+</div>
+
+<nav class="bg-white shadow-sm sticky top-0 z-50 py-3 md:py-4 border-b border-gray-100 relative">
+    <div class="max-w-[1300px] mx-auto px-6 flex justify-between items-center">
+        <a href="#hero-container" class="flex items-center gap-2 text-xl md:text-2xl font-black text-navy tracking-tight">
+            <span class="text-orange text-2xl md:text-3xl"><i class="fas fa-sun"></i></span> Abidur Rahman Joy
+        </a>
+
+        <div class="hidden lg:flex gap-8 font-bold text-navy text-[15px] items-center">
+            <a href="#hero-container" class="text-orange">Home</a>
+            <a href="#about-container" class="hover:text-orange transition">About</a>
+            <a href="#services-container" class="hover:text-orange transition">Services</a>
+            <a href="#education-container" class="hover:text-orange transition">Education</a>
+            <a href="#portfolio-container" class="hover:text-orange transition">Work</a>
+            <a href="#contact-container" class="hover:text-orange transition">Contact</a>
+        </div>
+
+        <div class="flex items-center gap-4 md:gap-6">
+            <div class="hidden md:flex items-center gap-3">
+                <div class="w-9 h-9 md:w-10 md:h-10 rounded-full bg-orange text-white flex items-center justify-center text-lg shadow-md">
+                    <i class="fas fa-phone-alt text-sm"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Call / WhatsApp</span>
+                    <a href="#" class="dynamic-phone-link text-navy font-extrabold text-sm leading-none"><span class="dynamic-phone-text">01786689656</span></a>
+                </div>
+            </div>
+            <a href="#" class="dynamic-phone-link bg-orange text-white px-5 md:px-7 py-2.5 rounded-full font-bold shadow-glow hover:bg-orange-hover hover:-translate-y-1 transition-all text-sm hidden sm:flex items-center gap-2">
+                Hire Me
+            </a>
+            <button id="mobile-menu-btn" class="lg:hidden text-2xl text-teal"><i class="fas fa-bars"></i></button>
+        </div>
     </div>
 
-    <div id="mobile-menu-dropdown" class="hidden absolute top-full left-0 mt-2 w-full bg-white rounded-2xl shadow-xl border border-gray-100 flex-col p-4 gap-3 md:hidden">
-        <a href="#hero-container" class="font-medium text-gray-700 hover:text-orange-500">About</a>
-        <a href="#education-container" class="font-medium text-gray-700 hover:text-orange-500">Education</a>
-        <a href="#services-container" class="font-medium text-gray-700 hover:text-orange-500">Services</a>
-        <a href="#contact-container" class="font-medium text-gray-700 hover:text-orange-500">Contact</a>
+    <div id="mobile-menu-dropdown" class="hidden lg:hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-100 flex-col p-6 gap-4 z-50">
+        <a href="#hero-container" class="font-bold text-navy">Home</a>
+        <a href="#about-container" class="font-bold text-navy">About</a>
+        <a href="#services-container" class="font-bold text-navy">Services</a>
+        <a href="#education-container" class="font-bold text-navy">Education</a>
+        <a href="#portfolio-container" class="font-bold text-navy">Work</a>
+        <a href="#contact-container" class="font-bold text-navy">Contact</a>
+        <a href="#" class="dynamic-phone-link bg-orange text-white text-center px-6 py-2.5 rounded-full font-bold shadow-glow">Hire Me</a>
     </div>
-</header>
+</nav>
