@@ -20,14 +20,14 @@ async function renderWebsiteData() {
             if(document.getElementById("dynamic-hero-badge") && data.badge) document.getElementById("dynamic-hero-badge").innerText = data.badge;
             if(document.getElementById("dynamic-hero-name") && data.name) document.getElementById("dynamic-hero-name").innerText = data.name;
             if(document.getElementById("dynamic-hero-desc") && data.desc) document.getElementById("dynamic-hero-desc").innerText = data.desc;
-            if(document.getElementById("dynamic-hero-img") && data.imageUrl) document.getElementById("dynamic-hero-img").src = data.imageUrl;
             
-            // About Section Image (Using the same hero image logic for simplicity or can be distinct)
+            // Hero Image & About Image
+            if(document.getElementById("dynamic-hero-img") && data.imageUrl) document.getElementById("dynamic-hero-img").src = data.imageUrl;
             if(document.getElementById("dynamic-about-img") && data.imageUrl) document.getElementById("dynamic-about-img").src = data.imageUrl;
         }
     } catch(e) { console.log("Hero Error:", e); }
 
-    // 2. Render Services
+    // 2. Render Services (Using pure grid without restricted max-widths)
     try {
         const srvSnap = await getDocs(query(collection(db, "services"), orderBy("timestamp", "asc")));
         if(!srvSnap.empty && document.getElementById("dynamic-srv-container")) {
@@ -35,15 +35,15 @@ async function renderWebsiteData() {
             srvSnap.forEach(doc => { 
                 if(doc.data().isVisible !== false) {
                     srvHtml += `
-                        <div class="bg-white rounded-[2rem] overflow-hidden shadow-2xl flex flex-col w-full relative group transform transition hover:-translate-y-2 text-left">
+                        <div class="bg-white rounded-[2rem] overflow-hidden shadow-xl flex flex-col w-full relative group transform transition hover:-translate-y-2 text-left border border-gray-100">
                             <div class="relative h-56 bg-gray-100 rounded-t-[2rem] overflow-hidden">
                                 <img src="https://via.placeholder.com/400x300" class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-105 transition duration-500" alt="Service">
                                 <div class="absolute bottom-[-20px] left-[-10%] w-[120%] h-[40px] bg-white rounded-t-[50%] z-10"></div>
-                                <div class="absolute bottom-[5px] left-6 w-14 h-14 bg-white rounded-[1rem] flex items-center justify-center text-[#f48220] shadow-[0_4px_10px_rgba(0,0,0,0.1)] z-20 border-[3px] border-[#fff7f0]">
+                                <div class="absolute bottom-[5px] left-6 w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-[#f48220] shadow-md z-20 border-2 border-[#fff7f0]">
                                     <i class="fas fa-layer-group text-2xl"></i>
                                 </div>
                             </div>
-                            <div class="px-8 pt-8 pb-6 flex-1 flex flex-col">
+                            <div class="px-8 pt-6 pb-6 flex-1 flex flex-col">
                                 <h4 class="font-extrabold text-[#1c325b] text-xl mb-3">${doc.data().title}</h4>
                                 <p class="text-sm text-gray-500 font-medium line-clamp-3 mb-6">${doc.data().desc}</p>
                                 <div class="border-t border-gray-100 pt-4 grid grid-cols-3 gap-2 mt-auto text-center">
@@ -66,48 +66,37 @@ async function renderWebsiteData() {
             let expHtml = '';
             expSnap.forEach(doc => { 
                 expHtml += `
-                    <div class="bg-white rounded-3xl p-4 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-gray-100 group cursor-pointer flex flex-col md:block">
-                        <div class="overflow-hidden rounded-2xl mb-4 h-48 md:h-48 w-full md:w-auto">
+                    <div class="bg-white rounded-3xl p-5 shadow-lg border border-gray-100 group cursor-pointer flex flex-col w-full">
+                        <div class="overflow-hidden rounded-2xl mb-4 h-48 w-full">
                             <img src="${doc.data().img || 'https://via.placeholder.com/300x200'}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Work">
                         </div>
                         <h4 class="font-bold text-[#1c325b] text-lg mb-2">${doc.data().title}</h4>
                         <p class="text-sm text-gray-500 line-clamp-2 mb-4">${doc.data().desc}</p>
-                        <a href="#" class="text-[#f48220] font-bold text-sm mt-auto">Read More &rarr;</a>
                     </div>`;
             });
             document.getElementById("dynamic-exp-container").innerHTML = expHtml;
         }
     } catch(e) { console.log("Exp Error:", e); }
 
-    // 4. Render Certificates
-    try {
-        const certSnap = await getDocs(query(collection(db, "certificates"), orderBy("timestamp", "asc")));
-        if(!certSnap.empty && document.getElementById("dynamic-cert-container")) {
-            let certHtml = '';
-            certSnap.forEach(doc => { 
-                certHtml += `<img src="${doc.data().img}" class="w-[85%] md:w-full max-w-[350px] flex-shrink-0 snap-center rounded-2xl border-[6px] border-white shadow-xl bg-white object-cover" alt="Certificate">`;
-            });
-            document.getElementById("dynamic-cert-container").innerHTML = certHtml;
-        }
-    } catch(e) { console.log("Cert Error:", e); }
-
-    // 5. Render FAQ
+    // 4. Render FAQ
     try {
         const faqSnap = await getDocs(query(collection(db, "faq"), orderBy("timestamp", "asc")));
         if(!faqSnap.empty && document.getElementById("dynamic-faq-container")) {
             let faqHtml = '';
             faqSnap.forEach(doc => { 
                 faqHtml += `
-                    <div class="bg-white p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100">
-                        <h4 class="font-bold text-[#1c325b] text-lg mb-2"><i class="fas fa-question-circle text-[#f48220] mr-2"></i> ${doc.data().question}</h4>
-                        <p class="text-sm text-gray-500 leading-relaxed">${doc.data().answer}</p>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition w-full">
+                        <h4 class="font-bold text-[#1c325b] text-lg mb-2 flex items-start gap-2">
+                            <i class="fas fa-question-circle text-[#f48220] mt-1"></i> ${doc.data().question}
+                        </h4>
+                        <p class="text-sm text-gray-500 leading-relaxed ml-7">${doc.data().answer}</p>
                     </div>`;
             });
             document.getElementById("dynamic-faq-container").innerHTML = faqHtml;
         }
     } catch(e) { console.log("FAQ Error:", e); }
 
-    // 6. Contacts Setup
+    // 5. Contacts Setup
     try {
         const contactSnap = await getDoc(doc(db, "siteData", "contact"));
         if (contactSnap.exists()) {
