@@ -56,6 +56,7 @@
                 <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-services">💼 Services</button>
                 <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-education">🎓 Education</button>
 <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-custom">➕ Custom Sections</button>
+                <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-work">📁 My Work</button>
                 <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-seo">🔍 SEO & Promo</button>
                 <button class="w-full text-left px-6 py-3 hover:bg-gray-800 tab-btn font-medium" data-target="tab-tools">🚀 Adv. Tools</button>
             </nav>
@@ -215,6 +216,21 @@
     </div>
     <p class="text-xs text-gray-400 mb-3">এখানে যোগ করা প্রতিটা সেকশন Services আর Contact-এর মাঝখানে ক্রম অনুযায়ী দেখাবে — কোনো কোড ছাড়াই।</p>
     <div id="admin-cust-list" class="space-y-3"></div>
+</div>
+
+            <div id="tab-work" class="tab-content">
+    <h2 class="text-xl md:text-2xl font-bold mb-6 text-gray-800">Work / Portfolio Manager</h2>
+    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border mb-8">
+        <h3 class="font-bold mb-4">Add New Work Sample</h3>
+        <input type="text" id="work-title" placeholder="Project Title" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50">
+        <textarea id="work-desc" placeholder="Short Description" class="w-full mb-3 px-4 py-2 rounded border bg-gray-50" rows="3"></textarea>
+        <input type="file" id="work-image" class="w-full mb-3 text-sm file:bg-orange-50 file:text-orange-700 file:border-0 file:px-4 file:py-2 file:rounded-full">
+        <label class="flex items-center gap-2 mb-4 cursor-pointer font-bold text-gray-600">
+            <input type="checkbox" id="work-visible" checked class="w-5 h-5 rounded text-orange-600"> Show publicly
+        </label>
+        <button id="add-work-btn" class="w-full bg-green-500 text-white py-3 rounded-lg font-bold">Add Work Sample</button>
+    </div>
+    <div id="admin-work-list" class="space-y-3"></div>
 </div>
 
             <!-- TAB 5: SEO -->
