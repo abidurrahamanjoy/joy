@@ -5,24 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abidur Rahman Joy | Digital Portfolio</title>
     
-    <link rel="stylesheet" href="css/style.css">
+    <!-- Google Fonts: Nunito for a friendly, soft look like the reference image -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        .organic-shape { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
-        .scalloped-image-mask {
-            -webkit-mask-image: radial-gradient(circle at 20px 100%, transparent 20px, black 21px);
-            -webkit-mask-size: 40px 100%;
-            -webkit-mask-repeat: repeat-x;
-            -webkit-mask-position: bottom;
-            mask-image: radial-gradient(circle at 20px 100%, transparent 20px, black 21px);
-            mask-size: 40px 100%;
-            mask-repeat: repeat-x;
-            mask-position: bottom;
+        body { font-family: 'Nunito', sans-serif; }
+        /* Soft shadow for cards similar to reference */
+        .card-shadow { box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .shape-mask {
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
         }
     </style>
 </head>
-<body class="antialiased overflow-x-hidden text-gray-800 bg-white relative">
+<body class="antialiased overflow-x-hidden text-gray-700 bg-white relative">
 
     <!-- Top Bar -->
     <div class="bg-[#149c95] text-white py-2 text-xs md:text-sm z-50 relative hidden md:block">
@@ -39,174 +36,221 @@
     </div>
     
     <!-- Sticky Navbar -->
-    <nav class="bg-white shadow-md sticky top-0 z-50 py-3 md:py-4">
+    <nav class="bg-white shadow-sm sticky top-0 z-50 py-3 md:py-4">
         <div class="max-w-[1400px] mx-auto w-full px-6 flex justify-between items-center">
+            <!-- Logo area matching reference layout -->
             <div class="font-extrabold text-2xl text-[#1c325b] flex items-center gap-2">
-                <span class="text-[#f48220] text-3xl">❖</span> <span id="dynamic-hero-name">Abidur Rahman</span>
+                <span class="text-[#f48220] text-3xl"><i class="fas fa-sun"></i></span> 
+                <span id="dynamic-hero-name">Abidur Rahman</span>
             </div>
             
-            <div class="hidden lg:flex gap-8 font-bold text-[#1c325b] text-sm items-center">
+            <!-- Centered Links -->
+            <div class="hidden lg:flex gap-8 font-bold text-gray-600 text-sm items-center">
                 <a href="#hero-section" class="text-[#f48220] border-b-2 border-[#f48220] pb-1">Home</a>
-                <a href="#about-education" class="hover:text-[#f48220] transition pb-1">Education</a>
+                <a href="#about-education" class="hover:text-[#f48220] transition pb-1">About Us</a>
                 <a href="#services-container" class="hover:text-[#f48220] transition pb-1">Services</a>
                 <a href="#experience" class="hover:text-[#f48220] transition pb-1">Experience</a>
+                <a href="#faq" class="hover:text-[#f48220] transition pb-1">FAQ</a>
             </div>
             
-            <div class="flex items-center gap-4 md:gap-6">
-                <a href="tel:" class="dynamic-phone-link bg-[#f48220] text-white px-5 md:px-7 py-2 md:py-2.5 rounded-full font-bold shadow-lg hover:bg-orange-600 transition text-xs md:text-sm flex items-center gap-2 hidden sm:flex">Hire Me <i class="fas fa-arrow-right"></i></a>
+            <!-- Right side CTA -->
+            <div class="flex items-center gap-4">
+                <div class="hidden sm:flex items-center gap-2 text-[#1c325b] font-bold text-sm mr-4">
+                    <i class="fas fa-phone-alt bg-orange-100 text-[#f48220] p-2 rounded-full"></i>
+                    <div>
+                        <span class="block text-[10px] text-gray-400 leading-none">Call Us Free</span>
+                        +880 123 456 789
+                    </div>
+                </div>
+                <a href="tel:" class="dynamic-phone-link bg-[#f48220] text-white px-6 py-2.5 rounded-full font-bold shadow-lg hover:bg-orange-600 transition text-sm flex items-center gap-2 hidden sm:flex">Hire Me <i class="fas fa-arrow-right"></i></a>
                 <button id="mobile-menu-btn" class="lg:hidden text-2xl text-[#149c95] focus:outline-none"><i class="fas fa-bars"></i></button>
-            </div>
-        </div>
-        
-        <div id="mobile-menu-dropdown" class="hidden lg:hidden bg-white/70 backdrop-blur-lg border-t border-white/40 absolute w-full left-0 top-full shadow-2xl">
-            <div class="flex flex-col font-bold text-[#1c325b] text-sm text-center">
-                <a href="#hero-section" class="py-4 border-b border-gray-200/30 hover:text-[#f48220] hover:bg-white/50 transition">Home</a>
-                <a href="#about-education" class="py-4 border-b border-gray-200/30 hover:text-[#f48220] hover:bg-white/50 transition">Education</a>
-                <a href="#services-container" class="py-4 border-b border-gray-200/30 hover:text-[#f48220] hover:bg-white/50 transition">Services</a>
-                <a href="#experience" class="py-4 border-b border-gray-200/30 hover:text-[#f48220] hover:bg-white/50 transition">Experience</a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section (Fixed Layout) -->
-    <section id="hero-section" class="relative z-10 w-full bg-[#fff7f0] pt-12 md:pt-20 pb-24 md:pb-32 overflow-hidden flex flex-col md:flex-row items-center min-h-[500px] lg:min-h-[600px]">
-        <!-- Text Area -->
-        <div class="w-full md:w-1/2 flex flex-col justify-center px-6 md:px-16 lg:pl-[10%] xl:pl-[15%] relative z-20 order-2 md:order-1 text-center md:text-left mt-10 md:mt-0">
-            <span id="dynamic-hero-badge" class="text-[#f48220] font-extrabold text-xs md:text-sm mb-4 tracking-wide uppercase drop-shadow-sm">Certified IT Professional</span>
-            <h1 class="text-3xl md:text-5xl lg:text-6xl font-extrabold text-[#1c325b] leading-[1.2] md:leading-[1.1] mb-6 drop-shadow-md">
-                Premium IT Services <br><span class="text-[#f48220]">For Your Brand.</span>
-            </h1>
-            <p id="dynamic-hero-desc" class="text-gray-600 text-sm md:text-base mb-8 max-w-md mx-auto md:mx-0 leading-relaxed font-medium">Delivering high-ROI Facebook boosting, custom eCommerce websites, and app building to make your brand unstoppable!</p>
-            <div class="flex justify-center md:justify-start">
-                <a href="#contact" class="bg-[#f48220] text-white px-8 py-3.5 rounded-full font-bold shadow-[0_10px_20px_rgba(244,130,32,0.4)] hover:-translate-y-1 hover:shadow-[0_15px_25px_rgba(244,130,32,0.5)] transition-all text-sm flex items-center gap-2 w-fit">Get Started <i class="fas fa-arrow-right"></i></a>
+    <!-- Hero Section -->
+    <section id="hero-section" class="relative z-10 w-full bg-blue-50/50 pt-16 md:pt-24 pb-32 overflow-hidden flex flex-col md:flex-row items-center min-h-[600px]">
+        <div class="max-w-[1400px] mx-auto w-full px-6 flex flex-col md:flex-row items-center">
+            <!-- Text Area -->
+            <div class="w-full md:w-1/2 relative z-20 md:pr-10">
+                <span id="dynamic-hero-badge" class="bg-orange-100 text-[#f48220] px-4 py-1.5 rounded-full font-bold text-xs mb-6 inline-block">👋 Welcome to Portfolio</span>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#1c325b] leading-[1.2] mb-6">
+                    Premium IT Services <br><span class="text-[#f48220]">For Your Brand.</span>
+                </h1>
+                <p id="dynamic-hero-desc" class="text-gray-600 text-base mb-8 max-w-md leading-relaxed font-medium">Delivering high-ROI Facebook boosting, custom eCommerce websites, and app building to make your brand unstoppable!</p>
+                <div class="flex gap-4 items-center">
+                    <a href="#contact" class="bg-[#f48220] text-white px-8 py-3.5 rounded-full font-bold shadow-[0_10px_20px_rgba(244,130,32,0.3)] hover:-translate-y-1 transition-all text-sm">Get Started <i class="fas fa-arrow-right ml-1"></i></a>
+                    <a href="#" class="text-[#1c325b] font-bold text-sm flex items-center gap-2 hover:text-[#f48220] transition"><i class="far fa-play-circle text-3xl text-orange-200"></i> Watch Video</a>
+                </div>
+            </div>
+            
+            <!-- Image Area -->
+            <div class="w-full md:w-1/2 mt-12 md:mt-0 relative flex justify-center">
+                <!-- Decorative Elements -->
+                <i class="fas fa-cloud text-blue-200 text-6xl absolute -top-10 left-10 opacity-60"></i>
+                <i class="fas fa-paper-plane text-orange-300 text-4xl absolute bottom-10 -left-5"></i>
+                <img id="dynamic-hero-img" src="https://via.placeholder.com/600x500" alt="Hero Background" class="w-full max-w-[550px] shape-mask border-8 border-white card-shadow object-cover relative z-10">
             </div>
         </div>
         
-        <!-- Image Area (Stretches to Right Edge) -->
-        <div class="w-full md:w-[55vw] lg:w-[50vw] md:absolute md:right-0 md:top-0 md:h-full order-1 md:order-2 flex justify-center md:justify-end">
-            <!-- Desktop Gradient Fade -->
-            <div class="absolute inset-0 bg-gradient-to-r from-[#fff7f0] via-[#fff7f0]/40 to-transparent w-[30%] z-10 hidden md:block"></div>
-            <img id="dynamic-hero-img" src="https://via.placeholder.com/1200x800" alt="Hero Background" class="w-full h-full object-cover object-top scalloped-image-mask md:rounded-bl-[5rem] relative z-0">
-        </div>
-        
-        <div class="absolute bottom-[-1px] left-0 w-full overflow-hidden leading-none z-30 hidden md:block">
-            <svg class="w-full h-[40px] md:h-[60px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path d="M0,60 Q150,120 300,60 T600,60 T900,60 T1200,60 V120 H0 Z" fill="#ffffff"></path>
+        <!-- Bottom Wavy Shape -->
+        <div class="absolute bottom-[-1px] left-0 w-full overflow-hidden leading-none z-30">
+            <svg class="w-full h-[60px] md:h-[100px]" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,60 C300,120 400,0 600,60 C800,120 900,0 1200,60 L1200,120 L0,120 Z" fill="#ffffff"></path>
             </svg>
         </div>
     </section>
 
-    <!-- Education & About -->
-    <section id="about-education" class="pt-20 pb-24 bg-white relative z-0">
-        <div class="max-w-[1400px] mx-auto w-full px-6 flex flex-col md:flex-row items-center gap-12 lg:gap-24">
+    <!-- About Section -->
+    <section id="about-education" class="pt-20 pb-32 bg-white relative z-0">
+        <div class="max-w-[1400px] mx-auto w-full px-6 flex flex-col md:flex-row items-center gap-16">
             <div class="w-full md:w-1/2 flex justify-center relative">
-                <div class="absolute inset-0 bg-[#fff7f0] organic-shape translate-x-6 translate-y-6 -z-10 border-[2px] border-dashed border-[#f48220]"></div>
-                <img id="dynamic-about-img" src="https://via.placeholder.com/500" alt="Education" class="w-[85%] max-w-[450px] lg:max-w-[550px] aspect-square object-cover organic-shape shadow-2xl border-[10px] border-white">
-            </div>
-            <div class="w-full md:w-1/2 text-center md:text-left">
-                <span class="text-[#f48220] font-extrabold text-sm uppercase tracking-widest block mb-2">About & Education</span>
-                <h2 class="text-3xl md:text-5xl lg:text-5xl font-extrabold text-[#1c325b] mb-6 leading-tight">Certified & Experienced <br>Professional</h2>
-                <p class="text-gray-500 text-sm md:text-base mb-10 leading-relaxed max-w-lg mx-auto md:mx-0">I am currently pursuing my BAgEd (4th Semester) and hold a Diploma in Agriculture. As a Govt. Certified Freelancer, I provide secure, high-quality digital solutions to grow your business.</p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 text-left">
-                    <div class="flex items-start gap-4 justify-center md:justify-start">
-                        <div class="bg-[#f48220] text-white w-[55px] h-[55px] rounded-2xl flex items-center justify-center text-2xl shadow-lg shadow-orange-200"><i class="fas fa-shield-alt"></i></div>
-                        <div><h4 class="font-bold text-[#1c325b] text-[16px] mb-1">Govt. Certified</h4><p class="text-[13px] text-gray-500">Youth Dev Dept.</p></div>
+                <img id="dynamic-about-img" src="https://via.placeholder.com/500x550" alt="Education" class="w-full max-w-[500px] rounded-[3rem] shadow-2xl object-cover">
+                <!-- Floating Card matching reference -->
+                <div class="absolute -bottom-8 -right-4 bg-white p-4 rounded-2xl card-shadow flex items-center gap-3">
+                    <div class="bg-blue-100 p-3 rounded-full text-[#149c95]"><i class="fas fa-user-graduate text-xl"></i></div>
+                    <div>
+                        <h4 class="font-bold text-[#1c325b]">BAgEd Student</h4>
+                        <p class="text-xs text-gray-500">4th Semester</p>
                     </div>
-                    <div class="flex items-start gap-4 justify-center md:justify-start">
-                        <div class="bg-[#f48220] text-white w-[55px] h-[55px] rounded-2xl flex items-center justify-center text-2xl shadow-lg shadow-orange-200"><i class="fas fa-graduation-cap"></i></div>
-                        <div><h4 class="font-bold text-[#1c325b] text-[16px] mb-1">BAgEd Student</h4><p class="text-[13px] text-gray-500">Currently 4th Sem.</p></div>
+                </div>
+            </div>
+            
+            <div class="w-full md:w-1/2 text-left">
+                <span class="text-[#f48220] font-extrabold text-sm mb-2 block">About Me</span>
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#1c325b] mb-6 leading-tight">Certified & Experienced <br>Professional</h2>
+                <p class="text-gray-500 text-base mb-8 leading-relaxed">I am currently pursuing my BAgEd (4th Semester) and hold a Diploma in Agriculture. As a Govt. Certified Freelancer, I provide secure, high-quality digital solutions to grow your business.</p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 text-left">
+                    <div class="flex items-start gap-4">
+                        <div class="bg-orange-50 text-[#f48220] w-[50px] h-[50px] rounded-xl flex items-center justify-center text-xl border border-orange-100"><i class="fas fa-shield-alt"></i></div>
+                        <div>
+                            <h4 class="font-bold text-[#1c325b] text-[16px] mb-1">Govt. Certified</h4>
+                            <p class="text-[13px] text-gray-500 leading-tight">Youth Dev Dept. verified professional.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="bg-teal-50 text-[#149c95] w-[50px] h-[50px] rounded-xl flex items-center justify-center text-xl border border-teal-100"><i class="fas fa-briefcase"></i></div>
+                        <div>
+                            <h4 class="font-bold text-[#1c325b] text-[16px] mb-1">Quality Service</h4>
+                            <p class="text-[13px] text-gray-500 leading-tight">Ensuring maximum ROI for clients.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Services -->
-    <section id="services-container" class="relative bg-[#f48220] py-24 md:py-32 z-0">
+    <!-- Services (Orange Theme like reference) -->
+    <section id="services-container" class="relative bg-[#f48220] py-32 z-0">
+        <!-- Top Wave -->
         <div class="absolute top-0 left-0 w-full overflow-hidden leading-none z-10 -translate-y-[98%] rotate-180">
-            <svg class="w-full h-[40px] md:h-[80px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path d="M0,60 Q150,120 300,60 T600,60 T900,60 T1200,60 V120 H0 Z" fill="#f48220"></path>
+            <svg class="w-full h-[60px] md:h-[100px]" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,60 C300,120 400,0 600,60 C800,120 900,0 1200,60 L1200,120 L0,120 Z" fill="#f48220"></path>
             </svg>
         </div>
-        <div class="max-w-[1400px] mx-auto w-full px-6 relative z-20 text-center">
-            <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-4">We Provide High-Quality Services</h2>
-            <p class="text-orange-100 text-sm md:text-base mb-12">Dynamic solutions adapted specifically for your requirements</p>
+        
+        <div class="max-w-[1400px] mx-auto w-full px-6 relative z-20">
+            <div class="text-center mb-16">
+                <span class="text-orange-200 font-bold text-sm tracking-widest uppercase">— Our Services —</span>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-white mt-2">High-Quality Solutions For You</h2>
+            </div>
             
+            <!-- Cards matching the image style -->
             <div id="dynamic-srv-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
-                <!-- Skeleton Fallbacks -->
-                <div class="bg-white rounded-[2rem] overflow-hidden shadow-xl h-80 opacity-50 animate-pulse w-full"></div>
-                <div class="bg-white rounded-[2rem] overflow-hidden shadow-xl h-80 opacity-50 animate-pulse w-full hidden md:block"></div>
-                <div class="bg-white rounded-[2rem] overflow-hidden shadow-xl h-80 opacity-50 animate-pulse w-full hidden lg:block"></div>
+                <!-- Sample Card Format -->
+                <div class="bg-white rounded-[2rem] overflow-hidden card-shadow group">
+                    <div class="h-56 bg-gray-200 overflow-hidden">
+                        <img src="https://via.placeholder.com/400x300" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    </div>
+                    <div class="p-8 relative">
+                        <!-- Floating Icon -->
+                        <div class="absolute -top-8 left-8 bg-[#f48220] w-14 h-14 rounded-full flex items-center justify-center text-white text-xl border-4 border-white"><i class="fas fa-bullhorn"></i></div>
+                        
+                        <h3 class="font-extrabold text-[#1c325b] text-xl mb-3 mt-4">Facebook Boosting</h3>
+                        <p class="text-gray-500 text-sm mb-6 line-clamp-2">High-ROI campaigns designed specifically for your brand's growth and engagement.</p>
+                        
+                        <!-- Bottom Meta -->
+                        <div class="flex justify-between items-center pt-4 border-t border-gray-100 text-xs font-bold text-gray-400">
+                            <span class="flex items-center gap-1"><i class="far fa-clock text-[#149c95]"></i> Fast Delivery</span>
+                            <span class="flex items-center gap-1"><i class="fas fa-chart-line text-[#149c95]"></i> High ROI</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- You can dynamically inject more cards with the same HTML structure using your JS -->
+                <div class="bg-white rounded-[2rem] h-[420px] opacity-50 animate-pulse"></div>
+                <div class="bg-white rounded-[2rem] h-[420px] opacity-50 animate-pulse hidden lg:block"></div>
             </div>
         </div>
-        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-10 translate-y-[98%]">
-            <svg class="w-full h-[40px] md:h-[80px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path d="M0,60 Q150,120 300,60 T600,60 T900,60 T1200,60 V120 H0 Z" fill="#ffffff"></path>
+        
+        <!-- Bottom Wave -->
+        <div class="absolute bottom-[-1px] left-0 w-full overflow-hidden leading-none z-10">
+            <svg class="w-full h-[60px] md:h-[100px]" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,60 C300,120 400,0 600,60 C800,120 900,0 1200,60 L1200,120 L0,120 Z" fill="#ffffff"></path>
             </svg>
         </div>
     </section>
 
-    <!-- Experience -->
-    <section id="experience" class="py-16 md:py-24 bg-white relative z-0">
-        <div class="max-w-[1400px] mx-auto w-full px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-extrabold text-[#1c325b] mb-4">Top Experience & Works</h2>
-                <div class="w-20 h-[3px] bg-[#f48220] mx-auto rounded-full"></div>
+    <!-- Experience / Works (Teal Theme like the skills section in reference) -->
+    <section id="experience" class="py-24 bg-[#149c95] relative z-0 mt-20">
+        <!-- Top Wave (Teal) -->
+        <div class="absolute top-0 left-0 w-full overflow-hidden leading-none z-10 -translate-y-[98%] rotate-180">
+            <svg class="w-full h-[50px] md:h-[80px]" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,60 C300,120 400,0 600,60 C800,120 900,0 1200,60 L1200,120 L0,120 Z" fill="#149c95"></path>
+            </svg>
+        </div>
+        
+        <div class="max-w-[1400px] mx-auto w-full px-6 flex flex-col md:flex-row justify-between items-center">
+            <div class="text-left mb-10 md:mb-0">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-4">Top Experience & Works</h2>
+                <p class="text-teal-100">Review my previous successful projects</p>
             </div>
             
-            <div id="dynamic-exp-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
-                <div class="bg-gray-100 rounded-3xl h-64 animate-pulse w-full"></div>
+            <div class="flex bg-teal-800/50 rounded-full p-1 border border-teal-600">
+                <button class="px-6 py-2 bg-[#f48220] text-white rounded-full font-bold text-sm shadow-md">Monthly</button>
+                <button class="px-6 py-2 text-white rounded-full font-bold text-sm hover:text-orange-200 transition">Yearly</button>
             </div>
         </div>
-    </section>
 
-    <!-- FAQ Section -->
-    <section id="faq" class="py-20 bg-[#fff7f0] text-center border-t border-orange-100">
-        <div class="max-w-[1400px] mx-auto w-full px-6">
-            <h2 class="text-2xl md:text-4xl font-extrabold text-[#1c325b] mb-10">Frequently Asked Questions</h2>
-            <div id="dynamic-faq-container" class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-                <div class="bg-white p-6 rounded-2xl h-24 shadow-sm border border-gray-100 animate-pulse"></div>
+        <div class="max-w-[1400px] mx-auto w-full px-6 mt-12 relative z-20">
+            <div id="dynamic-exp-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
+                <div class="bg-white p-2 rounded-2xl shadow-xl h-64 animate-pulse w-full"></div>
+                <div class="bg-white p-2 rounded-2xl shadow-xl h-64 animate-pulse w-full"></div>
             </div>
+        </div>
+        
+        <!-- Bottom Wave -->
+        <div class="absolute bottom-[-1px] left-0 w-full overflow-hidden leading-none z-10">
+            <svg class="w-full h-[50px] md:h-[80px]" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,60 C300,120 400,0 600,60 C800,120 900,0 1200,60 L1200,120 L0,120 Z" fill="#ffffff"></path>
+            </svg>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-white pt-12 pb-6 text-center border-t border-gray-100">
-        <div class="font-extrabold text-3xl text-[#1c325b] flex items-center justify-center gap-2 mb-6">
-            <span class="text-[#f48220]">❖</span> Abidur Rahman Joy
+    <footer class="bg-white pt-24 pb-6 text-center border-t border-gray-50">
+        <div class="max-w-[1400px] mx-auto px-6 mb-12 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="font-extrabold text-3xl text-[#1c325b] flex items-center gap-2">
+                <span class="text-[#f48220]"><i class="fas fa-sun"></i></span> Abidur Rahman Joy
+            </div>
+            <div class="flex gap-6 font-bold text-gray-600 text-sm">
+                <a href="#hero-section" class="hover:text-[#f48220]">Home</a>
+                <a href="#about-education" class="hover:text-[#f48220]">About</a>
+                <a href="#services-container" class="hover:text-[#f48220]">Services</a>
+                <a href="#contact" class="hover:text-[#f48220]">Contact</a>
+            </div>
+            <div class="flex gap-3">
+                <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-[#1c325b] hover:bg-[#f48220] hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-[#1c325b] hover:bg-[#f48220] hover:text-white transition"><i class="fab fa-linkedin-in"></i></a>
+            </div>
         </div>
-        <div class="bg-[#149c95] text-white py-4 text-sm font-semibold w-full flex justify-between items-center px-6 mt-8">
+        
+        <div class="border-t border-gray-100 pt-6 text-gray-400 text-sm font-semibold flex justify-center w-full px-6">
             <p>© 2026 Abidur Rahman Joy. All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- Floating Inbox -->
-    <div class="fixed bottom-10 right-6 z-50">
-        <button id="fab-chat" class="w-14 h-14 bg-[#f48220] text-white rounded-full shadow-[0_10px_25px_rgba(244,130,32,0.5)] flex items-center justify-center text-2xl hover:scale-110 transition-transform"><i class="fas fa-comment-dots"></i></button>
-    </div>
-
-    <!-- Live Chat Inbox Overlay -->
-    <div id="glass-chat" class="fixed bottom-28 right-6 w-80 md:w-96 bg-white shadow-2xl rounded-3xl overflow-hidden hidden opacity-0 transition-all duration-300 z-50 flex-col border border-gray-200">
-        <div class="bg-[#f48220] p-4 text-white flex justify-between items-center shadow-md">
-            <h3 class="font-bold text-lg"><i class="fas fa-headset mr-2"></i> Live Chat</h3>
-            <button id="close-chat-btn" class="text-white font-bold hover:text-gray-200 text-xl"><i class="fas fa-times"></i></button>
-        </div>
-        <div id="chat-auth-screen" class="p-6 text-center bg-gray-50 h-[350px] flex flex-col justify-center">
-            <p class="text-gray-600 text-sm mb-4">Please enter your name to start chat.</p>
-            <input type="text" id="chat-name" placeholder="Your Name" class="w-full px-4 py-3 border border-gray-300 rounded-xl mb-3 outline-none focus:border-[#f48220]">
-            <p id="chat-auth-err" class="text-red-500 text-xs hidden mb-2"></p>
-            <button id="chat-login-btn" class="w-full bg-[#f48220] text-white py-3 rounded-xl font-bold shadow-md transition-colors hover:bg-orange-600">Start Chat</button>
-        </div>
-        <div id="chat-box-screen" class="hidden flex-col h-[350px]">
-            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto flex flex-col gap-3 bg-gray-50"></div>
-            <div class="p-3 bg-white border-t border-gray-100 flex gap-2 shadow-inner">
-                <input type="text" id="chat-input" placeholder="Type a message..." class="flex-1 px-4 py-2 bg-gray-100 rounded-full outline-none text-sm focus:ring-2 focus:ring-[#f48220]">
-                <button id="chat-send-btn" class="bg-[#f48220] text-white w-10 h-10 rounded-full font-bold flex justify-center items-center shadow-md"><i class="fas fa-paper-plane"></i></button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Scripts -->
+    <!-- JS References (Keep your existing JS logic unchanged) -->
     <script type="module" src="js/firebase-config.js"></script>
     <script type="module" src="js/render-data.js"></script>
 </body>
