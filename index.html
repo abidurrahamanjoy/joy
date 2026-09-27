@@ -9,6 +9,19 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .organic-shape { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+        .scalloped-image-mask {
+            -webkit-mask-image: radial-gradient(circle at 20px 100%, transparent 20px, black 21px);
+            -webkit-mask-size: 40px 100%;
+            -webkit-mask-repeat: repeat-x;
+            -webkit-mask-position: bottom;
+            mask-image: radial-gradient(circle at 20px 100%, transparent 20px, black 21px);
+            mask-size: 40px 100%;
+            mask-repeat: repeat-x;
+            mask-position: bottom;
+        }
+    </style>
 </head>
 <body class="antialiased overflow-x-hidden text-gray-800 bg-white relative">
 
@@ -44,7 +57,7 @@
             </div>
         </div>
         
-        <!-- Mobile Menu (Glass Effect) -->
+        <!-- Mobile Menu -->
         <div id="mobile-menu-dropdown" class="hidden lg:hidden bg-white/70 backdrop-blur-lg border-t border-white/40 absolute w-full left-0 top-full shadow-2xl">
             <div class="flex flex-col font-bold text-[#1c325b] text-sm text-center">
                 <a href="#hero-section" class="py-4 border-b border-gray-200/30 hover:text-[#f48220] hover:bg-white/50 transition">Home</a>
@@ -55,27 +68,33 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="hero-section" class="relative z-10 px-0 md:px-4 pt-0 md:pt-6">
-        <div class="max-w-[1400px] mx-auto bg-[#fff7f0] md:rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] relative overflow-hidden flex flex-col md:flex-row items-stretch">
-            <div class="w-full md:w-1/2 flex flex-col justify-center px-6 md:px-16 py-10 md:py-24 relative z-20 order-2 md:order-1 text-center md:text-left">
-                <span id="dynamic-hero-badge" class="text-[#f48220] font-extrabold text-xs md:text-sm mb-4 tracking-wide uppercase drop-shadow-sm">Certified IT Professional</span>
-                <h1 class="text-3xl md:text-5xl lg:text-6xl font-extrabold text-[#1c325b] leading-[1.2] md:leading-[1.1] mb-6 drop-shadow-md">
-                    Premium IT Services <br><span class="text-[#f48220]">For Your Brand.</span>
-                </h1>
-                <p id="dynamic-hero-desc" class="text-gray-600 text-sm md:text-base mb-8 max-w-md mx-auto md:mx-0 leading-relaxed font-medium">Delivering high-ROI Facebook boosting, custom eCommerce websites, and app building to make your brand unstoppable!</p>
-                <div class="flex justify-center md:justify-start">
-                    <a href="#contact" class="bg-[#f48220] text-white px-8 py-3.5 rounded-full font-bold shadow-[0_10px_20px_rgba(244,130,32,0.4)] hover:-translate-y-1 hover:shadow-[0_15px_25px_rgba(244,130,32,0.5)] transition-all text-sm flex items-center gap-2 w-fit">Get Started <i class="fas fa-arrow-right"></i></a>
-                </div>
+    <!-- Hero Section (Full Width Design Fixed) -->
+    <section id="hero-section" class="relative z-10 w-full bg-[#fff7f0] pt-10 md:pt-16 pb-20 md:pb-32 overflow-hidden flex flex-col md:flex-row items-center">
+        <!-- Text Content Area -->
+        <div class="w-full md:w-1/2 flex flex-col justify-center px-6 md:px-16 lg:pl-[10%] relative z-20 order-2 md:order-1 text-center md:text-left mt-8 md:mt-0">
+            <span id="dynamic-hero-badge" class="text-[#f48220] font-extrabold text-xs md:text-sm mb-4 tracking-wide uppercase drop-shadow-sm">Certified IT Professional</span>
+            <h1 class="text-3xl md:text-5xl lg:text-6xl font-extrabold text-[#1c325b] leading-[1.2] md:leading-[1.1] mb-6 drop-shadow-md">
+                Premium IT Services <br><span class="text-[#f48220]">For Your Brand.</span>
+            </h1>
+            <p id="dynamic-hero-desc" class="text-gray-600 text-sm md:text-base mb-8 max-w-md mx-auto md:mx-0 leading-relaxed font-medium">Delivering high-ROI Facebook boosting, custom eCommerce websites, and app building to make your brand unstoppable!</p>
+            <div class="flex justify-center md:justify-start">
+                <a href="#contact" class="bg-[#f48220] text-white px-8 py-3.5 rounded-full font-bold shadow-[0_10px_20px_rgba(244,130,32,0.4)] hover:-translate-y-1 hover:shadow-[0_15px_25px_rgba(244,130,32,0.5)] transition-all text-sm flex items-center gap-2 w-fit">Get Started <i class="fas fa-arrow-right"></i></a>
             </div>
-            <div class="w-full md:w-1/2 relative h-[300px] sm:h-[400px] md:h-auto order-1 md:order-2">
-                <img id="dynamic-hero-img" src="https://via.placeholder.com/800x800" alt="Hero Background" class="absolute inset-0 w-full h-full object-cover scalloped-image-mask md:rounded-r-[3rem]">
-            </div>
-            <div class="absolute bottom-[-1px] left-0 w-full overflow-hidden leading-none z-30 hidden md:block">
-                <svg class="w-full h-[40px] md:h-[60px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                    <path d="M0,60 Q150,120 300,60 T600,60 T900,60 T1200,60 V120 H0 Z" fill="#ffffff"></path>
-                </svg>
-            </div>
+        </div>
+        
+        <!-- Image Area (Full Right Alignment) -->
+        <div class="w-full md:w-1/2 relative h-[300px] sm:h-[400px] md:absolute md:right-0 md:top-0 md:h-full order-1 md:order-2">
+            <!-- Gradient Overlay for Desktop to blend image with background -->
+            <div class="absolute inset-0 bg-gradient-to-r from-[#fff7f0] to-transparent w-[30%] z-10 hidden md:block"></div>
+            <!-- Scalloped Image -->
+            <img id="dynamic-hero-img" src="https://via.placeholder.com/1200x800" alt="Hero Background" class="absolute inset-0 w-full h-full object-cover scalloped-image-mask md:rounded-bl-[4rem]">
+        </div>
+        
+        <!-- Bottom Wavy Line Full Width -->
+        <div class="absolute bottom-[-1px] left-0 w-full overflow-hidden leading-none z-30 hidden md:block">
+            <svg class="w-full h-[40px] md:h-[60px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,60 Q150,120 300,60 T600,60 T900,60 T1200,60 V120 H0 Z" fill="#ffffff"></path>
+            </svg>
         </div>
     </section>
 
@@ -114,7 +133,20 @@
         <div class="max-w-7xl mx-auto px-4 md:px-6 relative z-20 text-center">
             <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-4">We Provide High-Quality Services</h2>
             <p class="text-orange-100 text-sm md:text-base mb-12">Dynamic solutions adapted specifically for your requirements</p>
-            <div id="dynamic-srv-container" class="flex flex-wrap justify-center gap-8 w-full"></div>
+            
+            <!-- Dummy Cards added so the space is never empty before JS loads -->
+            <div id="dynamic-srv-container" class="flex flex-wrap justify-center gap-8 w-full">
+                <!-- Fallback Card 1 -->
+                <div class="bg-white rounded-[2rem] overflow-hidden shadow-xl flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] max-w-[380px] text-left opacity-50 animate-pulse">
+                    <div class="h-48 bg-gray-200"></div>
+                    <div class="p-8"><div class="h-6 bg-gray-300 rounded mb-4 w-3/4"></div><div class="h-4 bg-gray-200 rounded mb-2 w-full"></div></div>
+                </div>
+                <!-- Fallback Card 2 -->
+                <div class="bg-white rounded-[2rem] overflow-hidden shadow-xl flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] max-w-[380px] text-left opacity-50 animate-pulse hidden md:flex">
+                    <div class="h-48 bg-gray-200"></div>
+                    <div class="p-8"><div class="h-6 bg-gray-300 rounded mb-4 w-3/4"></div><div class="h-4 bg-gray-200 rounded mb-2 w-full"></div></div>
+                </div>
+            </div>
         </div>
         <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-10 translate-y-[98%]">
             <svg class="w-full h-[40px] md:h-[80px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
@@ -130,7 +162,10 @@
                 <h2 class="text-3xl font-extrabold text-[#1c325b] mb-4">Top Experience & Works</h2>
                 <div class="w-20 h-[3px] bg-[#f48220] mx-auto rounded-full"></div>
             </div>
-            <div id="dynamic-exp-container" class="flex flex-wrap justify-center gap-6"></div>
+            <!-- Dummy skeleton to prevent empty space -->
+            <div id="dynamic-exp-container" class="flex flex-wrap justify-center gap-6">
+                <div class="bg-gray-100 rounded-3xl h-64 w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] max-w-[380px] animate-pulse"></div>
+            </div>
         </div>
     </section>
 
@@ -138,7 +173,11 @@
     <section id="faq" class="py-20 bg-[#fff7f0] text-center border-t border-orange-100">
         <div class="max-w-4xl mx-auto px-4">
             <h2 class="text-2xl md:text-4xl font-extrabold text-[#1c325b] mb-10">Frequently Asked Questions</h2>
-            <div id="dynamic-faq-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left"></div>
+            <div id="dynamic-faq-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                <!-- Dummy skeleton -->
+                <div class="bg-white p-6 rounded-2xl h-24 shadow-sm border border-gray-100 animate-pulse"></div>
+                <div class="bg-white p-6 rounded-2xl h-24 shadow-sm border border-gray-100 animate-pulse hidden md:block"></div>
+            </div>
         </div>
     </section>
 
@@ -152,13 +191,13 @@
         </div>
     </footer>
 
-    <!-- Floating Inbox -->
-    <div class="fixed bottom-6 right-6 z-50">
-        <button id="fab-chat" class="w-12 h-12 md:w-14 md:h-14 bg-[#f48220] text-white rounded-full shadow-[0_10px_25px_rgba(244,130,32,0.5)] flex items-center justify-center text-xl md:text-2xl hover:scale-110 transition-transform"><i class="fas fa-comment-dots"></i></button>
+    <!-- Floating Inbox (Position Fixed Higher from bottom) -->
+    <div class="fixed bottom-10 md:bottom-12 right-6 md:right-8 z-50">
+        <button id="fab-chat" class="w-14 h-14 md:w-16 md:h-16 bg-[#f48220] text-white rounded-full shadow-[0_10px_25px_rgba(244,130,32,0.5)] flex items-center justify-center text-2xl md:text-3xl hover:scale-110 transition-transform"><i class="fas fa-comment-dots"></i></button>
     </div>
 
     <!-- Live Chat Inbox Overlay -->
-    <div id="glass-chat" class="fixed bottom-24 right-6 w-80 md:w-96 bg-white shadow-2xl rounded-3xl overflow-hidden hidden opacity-0 transition-all duration-300 z-50 flex-col border border-gray-200">
+    <div id="glass-chat" class="fixed bottom-28 right-6 md:right-8 w-80 md:w-96 bg-white shadow-2xl rounded-3xl overflow-hidden hidden opacity-0 transition-all duration-300 z-50 flex-col border border-gray-200">
         <div class="bg-[#f48220] p-4 text-white flex justify-between items-center shadow-md">
             <h3 class="font-bold text-lg"><i class="fas fa-headset mr-2"></i> Live Chat</h3>
             <button id="close-chat-btn" class="text-white font-bold hover:text-gray-200 text-xl"><i class="fas fa-times"></i></button>
