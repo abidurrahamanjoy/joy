@@ -4,35 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abidur Rahman Joy | Digital Portfolio</title>
+    
+    <!-- External CSS & Scripts -->
+    <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* কালার প্যালেট */
-        :root {
-            --primary-blue: #1c325b;
-            --primary-orange: #f48220;
-            --soft-peach: #fff7f0;
-        }
-        
-        /* অর্গানিক শেপ (About Section এর জন্য) */
-        .organic-shape { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
-        
-        /* হিরো ছবির নিচের খাঁজকাটা (Scalloped) মাস্ক */
-        .scalloped-image-mask {
-            -webkit-mask-image: radial-gradient(circle at 20px 100%, transparent 20px, black 21px);
-            -webkit-mask-size: 40px 100%;
-            -webkit-mask-repeat: repeat-x;
-            -webkit-mask-position: bottom;
-            mask-image: radial-gradient(circle at 20px 100%, transparent 20px, black 21px);
-            mask-size: 40px 100%;
-            mask-repeat: repeat-x;
-            mask-position: bottom;
-        }
-    </style>
 </head>
 <body class="antialiased overflow-x-hidden text-gray-800 bg-white relative">
 
-    <!-- 1. Top Bar (Desktop Only) -->
+    <!-- Top Bar -->
     <div class="bg-[#149c95] text-white py-2 text-xs md:text-sm z-50 relative hidden md:block">
         <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
             <div class="flex gap-6">
@@ -46,63 +26,52 @@
         </div>
     </div>
     
-    <!-- 2. Sticky Navbar -->
+    <!-- Sticky Navbar -->
     <nav class="bg-white shadow-md sticky top-0 z-50 py-3 md:py-4">
         <div class="max-w-7xl mx-auto px-4 md:px-6 flex justify-between items-center">
             <div class="font-extrabold text-2xl text-[#1c325b] flex items-center gap-2">
                 <span class="text-[#f48220] text-3xl">❖</span> <span id="dynamic-hero-name">Abidur Rahman</span>
             </div>
-            
             <div class="hidden lg:flex gap-8 font-bold text-[#1c325b] text-sm items-center">
                 <a href="#hero-section" class="text-[#f48220] border-b-2 border-[#f48220] pb-1">Home</a>
                 <a href="#about-education" class="hover:text-[#f48220] transition pb-1">Education</a>
                 <a href="#services-container" class="hover:text-[#f48220] transition pb-1">Services</a>
                 <a href="#experience" class="hover:text-[#f48220] transition pb-1">Experience</a>
             </div>
-            
             <div class="flex items-center gap-4 md:gap-6">
                 <a href="tel:" class="dynamic-phone-link bg-[#f48220] text-white px-5 md:px-7 py-2 md:py-2.5 rounded-full font-bold shadow-lg hover:bg-orange-600 transition text-xs md:text-sm flex items-center gap-2 hidden sm:flex">Hire Me <i class="fas fa-arrow-right"></i></a>
                 <button id="mobile-menu-btn" class="lg:hidden text-2xl text-[#149c95] focus:outline-none"><i class="fas fa-bars"></i></button>
             </div>
         </div>
         
-        <!-- Mobile Menu -->
-        <div id="mobile-menu-dropdown" class="hidden lg:hidden bg-white border-t border-gray-100 absolute w-full left-0 top-full shadow-xl">
+        <!-- Mobile Menu (Glass Effect) -->
+        <div id="mobile-menu-dropdown" class="hidden lg:hidden bg-white/70 backdrop-blur-lg border-t border-white/40 absolute w-full left-0 top-full shadow-2xl">
             <div class="flex flex-col font-bold text-[#1c325b] text-sm text-center">
-                <a href="#hero-section" class="py-3 border-b border-gray-50 hover:text-[#f48220]">Home</a>
-                <a href="#about-education" class="py-3 border-b border-gray-50 hover:text-[#f48220]">Education</a>
-                <a href="#services-container" class="py-3 border-b border-gray-50 hover:text-[#f48220]">Services</a>
-                <a href="#experience" class="py-3 border-b border-gray-50 hover:text-[#f48220]">Experience</a>
+                <a href="#hero-section" class="py-4 border-b border-gray-200/30 hover:text-[#f48220] hover:bg-white/50 transition">Home</a>
+                <a href="#about-education" class="py-4 border-b border-gray-200/30 hover:text-[#f48220] hover:bg-white/50 transition">Education</a>
+                <a href="#services-container" class="py-4 border-b border-gray-200/30 hover:text-[#f48220] hover:bg-white/50 transition">Services</a>
+                <a href="#experience" class="py-4 border-b border-gray-200/30 hover:text-[#f48220] hover:bg-white/50 transition">Experience</a>
             </div>
         </div>
     </nav>
 
-    <!-- 3. Hero Section (Shadow Banner & Wavy Cut logic as per reference) -->
-    <!-- পুরো সেকশনটি একটি কন্টেইনারের ভেতর শ্যাডো দিয়ে আলাদা করা হয়েছে -->
-    <section id="hero-section" class="relative z-10 px-0 md:px-4 pt-4 md:pt-6">
+    <!-- Hero Section -->
+    <section id="hero-section" class="relative z-10 px-0 md:px-4 pt-0 md:pt-6">
         <div class="max-w-[1400px] mx-auto bg-[#fff7f0] md:rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] relative overflow-hidden flex flex-col md:flex-row items-stretch">
-            
-            <!-- Text Side (Left aligned with shadow depth) -->
-            <div class="w-full md:w-1/2 flex flex-col justify-center px-6 md:px-16 py-12 md:py-24 relative z-20">
-                <span id="dynamic-hero-badge" class="text-[#f48220] font-extrabold text-sm mb-4 tracking-wide uppercase drop-shadow-sm">Certified IT Professional</span>
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#1c325b] leading-[1.1] mb-6 drop-shadow-md">
+            <div class="w-full md:w-1/2 flex flex-col justify-center px-6 md:px-16 py-10 md:py-24 relative z-20 order-2 md:order-1 text-center md:text-left">
+                <span id="dynamic-hero-badge" class="text-[#f48220] font-extrabold text-xs md:text-sm mb-4 tracking-wide uppercase drop-shadow-sm">Certified IT Professional</span>
+                <h1 class="text-3xl md:text-5xl lg:text-6xl font-extrabold text-[#1c325b] leading-[1.2] md:leading-[1.1] mb-6 drop-shadow-md">
                     Premium IT Services <br><span class="text-[#f48220]">For Your Brand.</span>
                 </h1>
-                <p id="dynamic-hero-desc" class="text-gray-600 text-sm md:text-base mb-8 max-w-md leading-relaxed font-medium">Delivering high-ROI Facebook boosting, custom eCommerce websites, and app building to make your brand unstoppable!</p>
-                
-                <div class="flex">
+                <p id="dynamic-hero-desc" class="text-gray-600 text-sm md:text-base mb-8 max-w-md mx-auto md:mx-0 leading-relaxed font-medium">Delivering high-ROI Facebook boosting, custom eCommerce websites, and app building to make your brand unstoppable!</p>
+                <div class="flex justify-center md:justify-start">
                     <a href="#contact" class="bg-[#f48220] text-white px-8 py-3.5 rounded-full font-bold shadow-[0_10px_20px_rgba(244,130,32,0.4)] hover:-translate-y-1 hover:shadow-[0_15px_25px_rgba(244,130,32,0.5)] transition-all text-sm flex items-center gap-2 w-fit">Get Started <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
-            
-            <!-- Image Side (Right aligned with Wavy/Scalloped bottom) -->
-            <div class="w-full md:w-1/2 relative h-[350px] md:h-auto">
-                <!-- scalloped-image-mask ক্লাসটি রেফারেন্সের মতো ছবির নিচে খাঁজকাটা ডিজাইন তৈরি করবে -->
+            <div class="w-full md:w-1/2 relative h-[300px] sm:h-[400px] md:h-auto order-1 md:order-2">
                 <img id="dynamic-hero-img" src="https://via.placeholder.com/800x800" alt="Hero Background" class="absolute inset-0 w-full h-full object-cover scalloped-image-mask md:rounded-r-[3rem]">
             </div>
-            
-            <!-- Bottom Wavy Line (Separating banner from below content) -->
-            <div class="absolute bottom-[-1px] left-0 w-full overflow-hidden leading-none z-30">
+            <div class="absolute bottom-[-1px] left-0 w-full overflow-hidden leading-none z-30 hidden md:block">
                 <svg class="w-full h-[40px] md:h-[60px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                     <path d="M0,60 Q150,120 300,60 T600,60 T900,60 T1200,60 V120 H0 Z" fill="#ffffff"></path>
                 </svg>
@@ -110,27 +79,23 @@
         </div>
     </section>
 
-    <!-- 4. Education & About (Overlapping Design) -->
+    <!-- Education & About -->
     <section id="about-education" class="pt-20 pb-24 bg-white relative z-0">
         <div class="max-w-7xl mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center gap-12 md:gap-20">
-            <!-- Image with organic shape -->
             <div class="w-full md:w-1/2 flex justify-center relative">
                 <div class="absolute inset-0 bg-[#fff7f0] organic-shape translate-x-6 translate-y-6 -z-10 border-[2px] border-dashed border-[#f48220]"></div>
                 <img id="dynamic-about-img" src="https://via.placeholder.com/500" alt="Education" class="w-[85%] max-w-[450px] aspect-square object-cover organic-shape shadow-2xl border-[10px] border-white">
             </div>
-            
-            <!-- Text Content -->
-            <div class="w-full md:w-1/2 text-left">
+            <div class="w-full md:w-1/2 text-center md:text-left">
                 <span class="text-[#f48220] font-extrabold text-sm uppercase tracking-widest block mb-2">About & Education</span>
                 <h2 class="text-3xl md:text-5xl font-extrabold text-[#1c325b] mb-6 leading-tight">Certified & Experienced <br>Professional</h2>
                 <p class="text-gray-500 text-sm md:text-base mb-10 leading-relaxed">I am currently pursuing my BAgEd (4th Semester) and hold a Diploma in Agriculture. As a Govt. Certified Freelancer, I provide secure, high-quality digital solutions to grow your business.</p>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                    <div class="flex items-start gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 text-left">
+                    <div class="flex items-start gap-4 justify-center md:justify-start">
                         <div class="bg-[#f48220] text-white w-[55px] h-[55px] rounded-2xl flex items-center justify-center text-2xl shadow-lg shadow-orange-200"><i class="fas fa-shield-alt"></i></div>
                         <div><h4 class="font-bold text-[#1c325b] text-[16px] mb-1">Govt. Certified</h4><p class="text-[13px] text-gray-500">Youth Dev Dept.</p></div>
                     </div>
-                    <div class="flex items-start gap-4">
+                    <div class="flex items-start gap-4 justify-center md:justify-start">
                         <div class="bg-[#f48220] text-white w-[55px] h-[55px] rounded-2xl flex items-center justify-center text-2xl shadow-lg shadow-orange-200"><i class="fas fa-graduation-cap"></i></div>
                         <div><h4 class="font-bold text-[#1c325b] text-[16px] mb-1">BAgEd Student</h4><p class="text-[13px] text-gray-500">Currently 4th Sem.</p></div>
                     </div>
@@ -139,26 +104,18 @@
         </div>
     </section>
 
-    <!-- 5. Services Section (Dynamic Adaptive Cards) -->
+    <!-- Services -->
     <section id="services-container" class="relative bg-[#f48220] py-24 md:py-32 z-0">
-        <!-- Top Wave -->
         <div class="absolute top-0 left-0 w-full overflow-hidden leading-none z-10 -translate-y-[98%] rotate-180">
             <svg class="w-full h-[40px] md:h-[80px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                 <path d="M0,60 Q150,120 300,60 T600,60 T900,60 T1200,60 V120 H0 Z" fill="#f48220"></path>
             </svg>
         </div>
-        
         <div class="max-w-7xl mx-auto px-4 md:px-6 relative z-20 text-center">
             <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-4">We Provide High-Quality Services</h2>
             <p class="text-orange-100 text-sm md:text-base mb-12">Dynamic solutions adapted specifically for your requirements</p>
-            
-            <!-- Dynamic Services: Flexbox ensures whether there is 1, 2, 3, or 4 cards, they align beautifully in the center -->
-            <div id="dynamic-srv-container" class="flex flex-wrap justify-center gap-8 w-full">
-                <!-- Cards will be injected here via JS -->
-            </div>
+            <div id="dynamic-srv-container" class="flex flex-wrap justify-center gap-8 w-full"></div>
         </div>
-
-        <!-- Bottom Wave -->
         <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-10 translate-y-[98%]">
             <svg class="w-full h-[40px] md:h-[80px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                 <path d="M0,60 Q150,120 300,60 T600,60 T900,60 T1200,60 V120 H0 Z" fill="#ffffff"></path>
@@ -166,19 +123,18 @@
         </div>
     </section>
 
-    <!-- 6. Experience Section -->
+    <!-- Experience -->
     <section id="experience" class="py-16 md:py-24 bg-white relative z-0">
         <div class="max-w-7xl mx-auto px-4 md:px-6">
             <div class="text-center mb-12">
                 <h2 class="text-3xl font-extrabold text-[#1c325b] mb-4">Top Experience & Works</h2>
                 <div class="w-20 h-[3px] bg-[#f48220] mx-auto rounded-full"></div>
             </div>
-            
             <div id="dynamic-exp-container" class="flex flex-wrap justify-center gap-6"></div>
         </div>
     </section>
 
-    <!-- 7. FAQ Section (Q&A) -->
+    <!-- FAQ Section -->
     <section id="faq" class="py-20 bg-[#fff7f0] text-center border-t border-orange-100">
         <div class="max-w-4xl mx-auto px-4">
             <h2 class="text-2xl md:text-4xl font-extrabold text-[#1c325b] mb-10">Frequently Asked Questions</h2>
@@ -196,9 +152,9 @@
         </div>
     </footer>
 
-    <!-- FLOATING UI: INBOX ONLY -->
+    <!-- Floating Inbox -->
     <div class="fixed bottom-6 right-6 z-50">
-        <button id="fab-chat" class="w-16 h-16 bg-[#f48220] text-white rounded-full shadow-[0_10px_25px_rgba(244,130,32,0.5)] flex items-center justify-center text-3xl hover:scale-110 transition-transform"><i class="fas fa-comment-dots"></i></button>
+        <button id="fab-chat" class="w-12 h-12 md:w-14 md:h-14 bg-[#f48220] text-white rounded-full shadow-[0_10px_25px_rgba(244,130,32,0.5)] flex items-center justify-center text-xl md:text-2xl hover:scale-110 transition-transform"><i class="fas fa-comment-dots"></i></button>
     </div>
 
     <!-- Live Chat Inbox Overlay -->
@@ -207,14 +163,12 @@
             <h3 class="font-bold text-lg"><i class="fas fa-headset mr-2"></i> Live Chat</h3>
             <button id="close-chat-btn" class="text-white font-bold hover:text-gray-200 text-xl"><i class="fas fa-times"></i></button>
         </div>
-        
         <div id="chat-auth-screen" class="p-6 text-center bg-gray-50 h-[350px] flex flex-col justify-center">
             <p class="text-gray-600 text-sm mb-4">Please enter your name to start chat.</p>
             <input type="text" id="chat-name" placeholder="Your Name" class="w-full px-4 py-3 border border-gray-300 rounded-xl mb-3 outline-none focus:border-[#f48220]">
             <p id="chat-auth-err" class="text-red-500 text-xs hidden mb-2"></p>
             <button id="chat-login-btn" class="w-full bg-[#f48220] text-white py-3 rounded-xl font-bold shadow-md transition-colors hover:bg-orange-600">Start Chat</button>
         </div>
-        
         <div id="chat-box-screen" class="hidden flex-col h-[350px]">
             <div id="chat-messages" class="flex-1 p-4 overflow-y-auto flex flex-col gap-3 bg-gray-50"></div>
             <div class="p-3 bg-white border-t border-gray-100 flex gap-2 shadow-inner">
@@ -224,7 +178,7 @@
         </div>
     </div>
 
-    <!-- Firebase Scripts -->
+    <!-- Scripts -->
     <script type="module" src="js/firebase-config.js"></script>
     <script type="module" src="js/render-data.js"></script>
 </body>
