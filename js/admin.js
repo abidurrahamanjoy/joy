@@ -6,7 +6,6 @@ const ADMIN_UID = "Ncb6CS4XZ3TDoc0IF9x6CkwMFJn2";
 let adminChatUnsubscribe = null;
 let activeClientId = null;
 
-// Auth State Monitor
 onAuthStateChanged(auth, (user) => {
     if (user && user.uid === ADMIN_UID) {
         document.getElementById("login-section")?.classList.add("hidden");
@@ -18,25 +17,24 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-// Login Button Click Handler
 document.getElementById("login-btn")?.addEventListener("click", async () => {
     const email = document.getElementById("admin-email").value.trim();
     const password = document.getElementById("admin-password").value.trim();
     
     if(!email || !password) {
-        alert("দয়া করে ইমেইল এবং পাসওয়ার্ড দিন!");
+        alert("দয়া করে ইমেইল এবং পাসওয়ার্ড দিন!");
         return;
     }
 
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         if (userCredential.user.uid !== ADMIN_UID) {
-            alert("⚠️ আপনার অ্যাকাউন্টটি সুপার এডমিন নয়!");
+            alert("⚠️ আপনার অ্যাকাউন্টটি সুপার এডমিন নয়!");
             await signOut(auth);
         }
     } catch (error) {
         console.error("Login Error:", error.code, error.message);
-        alert("লগইন ব্যর্থ হয়েছে! ইমেইল বা পাসওয়ার্ড ভুল অথবা ফায়ারবেস কনফিগারেশনে সমস্যা আছে। (Error: " + error.code + ")");
+        alert("লগইন ব্যর্থ হয়েছে! ইমেইল বা পাসওয়ার্ড ভুল অথবা ফায়ারবেস কনফিগারেশনে সমস্যা আছে। (Error: " + error.code + ")");
     }
 });
 
@@ -51,7 +49,6 @@ async function uploadImg(file) {
     } catch(err) { return null; }
 }
 
-// SECURE SAVE LOGIC (Prevents Blank Data Overwrite)
 document.getElementById("save-hero-btn")?.addEventListener("click", async (e) => {
     e.target.innerText = "Saving...";
     const file = document.getElementById("hero-image")?.files[0];
@@ -123,6 +120,42 @@ document.getElementById("add-srv-btn")?.addEventListener("click", async () => {
     loadAdminData();
 });
 
+document.getElementById("add-edu-btn")?.addEventListener("click", async () => {
+    await addDoc(collection(db, "education"), {
+        icon: document.getElementById("edu-icon").value.trim() || "🎓",
+        title: document.getElementById("edu-title").value.trim(),
+        desc: document.getElementById("edu-desc").value.trim(),
+        isVisible: document.getElementById("edu-visible").checked,
+        timestamp: Date.now()
+    });
+    document.getElementById("edu-icon").value = '';
+    document.getElementById("edu-title").value = '';
+    document.getElementById("edu-desc").value = '';
+    loadAdminData();
+});
+
+document.getElementById("add-cust-btn")?.addEventListener("click", async (e) => {
+    const btn = e.target;
+    btn.innerText = "Saving...";
+    const file = document.getElementById("cust-image")?.files[0];
+    let imgUrl = "";
+    if (file) { const up = await uploadImg(file); if (up) imgUrl = up; }
+
+    await addDoc(collection(db, "customSections"), {
+        title: document.getElementById("cust-title").value.trim(),
+        desc: document.getElementById("cust-desc").value.trim(),
+        img: imgUrl,
+        order: Number(document.getElementById("cust-order").value) || 0,
+        isVisible: document.getElementById("cust-visible").checked,
+        timestamp: Date.now()
+    });
+    document.getElementById("cust-title").value = '';
+    document.getElementById("cust-desc").value = '';
+    document.getElementById("cust-order").value = '1';
+    btn.innerText = "Add Section";
+    loadAdminData();
+});
+
 window.toggleVisibility = async (colName, id, currentState) => { await updateDoc(doc(db, colName, id), { isVisible: !currentState }); loadAdminData(); };
 window.deleteItem = async (colName, id) => { if(confirm("Delete this?")) { await deleteDoc(doc(db, colName, id)); loadAdminData(); } };
 
@@ -189,7 +222,36 @@ async function loadAdminData() {
         });
         if(document.getElementById("admin-srv-list")) document.getElementById("admin-srv-list").innerHTML = html;
 
-        // BULLETPROOF ADMIN INBOX (Mobile Responsive)
+        const eduSnap = await getDocs(collection(db, "education"));
+        let eduHtml = '';
+        eduSnap.forEach(doc => {
+            const data = doc.data();
+            const visColor = data.isVisible ? "bg-green-100 text-green-700" : "bg-gray-200 text-gray-500";
+            eduHtml += `<div class="flex justify-between items-center bg-white p-4 rounded-xl shadow border mb-2">
+                        <div><span class="font-bold">${data.icon || ''} ${data.title}</span><span class="ml-2 text-xs px-2 py-1 rounded-full ${visColor}">${data.isVisible ? "Public" : "Hidden"}</span></div>
+                        <div class="flex gap-2">
+                            <button onclick="toggleVisibility('education', '${doc.id}', ${data.isVisible})" class="bg-blue-100 text-blue-700 px-3 py-1 rounded font-bold text-sm">Toggle</button>
+                            <button onclick="deleteItem('education', '${doc.id}')" class="bg-red-100 text-red-600 px-3 py-1 rounded font-bold text-sm">Delete</button>
+                        </div>
+                    </div>`;
+        });
+        if(document.getElementById("admin-edu-list")) document.getElementById("admin-edu-list").innerHTML = eduHtml;
+
+        const custSnap = await getDocs(query(collection(db, "customSections"), orderBy("order", "asc")));
+        let custHtml = '';
+        custSnap.forEach(doc => {
+            const data = doc.data();
+            const visColor = data.isVisible ? "bg-green-100 text-green-700" : "bg-gray-200 text-gray-500";
+            custHtml += `<div class="flex justify-between items-center bg-white p-4 rounded-xl shadow border mb-2">
+                        <div><span class="font-bold">#${data.order ?? 0} — ${data.title}</span><span class="ml-2 text-xs px-2 py-1 rounded-full ${visColor}">${data.isVisible ? "Public" : "Hidden"}</span></div>
+                        <div class="flex gap-2">
+                            <button onclick="toggleVisibility('customSections', '${doc.id}', ${data.isVisible})" class="bg-blue-100 text-blue-700 px-3 py-1 rounded font-bold text-sm">Toggle</button>
+                            <button onclick="deleteItem('customSections', '${doc.id}')" class="bg-red-100 text-red-600 px-3 py-1 rounded font-bold text-sm">Delete</button>
+                        </div>
+                    </div>`;
+        });
+        if(document.getElementById("admin-cust-list")) document.getElementById("admin-cust-list").innerHTML = custHtml;
+
         const inboxContainer = document.getElementById("inbox-messages");
         if(inboxContainer) {
             inboxContainer.innerHTML = `
@@ -294,7 +356,6 @@ async function loadAdminData() {
     } catch(err) { console.error("Admin Load Error:", err); }
 }
 
-// ADVANCED TOOLS
 document.getElementById("ai-generate-btn")?.addEventListener("click", () => {
     const topic = document.getElementById("ai-topic").value.trim();
     if(!topic) return alert("Please enter a topic first!");
