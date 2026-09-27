@@ -5,7 +5,6 @@ let currentClientData = null;
 let chatUnsubscribe = null;
 
 async function renderWebsiteData() {
-    
     // 1. Settings & Hero Data
     try {
         const setSnap = await getDoc(doc(db, "siteData", "settings"));
@@ -27,17 +26,19 @@ async function renderWebsiteData() {
         }
     } catch(e) { console.log("Hero Error:", e); }
 
-    // 2. Render Services (Using pure grid without restricted max-widths)
+    // 2. Render Services 
     try {
         const srvSnap = await getDocs(query(collection(db, "services"), orderBy("timestamp", "asc")));
         if(!srvSnap.empty && document.getElementById("dynamic-srv-container")) {
             let srvHtml = '';
             srvSnap.forEach(doc => { 
                 if(doc.data().isVisible !== false) {
+                    // Update: Added dynamic image support here
+                    const imgSrc = doc.data().img || 'https://via.placeholder.com/400x300';
                     srvHtml += `
                         <div class="bg-white rounded-[2rem] overflow-hidden shadow-xl flex flex-col w-full relative group transform transition hover:-translate-y-2 text-left border border-gray-100">
                             <div class="relative h-56 bg-gray-100 rounded-t-[2rem] overflow-hidden">
-                                <img src="https://via.placeholder.com/400x300" class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-105 transition duration-500" alt="Service">
+                                <img src="${imgSrc}" class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-105 transition duration-500" alt="Service">
                                 <div class="absolute bottom-[-20px] left-[-10%] w-[120%] h-[40px] bg-white rounded-t-[50%] z-10"></div>
                                 <div class="absolute bottom-[5px] left-6 w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-[#f48220] shadow-md z-20 border-2 border-[#fff7f0]">
                                     <i class="fas fa-layer-group text-2xl"></i>
@@ -109,20 +110,10 @@ async function renderWebsiteData() {
                 }
                 if(cData.fb && document.getElementById("dyn-fb")) document.getElementById("dyn-fb").href = cData.fb;
                 if(cData.linkedin && document.getElementById("dyn-linkedin")) document.getElementById("dyn-linkedin").href = cData.linkedin;
-            }, 1000);
+            }, 500); // Reduced timeout for better UX
         }
     } catch(e) {}
-
-    setupFloatingUI();
 }
-
-const domChecker = setInterval(() => {
-    if (document.getElementById("dynamic-hero-name")) {
-        clearInterval(domChecker);
-        renderWebsiteData();
-    }
-}, 200);
-setTimeout(() => clearInterval(domChecker), 8000);
 
 // FLOATING UI & CHAT LOGIC
 function setupFloatingUI() {
@@ -130,6 +121,7 @@ function setupFloatingUI() {
         const mMenu = document.getElementById("mobile-menu-dropdown");
         if(mMenu) mMenu.classList.toggle("hidden");
     });
+    
     document.querySelectorAll("#mobile-menu-dropdown a").forEach(link => {
         link.addEventListener("click", () => {
             document.getElementById("mobile-menu-dropdown")?.classList.add("hidden");
@@ -242,3 +234,12 @@ function setupFloatingUI() {
         });
     }
 }
+
+// Update: Clean DOM Load Strategy replacing setInterval
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. Initialize UI first (mobile menu, chat button) so they work immediately
+    setupFloatingUI();
+    
+    // 2. Fetch data from Firebase in the background
+    renderWebsiteData();
+});
